@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import logoBlau from './assets/blauOH.png';
 import logoViolette from './assets/violetteOH.png';
@@ -11,97 +12,141 @@ import tiktokLogo from './assets/tiktok.svg';
 type ProjectStatus = 'Live' | 'Growing' | 'Next';
 
 interface ProjectCard {
+  slug: string;
   name: string;
   tagline: string;
   description: string;
+  summary: string;
   status: ProjectStatus;
   accent: 'core' | 'teal' | 'violet';
-  cta: string;
-  href?: string;
   metrics: string[];
+  audience: string;
+  detail: string[];
 }
 
 const projects: ProjectCard[] = [
   {
+    slug: 'planary-core',
     name: 'Planary Core',
-    tagline: 'The shared product dashboard',
+    tagline: 'Digital experiences shaped around clarity and momentum',
     description:
-      'A single entry point for the team to track direction, product rollout, and visual consistency across the whole Planary ecosystem.',
+      'A polished product hub that presents the Planary ecosystem in a clear, memorable way for customers, partners, and future collaborators.',
+    summary:
+      'A clean presentation layer that turns multiple internal efforts into one recognizable public-facing brand experience.',
     status: 'Live',
     accent: 'core',
-    cta: 'Dashboard active',
-    metrics: ['Shared overview', 'Design alignment', 'Team home'],
+    metrics: ['Brand presence', 'Product overview', 'Scalable structure'],
+    audience: 'Companies, partners, and employers who need a quick overview of what Planary builds.',
+    detail: [
+      'Planary Core acts as the public front door for the wider product ecosystem.',
+      'It is designed to communicate confidence, consistency, and product thinking in one glance.',
+      'The structure is intentionally modular so more products can be added over time without redesigning the site.',
+    ],
   },
   {
+    slug: 'tournamount',
     name: 'Tournamount',
     tagline: 'Competitive event planning',
     description:
-      'A dedicated surface for tournaments, brackets, event flow, and the operational details that keep organized competition moving.',
+      'A dedicated experience for organizing tournaments, brackets, event flow, and the operational details that keep competition moving.',
+    summary:
+      'Built for structured competition planning with a focus on scheduling, bracket clarity, and event coordination.',
     status: 'Growing',
     accent: 'teal',
-    cta: 'Add hosted link',
     metrics: ['Brackets', 'Scheduling', 'Match flow'],
+    audience: 'Organizers, event teams, gaming communities, and clubs running competitive formats.',
+    detail: [
+      'Tournamount focuses on managing the moving parts around competitive events.',
+      'The product is being shaped around easier scheduling, clearer progression, and stronger event visibility.',
+      'Its position in the Planary ecosystem shows how brand consistency can still support very different product goals.',
+    ],
   },
   {
+    slug: 'planary-wishlist',
     name: 'Planary Wishlist',
     tagline: 'Gift planning with structure',
     description:
       'A calmer way to collect ideas, organize wishlists, and create a recognizable Planary experience for everyday planning.',
+    summary:
+      'A wishlist product that makes saving, organizing, and sharing gift ideas feel elegant instead of scattered.',
     status: 'Live',
     accent: 'violet',
-    cta: 'Add hosted link',
     metrics: ['Wishlists', 'Sharing', 'Product tracking'],
+    audience: 'Individuals, families, and social circles who want a simple but polished way to manage gift ideas.',
+    detail: [
+      'Planary Wishlist combines soft visual design with a practical utility people can return to often.',
+      'It is designed to make personal planning feel thoughtful, lightweight, and easy to share.',
+      'The product is also a strong showcase of how Planary turns familiar tools into more intentional digital experiences.',
+    ],
   },
 ];
 
 const highlights = [
   {
-    label: 'Purpose',
-    title: 'Unified ecosystem',
-    copy: 'The dashboard gives every Planary product the same design language, rhythm, and first impression.',
+    label: 'Focus',
+    title: 'Clear public presentation',
+    copy: 'The site is built to quickly explain what Planary creates without exposing internal-only context.',
   },
   {
-    label: 'Team Flow',
-    title: 'Faster orientation',
-    copy: 'New collaborators can land here first and immediately understand what belongs where.',
+    label: 'Design',
+    title: 'Consistent visual identity',
+    copy: 'Each product card shares the same design language while still feeling distinct enough to stand on its own.',
   },
   {
     label: 'Growth',
-    title: 'Ready for more apps',
-    copy: 'Future modules can drop into the same card system without redesigning the whole shell.',
+    title: 'Built for expansion',
+    copy: 'More projects can be added later through the same detail-page structure without rebuilding the site.',
   },
 ];
 
-function App() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+function SiteFrame({
+  children,
+  isDarkMode,
+  onToggleTheme,
+}: {
+  children: React.ReactNode;
+  isDarkMode: boolean;
+  onToggleTheme: () => void;
+}) {
   const [isHovered, setIsHovered] = useState(false);
+  const location = useLocation();
+  const pageTitle = useMemo(() => {
+    if (location.pathname.startsWith('/projects/')) {
+      const slug = location.pathname.replace('/projects/', '');
+      const project = projects.find((entry) => entry.slug === slug);
+      return project ? `${project.name} | Planary` : 'Planary';
+    }
+    if (location.pathname === '/team') {
+      return 'Team | Planary';
+    }
+    return 'Planary';
+  }, [location.pathname]);
 
   useEffect(() => {
-    document.body.classList.toggle('dark-mode', isDarkMode);
-    document.title = 'Planary Dashboard';
-  }, [isDarkMode]);
+    document.title = pageTitle;
+  }, [pageTitle]);
 
   return (
     <div className="app-shell">
       <header className="site-header">
-        <a className="brand" href="#top" aria-label="Planary Dashboard Home">
+        <Link className="brand" to="/" aria-label="Planary Home">
           <img
             src={isDarkMode ? logoViolette : logoBlau}
             alt="Planary"
             className="brand-logo"
           />
-        </a>
+        </Link>
 
         <nav className="site-nav" aria-label="Primary Navigation">
-          <a href="#projects">Projects</a>
-          <a href="#system">System</a>
+          <Link to="/">Projects</Link>
+          <Link to="/team">Team</Link>
           <a href="#footer">Contact</a>
         </nav>
 
         <button
           type="button"
           className="theme-toggle-btn"
-          onClick={() => setIsDarkMode((value) => !value)}
+          onClick={onToggleTheme}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           aria-label="Toggle Theme"
@@ -119,123 +164,13 @@ function App() {
       </header>
 
       <main id="top" className="main-content">
-        <section className="hero-panel">
-          <div className="hero-copy">
-            <span className="eyebrow">Planary Workspace</span>
-            <h1>One dashboard for every product in the Planary world.</h1>
-            <p>
-              This standalone frontend gives your team a central place to present
-              `Tournamount`, `Planary Wishlist`, and any future project with a shared
-              visual identity that already feels close to the existing apps.
-            </p>
-
-            <div className="hero-actions">
-              <a href="#projects" className="primary-link">
-                Explore projects
-              </a>
-              <a href="https://vercel.com/new" className="secondary-link">
-                Deploy on Vercel
-              </a>
-            </div>
-          </div>
-
-          <aside id="system" className="overview-card">
-            <span className="eyebrow">Workspace Pulse</span>
-            <div className="overview-grid">
-              <article>
-                <strong>3</strong>
-                <span>Products mapped</span>
-              </article>
-              <article>
-                <strong>2</strong>
-                <span>Live experiences</span>
-              </article>
-              <article>
-                <strong>1</strong>
-                <span>Shared interface system</span>
-              </article>
-              <article>
-                <strong>Next</strong>
-                <span>Attach live product URLs</span>
-              </article>
-            </div>
-            <div className="overview-focus">
-              <span>Current focus</span>
-              <strong>Unify the visual language across apps</strong>
-            </div>
-          </aside>
-        </section>
-
-        <section className="highlight-grid">
-          {highlights.map((item) => (
-            <article key={item.title} className="highlight-card">
-              <span className="eyebrow">{item.label}</span>
-              <h2>{item.title}</h2>
-              <p>{item.copy}</p>
-            </article>
-          ))}
-        </section>
-
-        <section id="projects" className="projects-section">
-          <div className="section-heading">
-            <span className="eyebrow">Projects</span>
-            <h2>Products currently grouped under Planary</h2>
-            <p>
-              The cards use the same soft-glow borders, rounded surfaces, and blue-to-violet
-              mood from your current work so they feel connected from day one.
-            </p>
-          </div>
-
-          <div className="project-grid">
-            {projects.map((project) => (
-              <article key={project.name} className={`project-card ${project.accent}`}>
-                <div className="project-topline">
-                  <span className="status-pill">{project.status}</span>
-                  <span className="status-note">
-                    {project.status === 'Live'
-                      ? 'Ready to present'
-                      : project.status === 'Growing'
-                        ? 'Actively expanding'
-                        : 'Queued next'}
-                  </span>
-                </div>
-
-                <div className="project-copy">
-                  <h3>{project.name}</h3>
-                  <p className="tagline">{project.tagline}</p>
-                  <p>{project.description}</p>
-                </div>
-
-                <div className="metric-list">
-                  {project.metrics.map((metric) => (
-                    <span key={metric}>{metric}</span>
-                  ))}
-                </div>
-
-                <div className="project-footer">
-                  {project.href ? (
-                    <a href={project.href} className="inline-link">
-                      {project.cta}
-                    </a>
-                  ) : (
-                    <span className="placeholder-link">{project.cta}</span>
-                  )}
-                  <span className="footer-note">
-                    {project.href
-                      ? 'Linked to the live product'
-                      : 'Replace with the real deployment URL when ready'}
-                  </span>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        {children}
       </main>
 
       <footer id="footer" className="site-footer">
         <div className="footer-content">
           <span className="copyright">
-            &copy; {new Date().getFullYear()} Planary. Built for a shared team dashboard.
+            &copy; {new Date().getFullYear()} Planary. Digital products with a clear visual identity.
           </span>
 
           <div className="footer-socials">
@@ -258,6 +193,193 @@ function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function HomePage() {
+  return (
+    <>
+      <section className="hero-panel hero-panel-single">
+        <div className="hero-copy">
+          <span className="eyebrow">Planary Projects</span>
+          <h1>We build focused digital products with their own personality.</h1>
+          <p>
+            Explore the current Planary portfolio, discover what each project is built for,
+            and open dedicated detail pages for a closer look at the product story.
+          </p>
+
+          <div className="hero-actions">
+            <a href="#projects" className="primary-link">
+              View projects
+            </a>
+            <Link to="/team" className="secondary-link">
+              Meet the team
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="highlight-grid">
+        {highlights.map((item) => (
+          <article key={item.title} className="highlight-card">
+            <span className="eyebrow">{item.label}</span>
+            <h2>{item.title}</h2>
+            <p>{item.copy}</p>
+          </article>
+        ))}
+      </section>
+
+      <section id="projects" className="projects-section">
+        <div className="section-heading">
+          <span className="eyebrow">Projects</span>
+          <h2>A portfolio view of the current Planary ecosystem</h2>
+          <p>
+            Every card opens a separate project page with more context, intended audience,
+            and a clearer explanation of the product direction.
+          </p>
+        </div>
+
+        <div className="project-grid">
+          {projects.map((project) => (
+            <Link
+              key={project.slug}
+              to={`/projects/${project.slug}`}
+              className={`project-card ${project.accent} project-card-link`}
+            >
+              <div className="project-topline">
+                <span className="status-pill">{project.status}</span>
+                <span className="status-note">
+                  {project.status === 'Live'
+                    ? 'Ready to present'
+                    : project.status === 'Growing'
+                      ? 'Actively expanding'
+                      : 'Queued next'}
+                </span>
+              </div>
+
+              <div className="project-copy">
+                <h3>{project.name}</h3>
+                <p className="tagline">{project.tagline}</p>
+                <p>{project.description}</p>
+              </div>
+
+              <div className="metric-list">
+                {project.metrics.map((metric) => (
+                  <span key={metric}>{metric}</span>
+                ))}
+              </div>
+
+              <div className="project-footer">
+                <strong className="inline-link">View project details</strong>
+                <span className="footer-note">{project.summary}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function ProjectPage() {
+  const location = useLocation();
+  const slug = location.pathname.replace('/projects/', '');
+  const project = projects.find((entry) => entry.slug === slug);
+
+  if (!project) {
+    return <Navigate to="/" replace />;
+  }
+
+  return (
+    <section className="project-detail-shell">
+      <div className={`project-detail-card ${project.accent}`}>
+        <div className="project-detail-back">
+          <Link to="/" className="secondary-link">
+            Back to projects
+          </Link>
+        </div>
+
+        <span className="eyebrow">{project.name}</span>
+        <h1>{project.tagline}</h1>
+        <p className="project-detail-lead">{project.description}</p>
+
+        <div className="project-detail-grid">
+          <article className="detail-panel">
+            <h2>Summary</h2>
+            <p>{project.summary}</p>
+          </article>
+          <article className="detail-panel">
+            <h2>Audience</h2>
+            <p>{project.audience}</p>
+          </article>
+        </div>
+
+        <div className="detail-panel detail-panel-wide">
+          <h2>Project overview</h2>
+          <div className="detail-copy-stack">
+            {project.detail.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+
+        <div className="detail-panel detail-panel-wide">
+          <h2>Key themes</h2>
+          <div className="metric-list">
+            {project.metrics.map((metric) => (
+              <span key={metric}>{metric}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TeamPage() {
+  return (
+    <section className="team-shell">
+      <div className="team-card">
+        <span className="eyebrow">Team</span>
+        <h1>Space reserved for the Planary team page.</h1>
+        <p>
+          This page is intentionally separated from the public portfolio so team-specific
+          information can be added later without cluttering the customer-facing homepage.
+        </p>
+
+        <div className="detail-panel detail-panel-wide">
+          <h2>Planned content</h2>
+          <div className="team-list">
+            <span>Team introductions</span>
+            <span>Working principles</span>
+            <span>Roles and collaboration</span>
+            <span>Internal updates or hiring context</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function App() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
+  return (
+    <SiteFrame
+      isDarkMode={isDarkMode}
+      onToggleTheme={() => setIsDarkMode((value) => !value)}
+    >
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/projects/:slug" element={<ProjectPage />} />
+        <Route path="/team" element={<TeamPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </SiteFrame>
   );
 }
 
