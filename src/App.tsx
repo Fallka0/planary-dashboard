@@ -115,6 +115,7 @@ function SiteFrame({
   onToggleTheme: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const pageTitle = useMemo(() => {
     if (location.pathname.startsWith('/projects/')) {
@@ -132,6 +133,10 @@ function SiteFrame({
     document.title = pageTitle;
   }, [pageTitle]);
 
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   return (
     <div className="app-shell">
       <header className="site-header">
@@ -143,30 +148,49 @@ function SiteFrame({
           />
         </Link>
 
-        <nav className="site-nav" aria-label="Primary Navigation">
-          <Link to="/">Projects</Link>
-          <Link to="/team">Team</Link>
-          <a href="#footer">Contact</a>
-        </nav>
+        <div className="header-actions">
+          <button
+            type="button"
+            className={`menu-toggle-btn ${isMenuOpen ? 'is-open' : ''}`}
+            onClick={() => setIsMenuOpen((value) => !value)}
+            aria-expanded={isMenuOpen}
+            aria-controls="primary-navigation"
+            aria-label="Toggle Navigation Menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
 
-        <button
-          type="button"
-          className="theme-toggle-btn"
-          onClick={onToggleTheme}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          aria-label="Toggle Theme"
-        >
-          <img
-            src={
-              isDarkMode
-                ? (isHovered ? sunFull : sunEmpty)
-                : (isHovered ? moonFull : moonEmpty)
-            }
-            alt=""
-            className="theme-icon"
-          />
-        </button>
+          <nav
+            id="primary-navigation"
+            className={`site-nav ${isMenuOpen ? 'is-open' : ''}`}
+            aria-label="Primary Navigation"
+          >
+            <Link to="/" onClick={() => setIsMenuOpen(false)}>Projects</Link>
+            <Link to="/team" onClick={() => setIsMenuOpen(false)}>Team</Link>
+            <a href="#footer" onClick={() => setIsMenuOpen(false)}>Contact</a>
+          </nav>
+
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={onToggleTheme}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            aria-label="Toggle Theme"
+          >
+            <img
+              src={
+                isDarkMode
+                  ? (isHovered ? sunFull : sunEmpty)
+                  : (isHovered ? moonFull : moonEmpty)
+              }
+              alt=""
+              className="theme-icon"
+            />
+          </button>
+        </div>
       </header>
 
       <main id="top" className="main-content">

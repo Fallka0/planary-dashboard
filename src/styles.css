@@ -110,6 +110,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  position: relative;
 }
 
 .brand {
@@ -121,6 +122,12 @@ button {
   height: 58px;
   width: auto;
   display: block;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
 .site-nav {
@@ -138,6 +145,48 @@ button {
 .site-nav a:hover,
 .footer-links a:hover {
   color: var(--accent-color);
+}
+
+.menu-toggle-btn {
+  display: none;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--text-main);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+}
+
+.menu-toggle-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-color);
+}
+
+.menu-toggle-btn span {
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.menu-toggle-btn.is-open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle-btn.is-open span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle-btn.is-open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .theme-toggle-btn {
@@ -590,18 +639,57 @@ button {
 }
 
 @media (max-width: 720px) {
-  .site-header,
+  .site-header {
+    min-height: 76px;
+  }
+
   .footer-content {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .site-nav {
-    flex-wrap: wrap;
-  }
-
   .overview-grid {
     grid-template-columns: 1fr;
+  }
+
+  .header-actions {
+    gap: 10px;
+  }
+
+  .menu-toggle-btn {
+    display: inline-flex;
+  }
+
+  .site-nav {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-strong);
+    box-shadow: 0 18px 36px var(--shadow-color);
+    z-index: 20;
+  }
+
+  .site-nav.is-open {
+    display: flex;
+  }
+
+  .site-nav a {
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(116, 201, 255, 0.08);
+    color: var(--text-main);
+  }
+
+  .dark-mode .site-nav a {
+    background: rgba(139, 92, 246, 0.08);
   }
 }
 
