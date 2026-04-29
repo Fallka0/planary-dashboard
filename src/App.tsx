@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
-import logoBlau from './assets/blauOH.png';
-import logoViolette from './assets/violetteOH.png';
 import moonEmpty from './assets/moonEmpty.svg';
 import moonFull from './assets/moonFull.svg';
 import sunEmpty from './assets/sunEmpty.svg';
@@ -142,7 +140,7 @@ function SiteFrame({
       <header className="site-header">
         <Link className="brand" to="/" aria-label="Planary Home">
           <img
-            src={isDarkMode ? logoViolette : logoBlau}
+            src="/brand-icon.svg"
             alt="Planary"
             className="brand-logo"
           />
