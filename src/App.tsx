@@ -220,7 +220,7 @@ function SiteFrame({
           <div className="footer-links">
             <a href="#top">Top</a>
             <a href="#projects">Projects</a>
-            <a href="https://vercel.com">Vercel</a>
+            <Link to="/team">Team</Link>
           </div>
         </div>
       </footer>
@@ -278,27 +278,10 @@ function HomePage() {
               to={`/projects/${project.slug}`}
               className={`project-card ${project.accent} project-card-link`}
             >
-              <div className="project-topline">
-                <span className="status-pill">{project.status}</span>
-                <span className="status-note">
-                  {project.status === 'Live'
-                    ? 'Ready to present'
-                    : project.status === 'Growing'
-                      ? 'Actively expanding'
-                      : 'Queued next'}
-                </span>
-              </div>
-
               <div className="project-copy">
                 <h3>{project.name}</h3>
                 <p className="tagline">{project.tagline}</p>
                 <p>{project.description}</p>
-              </div>
-
-              <div className="metric-list">
-                {project.metrics.map((metric) => (
-                  <span key={metric}>{metric}</span>
-                ))}
               </div>
 
               <div className="project-footer">
@@ -357,11 +340,7 @@ function ProjectPage() {
 
         <div className="detail-panel detail-panel-wide">
           <h2>Key themes</h2>
-          <div className="metric-list">
-            {project.metrics.map((metric) => (
-              <span key={metric}>{metric}</span>
-            ))}
-          </div>
+          <p className="project-detail-lead">{project.metrics.join(' · ')}</p>
         </div>
 
         <div className="detail-panel detail-panel-wide">

@@ -438,26 +438,10 @@ button {
   border-color: rgba(139, 92, 246, 0.26);
 }
 
-.project-topline,
 .project-footer {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.status-pill {
-  width: fit-content;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(16, 32, 51, 0.06);
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.dark-mode .status-pill {
-  background: rgba(255, 255, 255, 0.08);
 }
 
 .project-copy h3 {
@@ -469,26 +453,6 @@ button {
   margin: 8px 0 0;
   color: var(--text-main) !important;
   font-weight: 700;
-}
-
-.metric-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.metric-list span {
-  padding: 9px 12px;
-  border-radius: 999px;
-  background: rgba(59, 130, 246, 0.1);
-  border: 1px solid rgba(59, 130, 246, 0.12);
-  color: var(--text-main);
-  font-size: 0.9rem;
-}
-
-.dark-mode .metric-list span {
-  background: rgba(96, 165, 250, 0.08);
-  border-color: rgba(96, 165, 250, 0.12);
 }
 
 .project-footer {
