@@ -1,9 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/team", "destination": "/team/index.html" },
+    { "source": "/casino", "destination": "/casino/index.html" },
+    { "source": "/tournament", "destination": "/tournament/index.html" },
+    { "source": "/wishlist", "destination": "/wishlist/index.html" },
+    { "source": "/account", "destination": "/account/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
