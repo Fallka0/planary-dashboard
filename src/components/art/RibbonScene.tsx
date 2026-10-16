@@ -27,18 +27,16 @@ export function RibbonScene({ src }: { src?: string }) {
     <circle cx="338" cy="516" r="16" fill={`url(#${id('wPuff')})`} />
     <ellipse cx="500" cy="506" rx="180" ry="20" fill="#7f75cf" opacity=".35" filter={`url(#${id('wB12')})`} />
     <g transform="translate(500 246) scale(1.12)">
-    <g className="bow">
-      <path d="M-8 8 C-40 62 -80 128 -122 186 L-84 198 L-72 168 C-44 118 -18 62 10 12 Z" fill={`url(#${id('wPearl')})`} />
-      <path d="M8 8 C34 70 62 138 74 206 L108 186 L124 196 C94 128 44 60 14 4 Z" fill={`url(#${id('wPearl')})`} />
-      <path d="M0 0 C-40 -62 -172 -114 -192 -40 C-206 16 -112 42 0 0 Z" fill={`url(#${id('wPearl')})`} />
-      <path d="M0 0 C40 -62 172 -114 192 -40 C206 16 112 42 0 0 Z" fill={`url(#${id('wPearl')})`} />
-      <path d="M-20 -6 C-60 -46 -142 -72 -152 -36 C-157 -10 -92 6 -20 -6 Z" fill="#b5acee" opacity=".55" />
-      <path d="M20 -6 C60 -46 142 -72 152 -36 C157 -10 92 6 20 -6 Z" fill="#b5acee" opacity=".55" />
-      <rect x="-28" y="-30" width="56" height="54" rx="18" fill={`url(#${id('wPearl')})`} />
-      <ellipse cx="-118" cy="-62" rx="44" ry="10" transform="rotate(-18 -118 -62)" fill="#ffffff" opacity=".8" filter={`url(#${id('wB4')})`} />
-      <ellipse cx="98" cy="-66" rx="36" ry="8" transform="rotate(16 98 -66)" fill="#ffffff" opacity=".65" filter={`url(#${id('wB4')})`} />
-      <ellipse cx="-8" cy="-16" rx="12" ry="6" fill="#ffffff" opacity=".9" filter={`url(#${id('wB4')})`} />
-    </g>
+    <path d="M-8 8 C-40 62 -80 128 -122 186 L-84 198 L-72 168 C-44 118 -18 62 10 12 Z" fill={`url(#${id('wPearl')})`} />
+    <path d="M8 8 C34 70 62 138 74 206 L108 186 L124 196 C94 128 44 60 14 4 Z" fill={`url(#${id('wPearl')})`} />
+    <path d="M0 0 C-40 -62 -172 -114 -192 -40 C-206 16 -112 42 0 0 Z" fill={`url(#${id('wPearl')})`} />
+    <path d="M0 0 C40 -62 172 -114 192 -40 C206 16 112 42 0 0 Z" fill={`url(#${id('wPearl')})`} />
+    <path d="M-20 -6 C-60 -46 -142 -72 -152 -36 C-157 -10 -92 6 -20 -6 Z" fill="#b5acee" opacity=".55" />
+    <path d="M20 -6 C60 -46 142 -72 152 -36 C157 -10 92 6 20 -6 Z" fill="#b5acee" opacity=".55" />
+    <rect x="-28" y="-30" width="56" height="54" rx="18" fill={`url(#${id('wPearl')})`} />
+    <ellipse cx="-118" cy="-62" rx="44" ry="10" transform="rotate(-18 -118 -62)" fill="#ffffff" opacity=".8" filter={`url(#${id('wB4')})`} />
+    <ellipse cx="98" cy="-66" rx="36" ry="8" transform="rotate(16 98 -66)" fill="#ffffff" opacity=".65" filter={`url(#${id('wB4')})`} />
+    <ellipse cx="-8" cy="-16" rx="12" ry="6" fill="#ffffff" opacity=".9" filter={`url(#${id('wB4')})`} />
     </g>
     </svg>
   );

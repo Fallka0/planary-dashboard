@@ -264,10 +264,8 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 /* hero object: the Spline canvas sits over the poster in the same reserved
    square, and the poster is removed once the scene has rendered */
 .obj{position:relative}
-.obj-poster{width:100%;height:100%;transition:opacity 1200ms var(--ease)}
-.obj.is-ready .obj-poster{opacity:0}
 .obj-img{width:100%;height:100%;display:block;object-fit:contain}
-.obj-scene{position:absolute;inset:0;opacity:0;transition:opacity 1200ms var(--ease)}
+.obj-scene{position:absolute;inset:0;opacity:0}
 .obj-scene.is-ready{opacity:1}
 .obj-scene.is-spun{animation:pl-spin 12s linear infinite}
 .obj-scene canvas{display:block;background:transparent !important}
@@ -281,39 +279,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 @container site (max-width:640px){
 .acct-key.art-img{width:56px}
 }
-/* detail pages: the nav on an ink band, then the product's block */
-.page-head{background:var(--ink);color:var(--paper);padding:28px var(--m)}
-.nav-signin{margin-left:auto}
-.page-main{padding:120px var(--m) 160px;min-width:0}
-.page-main > .wish,.page-main > .acct{margin-top:0}
-.page-main > .studio{padding-top:0}
-.page-main > .contact{padding-bottom:0}
-@container site (max-width:640px){
-.page-head{padding:16px var(--m)}
-.nav-signin{display:none}
-.page-main{padding:64px var(--m) 96px}
-}
-
-/* smooth in-page scrolling, and slower section reveals */
-@media (prefers-reduced-motion:no-preference){
-html{scroll-behavior:smooth}
-}
-.pl .is-pre{transform:translateY(24px)}
-.pl .is-pre.is-in{transform:none;transition:opacity 1100ms var(--ease),transform 1100ms var(--ease)}
-
-/* slow ambient drift on the stand-ins and UI crops */
-@keyframes pl-float{50%{transform:translateY(-10px)}}
-@keyframes pl-drift{50%{transform:translate(-10px,6px)}}
-@keyframes pl-sway{0%,100%{transform:rotate(-1.6deg) translateY(0)}50%{transform:rotate(1.6deg) translateY(-6px)}}
-@keyframes pl-crop-a{50%{transform:translate(4px,-8px)}}
-@keyframes pl-crop-b{50%{transform:translate(-4px,8px)}}
-.casino-art{animation:pl-float 9s ease-in-out infinite}
-.tour-art{animation:pl-drift 14s ease-in-out infinite}
-.bow{transform-box:view-box;transform-origin:0 0;animation:pl-sway 10s ease-in-out infinite}
-.acct-key{animation:pl-float 7s ease-in-out infinite}
-.crop-a{animation:pl-crop-a 11s ease-in-out infinite}
-.crop-b{animation:pl-crop-b 13s ease-in-out infinite}
-
 @media (prefers-reduced-motion:reduce){
-.pl *{animation:none !important}
+.obj-scene.is-spun{animation:none}
 }
