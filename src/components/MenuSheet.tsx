@@ -7,10 +7,12 @@ interface MenuSheetProps {
   open: boolean;
   /** `refocus` returns focus to the Menu button (Close and Esc do; in-page links don't). */
   onClose: (refocus: boolean) => void;
+  /** '' on the homepage, '/' on other pages. */
+  anchorBase?: string;
 }
 
 /** Full-screen phone menu. Opens and closes instantly, no animation. */
-export function MenuSheet({ open, onClose }: MenuSheetProps) {
+export function MenuSheet({ open, onClose, anchorBase = '' }: MenuSheetProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -36,9 +38,9 @@ export function MenuSheet({ open, onClose }: MenuSheetProps) {
         </button>
       </div>
       <ul className="sheet-nav">
-        <li><a href="#products" onClick={() => onClose(false)}>Products</a></li>
+        <li><a href={`${anchorBase}#products`} onClick={() => onClose(false)}>Products</a></li>
         <li><a href={TEAM_URL}>Team</a></li>
-        <li><a href="#contact" onClick={() => onClose(false)}>Contact</a></li>
+        <li><a href={`${anchorBase}#contact`} onClick={() => onClose(false)}>Contact</a></li>
       </ul>
       <div className="sheet-foot">
         <a className="btn btn-paper" href={AUTH_URL}>Sign in</a>

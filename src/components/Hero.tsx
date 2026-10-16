@@ -1,16 +1,15 @@
 import { useEffect, useRef } from 'react';
 import type { Ref } from 'react';
 import { useReducedMotion } from '../lib/hooks';
-import { AUTH_URL, HERO_SCENE_HAS_OWN_MOTION, HERO_SCENE_URL } from '../lib/links';
+import { AUTH_URL } from '../lib/links';
 import { HeroNav } from './HeroNav';
 import { HeroObject } from './HeroObject';
 import { Socials } from './Socials';
 import { UiCrop } from './UiCrop';
 import { ArrowDown } from './icons';
-
-// TODO(planary): real crops of casino screenshots go here.
-const CROP_A_SRC: string | undefined = undefined;
-const CROP_B_SRC: string | undefined = undefined;
+// Crops of the real casino UI: a Blackjack round and the lobby header's chip balance.
+import blackjackTable from '../assets/crops/blackjack-table.webp';
+import lobbyBalance from '../assets/crops/lobby-balance.webp';
 
 interface HeroProps {
   menuOpen: boolean;
@@ -21,12 +20,11 @@ interface HeroProps {
 export function Hero({ menuOpen, onOpenMenu, menuButtonRef }: HeroProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const sceneTilts = Boolean(HERO_SCENE_URL) && HERO_SCENE_HAS_OWN_MOTION;
 
   // Tilt the object toward the pointer: rotateX ±4°, rotateY ±5°.
   useEffect(() => {
     const el = panelRef.current;
-    if (!el || reduce || sceneTilts) return;
+    if (!el || reduce) return;
     const move = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       el.style.setProperty('--ry', `${(((e.clientX - r.left) / r.width - 0.5) * 10).toFixed(2)}deg`);
@@ -43,7 +41,7 @@ export function Hero({ menuOpen, onOpenMenu, menuButtonRef }: HeroProps) {
       el.removeEventListener('pointerleave', leave);
       leave();
     };
-  }, [reduce, sceneTilts]);
+  }, [reduce]);
 
   return (
     <header className="hero">
@@ -60,8 +58,8 @@ export function Hero({ menuOpen, onOpenMenu, menuButtonRef }: HeroProps) {
       <div className="hero-r" ref={panelRef}>
         <a className="btn btn-ink signin" href={AUTH_URL}>Sign in</a>
         <HeroObject />
-        <UiCrop className="crop-a" title="Casino UI crop" note="Blackjack table, from your screenshot" src={CROP_A_SRC} alt="" />
-        <UiCrop className="crop-b" title="Casino UI crop" note="Chip balance in the lobby header" src={CROP_B_SRC} alt="" />
+        <UiCrop className="crop-a" title="Casino UI crop" note="Blackjack table, from your screenshot" src={blackjackTable} alt="" />
+        <UiCrop className="crop-b" title="Casino UI crop" note="Chip balance in the lobby header" src={lobbyBalance} alt="" />
         <Socials />
       </div>
     </header>

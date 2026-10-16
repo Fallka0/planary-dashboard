@@ -1,8 +1,8 @@
-export function Studio() {
+export function Studio({ heading: Heading = 'h2' }: { heading?: 'h1' | 'h2' }) {
   return (
     <section id="studio" className="studio g" aria-labelledby="studio-h">
       <div className="studio-txt" data-reveal="">
-        <h2 id="studio-h" className="d sec-h">Small on purpose.</h2>
+        <Heading id="studio-h" className="d sec-h">Small on purpose.</Heading>
         <p className="studio-p">Planary is an independent product studio based in Switzerland. We design, build and look after every app ourselves, which is why there are only a few of them.</p>
       </div>
       <div className="studio-aside" data-reveal="">

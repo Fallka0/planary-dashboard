@@ -7,12 +7,12 @@ interface UiCropProps {
   alt?: string;
 }
 
-/** A slot for a real crop of a casino screenshot. */
+/** A crop of a casino screenshot, or its labelled placeholder until one is supplied. */
 export function UiCrop({ className, title, note, src, alt = '' }: UiCropProps) {
   return (
     <div className={`crop ${className}`}>
       {src ? (
-        <img className="crop-img" src={src} alt={alt} loading="lazy" decoding="async" />
+        <img className="crop-img" src={src} alt={alt} decoding="async" />
       ) : (
         <>
           <b>{title}</b>

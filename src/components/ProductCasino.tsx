@@ -2,14 +2,22 @@ import { CASINO_INFO_URL, CASINO_LIVE_URL } from '../lib/links';
 import { ChipStack } from './art/ChipStack';
 import { ArrowRight } from './icons';
 
-export function ProductCasino({ artSrc }: { artSrc?: string }) {
+interface ProductProps {
+  artSrc?: string;
+  /** h3 on the homepage, h1 on the product's own page. */
+  heading?: 'h1' | 'h3';
+  /** The "More about …" link; off on the product's own page. */
+  more?: boolean;
+}
+
+export function ProductCasino({ artSrc, heading: Heading = 'h3', more = true }: ProductProps) {
   return (
     <article className="casino" data-reveal="" aria-labelledby="casino-h">
       <div className="casino-art" aria-hidden="true">
         <ChipStack src={artSrc} />
       </div>
       <div className="casino-txt">
-        <h3 id="casino-h" className="d p-name">Planary Casino</h3>
+        <Heading id="casino-h" className="d p-name">Planary Casino</Heading>
         <p className="domain">casino.planary.ch</p>
         <p className="casino-lede">A game lobby that runs on play money, with one chip balance that follows your account to every table, plus friends, a weekly leaderboard, achievements and a market for cosmetics.</p>
         <ul className="games" aria-label="Games in the lobby">
@@ -23,7 +31,7 @@ export function ProductCasino({ artSrc }: { artSrc?: string }) {
         <p className="fine">It’s play money only: chips have no cash value and can’t be bought, sold or exchanged. Every game is provably fair.</p>
         <div className="actions">
           <a className="btn btn-paper" href={CASINO_LIVE_URL}>Open the casino</a>
-          <a className="alink" href={CASINO_INFO_URL}>More about the casino <ArrowRight /></a>
+          {more && <a className="alink" href={CASINO_INFO_URL}>More about the casino <ArrowRight /></a>}
         </div>
       </div>
     </article>
