@@ -20,14 +20,6 @@ export const INSTAGRAM_URL = 'https://instagram.com/planaryofficial';
 export const TIKTOK_URL = 'https://www.tiktok.com/@planaryofficial';
 export const GITHUB_URL = 'https://github.com/planary';
 
-// TODO(planary): Spline code-export URL for the hero object
-// (Spline → Export → Code → …/scene.splinecode). Until it is set, the hero
-// shows the SVG poster only and the Spline runtime is never downloaded.
-export const HERO_SCENE_URL: string | null = null;
-// Set to true if the Spline scene already carries the 12 s rotation and the
-// pointer tilt; otherwise both are applied to the wrapper, as in the reference.
-export const HERO_SCENE_HAS_OWN_MOTION = false;
-
 // The addresses shown for each app on /account.
 export const TOURNAMENT_LIVE_LABEL = 'tournament.planary.ch';
 export const WISHLIST_LIVE_LABEL = 'wishlist.planary.ch';

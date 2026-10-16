@@ -26,7 +26,7 @@ export function AccountPage() {
             <div className="ahead-l">
               <HeroNav {...menu} anchorBase="/" />
               <div className="ahead-copy">
-                <h1 className="d h-xl">Planary<br />Account</h1>
+                <h1 className="d h-xl"><span className="ln"><span>Planary</span></span><span className="ln"><span>Account</span></span></h1>
                 <p className="sub a-sub">One sign-in for every Planary app, with your name and password kept in one place.</p>
                 <div className="acts"><a className="btn btn-paper" href={AUTH_URL}>Go to auth.planary.ch</a></div>
               </div>
@@ -37,7 +37,7 @@ export function AccountPage() {
             </div>
           </header>
 
-          <main>
+          <main id="main" tabIndex={-1}>
             <section id="what" className="sec wrap g" aria-labelledby="what-h">
               <h2 id="what-h" className="d h-m what-h" data-reveal="">What lives here</h2>
               <ul className="rows" data-reveal="">

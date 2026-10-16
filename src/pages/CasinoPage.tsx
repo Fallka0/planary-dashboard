@@ -22,7 +22,7 @@ export function CasinoPage() {
             <HeroNav {...menu} anchorBase="/" signIn="paper" />
             <div className="wrap g chead-in">
               <div className="c-txt">
-                <h1 className="d h-xl">Planary<br />Casino</h1>
+                <h1 className="d h-xl"><span className="ln"><span>Planary</span></span><span className="ln"><span>Casino</span></span></h1>
                 <p className="sub c-sub">A play-money game lobby where one chip balance follows your account to every table.</p>
                 <div className="acts">
                   <a className="btn btn-paper" href={CASINO_LIVE_URL}>Open the casino</a>
@@ -36,7 +36,7 @@ export function CasinoPage() {
             </div>
           </header>
 
-          <main>
+          <main id="main" tabIndex={-1}>
             <section id="tables" className="sec wrap g" aria-labelledby="tables-h">
               <div className="tables-h" data-reveal="">
                 <h2 id="tables-h" className="d h-m">Six tables, one lobby.</h2>

@@ -11,16 +11,19 @@ The planary.ch homepage: the front door to the Planary apps (Planary Casino, Tou
 
 ## Layout
 
-The site is a multi-page Vite build: `index.html` (homepage) plus `team/`, `casino/`, `tournament/`, `wishlist/` and `account/`, each with its own `index.html`, entry in `src/entries/` and stylesheet, so a page loads only its own CSS. `vite.config.ts` lists the pages and serves `/team` etc. without a trailing slash in dev and preview; `vercel.json` does the same in production.
+The site is a multi-page Vite build: `index.html` (homepage), `404.html`, and `team/`, `casino/`, `tournament/`, `wishlist/` and `account/`, each with its own `index.html`, entry in `src/entries/` and stylesheet, so a page loads only its own CSS. `vite.config.ts` serves `/team` etc. without a trailing slash and answers unknown paths with the 404 page in dev and preview; `vercel.json` does the same in production.
 
 - `src/App.tsx` assembles the homepage from `src/components/`, one component per block of the design (`Hero`, `SectionIndex`, `ProductCasino`, …).
-- `src/pages/` holds the subpages. Each lays out its own header and sections; `SubpageShell` adds the frame, phone menu, reveals and footer.
-- `src/styles/subpage.css` is the subpages' shared base and `src/styles/<page>.css` each page's own rules, ported from the update references. `src/styles/animations.css` holds the chips-fall and bracket-build animations, triggered by `useAnimOnView` on `[data-anim]` wrappers.
-- `src/components/art/` holds the SVG stand-ins (`HeroPoster`, `ChipStack`, `BracketSculpture`, `RibbonScene`, `KeyObject`). Each takes a `src` prop, so a final render replaces the stand-in without touching layout.
-- `src/styles/homepage.css` is the design's stylesheet, ported verbatim from the signed-off reference. Breakpoints are container queries on `.site`.
-- `src/lib/links.ts` lists every URL on the page, including the Spline scene URL, which is still unset. Team members are listed in `src/pages/TeamPage.tsx`; a role or bio shows once it is filled in.
+- `src/pages/` holds the subpages and the 404. Each lays out its own header and sections; `SubpageShell` adds the frame, compact bar, phone menu, reveals and footer.
+- `src/components/art/` holds the drawn objects: `HeroLogo` (the animated Planary logo in the hero and on the 404), `Starfield`, `ChipStack`, `BracketSculpture`, `GiftStack` and `KeyObject`. The stand-ins take a `src` prop, so a final render replaces them without touching layout.
+- Styles in `src/styles/`:
+  - `homepage.css` is the homepage, ported verbatim from the signed-off reference. Breakpoints are container queries on `.site`.
+  - `subpage.css` is the subpages' shared base and `<page>.css` each page's own rules.
+  - `hero.css` is the logo and starfield, and `animations.css` the chips-fall, bracket-build and gift-drop animations, triggered by `useAnimOnView` on `[data-anim]` wrappers.
+  - `ux.css` is the skip link, headline rise, compact bar and copy button, and `transitions.css` the page transitions.
+- `src/lib/links.ts` lists every URL on the site. Team members are listed in `src/pages/TeamPage.tsx`; a role or bio shows once it is filled in.
 - Fonts (Unbounded, Manrope) are self-hosted in `public/fonts/`.
 
-## Hero 3D
+## Page transitions
 
-The hero object uses `@splinetool/react-spline`. Set `HERO_SCENE_URL` in `src/lib/links.ts` to the scene's code-export URL (Spline → Export → Code → `…/scene.splinecode`). Until it's set, and always with reduced motion, the hero shows the SVG poster and the Spline runtime is never downloaded. When it's set, the runtime loads after the page has finished loading, and the poster stays until the scene is ready.
+The first page of a visit plays a short intro, and internal links close a black curtain before the next page loads. A small inline script at the top of each page's `<head>` decides which one applies before first paint (`sessionStorage` keys `planary:intro` and `planary:nav`); the overlays are static markup in each HTML file, and `src/lib/transitions.ts` runs them. External links, `mailto:`, same-page anchors and modifier or new-tab clicks skip the curtain, and `data-no-transition` opts a link out. With reduced motion there is no intro and the curtain only fades.

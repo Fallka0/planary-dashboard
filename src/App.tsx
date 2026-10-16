@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { AccountRow } from './components/AccountRow';
+import { CompactBar } from './components/CompactBar';
 import { ContactCard } from './components/ContactCard';
 import { Footer } from './components/Footer';
 import { Frame } from './components/Frame';
@@ -12,41 +13,27 @@ import { ProductWishlist } from './components/ProductWishlist';
 import { SectionIndex } from './components/SectionIndex';
 import { Statement } from './components/Statement';
 import { Studio } from './components/Studio';
+import { useMenu } from './lib/useMenu';
 import { useReveals } from './lib/useReveals';
 
 export default function App() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const refocusMenuButton = useRef(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
+  const { menuOpen, openMenu, closeMenu } = useMenu();
   useReveals(rootRef);
-
-  const closeMenu = useCallback((refocus: boolean) => {
-    refocusMenuButton.current = refocus;
-    setMenuOpen(false);
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.style.overflow = menuOpen ? 'hidden' : '';
-    if (!menuOpen && refocusMenuButton.current) {
-      refocusMenuButton.current = false;
-      menuButtonRef.current?.focus();
-    }
-  }, [menuOpen]);
 
   return (
     <Frame
       rootRef={rootRef}
       inert={menuOpen}
+      bar={<CompactBar anchorBase="" menuOpen={menuOpen} onOpenMenu={openMenu} inert={menuOpen} />}
       overlay={<MenuSheet open={menuOpen} onClose={closeMenu} />}
     >
-      <Hero menuOpen={menuOpen} onOpenMenu={() => setMenuOpen(true)} menuButtonRef={menuButtonRef} />
+      <Hero menuOpen={menuOpen} onOpenMenu={openMenu} />
 
       <div className="body">
         <SectionIndex />
 
-        <main className="main">
+        <main className="main" id="main" tabIndex={-1}>
           <Statement />
 
           <section id="products" aria-labelledby="products-h">

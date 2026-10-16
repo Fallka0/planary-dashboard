@@ -1,11 +1,10 @@
-import type { Ref } from 'react';
+import type { MouseEvent } from 'react';
 import { AUTH_URL, TEAM_URL } from '../lib/links';
 import { Logo } from './Logo';
 
 interface HeroNavProps {
   menuOpen: boolean;
-  onOpenMenu: () => void;
-  menuButtonRef: Ref<HTMLButtonElement>;
+  onOpenMenu: (e: MouseEvent<HTMLButtonElement>) => void;
   /** '' on the homepage; '/' on subpages, so Products and Contact lead back to the homepage. */
   anchorBase?: string;
   /** Marks the Team link as the current page. */
@@ -14,7 +13,7 @@ interface HeroNavProps {
   signIn?: 'ink' | 'paper';
 }
 
-export function HeroNav({ menuOpen, onOpenMenu, menuButtonRef, anchorBase = '', current, signIn }: HeroNavProps) {
+export function HeroNav({ menuOpen, onOpenMenu, anchorBase = '', current, signIn }: HeroNavProps) {
   return (
     <nav className="nav" aria-label="Main">
       <Logo />
@@ -25,7 +24,6 @@ export function HeroNav({ menuOpen, onOpenMenu, menuButtonRef, anchorBase = '', 
       </ul>
       {signIn && <a className={`btn btn-${signIn} signin`} href={AUTH_URL}>Sign in</a>}
       <button
-        ref={menuButtonRef}
         className="menu-btn"
         type="button"
         aria-expanded={menuOpen}

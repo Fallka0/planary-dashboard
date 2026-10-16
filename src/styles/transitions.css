@@ -1,0 +1,44 @@
+/* Page transitions: intro on the first page of a visit, curtain between internal pages.
+   From the update's snippets/transitions/pt.css. */
+.pt-intro,.pt-curtain{position:fixed;inset:0;z-index:100;background:#0b0b0f;color:#f5f5f7;place-items:center;pointer-events:none}
+.pt-intro{display:none}
+html.pt-first .pt-intro{display:grid}
+.pt-lock{display:flex;align-items:center;gap:.3em;font-family:"Unbounded",ui-sans-serif,sans-serif;font-weight:400;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.05em;line-height:1}
+.pt-lock svg{width:1.18em;height:1.18em;overflow:visible}
+.pt-ring{stroke-dasharray:1 1;stroke-dashoffset:1}
+.pt-planet,.pt-word{opacity:0}
+.pt-intro.is-run{animation:pt-lift 720ms cubic-bezier(.76,0,.24,1) 1150ms both}
+.pt-intro.is-run.is-skip{animation-duration:420ms;animation-delay:0ms}
+.pt-intro.is-run .pt-planet{transform-box:fill-box;transform-origin:center;animation:pt-pop 520ms cubic-bezier(.22,1,.36,1) both}
+.pt-intro.is-run .pt-ring{animation:pt-draw 620ms cubic-bezier(.22,1,.36,1) 140ms both}
+.pt-intro.is-run .pt-front{animation-delay:300ms}
+.pt-intro.is-run .pt-word{animation:pt-word 420ms cubic-bezier(.22,1,.36,1) 440ms both}
+/* the page's own headline rise waits for the intro / curtain */
+html.pt-first .ln>span{animation-delay:1350ms}
+html.pt-first .ln+.ln>span{animation-delay:1440ms}
+html.pt-first .hero-sub{animation-delay:1730ms}
+html.pt-first .hero-cta{animation-delay:1820ms}
+html.pt-reveal .ln>span{animation-delay:260ms}
+html.pt-reveal .ln+.ln>span{animation-delay:350ms}
+.pt-curtain{display:grid;transform:translateY(100%)}
+.pt-curtain svg{width:40px;height:40px;opacity:0}
+html.pt-arrive .pt-curtain{transform:none}
+html.pt-arrive .pt-curtain svg{opacity:1}
+html.pt-cover .pt-curtain{animation:pt-cover 380ms cubic-bezier(.76,0,.24,1) both}
+html.pt-cover .pt-curtain svg{animation:pt-fade 200ms ease-out 160ms both}
+html.pt-reveal .pt-curtain{animation:pt-reveal 520ms cubic-bezier(.76,0,.24,1) 80ms both}
+html.pt-reveal .pt-curtain svg{opacity:1;animation:pt-fadeout 160ms ease-in both}
+@keyframes pt-lift{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+@keyframes pt-pop{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@keyframes pt-draw{0%{stroke-dashoffset:1;opacity:0}10%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes pt-word{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+@keyframes pt-cover{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes pt-reveal{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+@keyframes pt-fade{from{opacity:0}to{opacity:1}}
+@keyframes pt-fadeout{from{opacity:1}to{opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  .pt-intro{display:none !important}
+  html.pt-cover .pt-curtain{transform:none;animation:pt-fade 150ms both}
+  html.pt-reveal .pt-curtain{transform:none;animation:pt-fadeout 150ms both}
+  html.pt-cover .pt-curtain svg,html.pt-reveal .pt-curtain svg{animation:none;opacity:0}
+}
