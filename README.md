@@ -18,7 +18,7 @@ The site is a multi-page Vite build: `index.html` (homepage) plus `team/`, `casi
 - `src/styles/subpage.css` is the subpages' shared base and `src/styles/<page>.css` each page's own rules, ported from the update references. `src/styles/animations.css` holds the chips-fall and bracket-build animations, triggered by `useAnimOnView` on `[data-anim]` wrappers.
 - `src/components/art/` holds the SVG stand-ins (`HeroPoster`, `ChipStack`, `BracketSculpture`, `RibbonScene`, `KeyObject`). Each takes a `src` prop, so a final render replaces the stand-in without touching layout.
 - `src/styles/homepage.css` is the design's stylesheet, ported verbatim from the signed-off reference. Breakpoints are container queries on `.site`.
-- `src/lib/links.ts` lists every URL on the page, including the placeholders that still need real values (Tournament and Wishlist live URLs and addresses, team member links, the Spline scene URL). Team names, roles and bios are placeholders in `src/pages/TeamPage.tsx`.
+- `src/lib/links.ts` lists every URL on the page, including the Spline scene URL, which is still unset. Team members are listed in `src/pages/TeamPage.tsx`; a role or bio shows once it is filled in.
 - Fonts (Unbounded, Manrope) are self-hosted in `public/fonts/`.
 
 ## Hero 3D

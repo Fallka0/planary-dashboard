@@ -13,9 +13,8 @@ export const TOURNAMENT_INFO_URL = '/tournament';
 export const WISHLIST_INFO_URL = '/wishlist';
 export const ACCOUNT_INFO_URL = '/account';
 
-// TODO(planary): live product URLs not confirmed yet. Replace these placeholders.
-export const TOURNAMENT_LIVE_URL = '#todo-tournament-live-url';
-export const WISHLIST_LIVE_URL = '#todo-wishlist-live-url';
+export const TOURNAMENT_LIVE_URL = 'https://tournament.planary.ch';
+export const WISHLIST_LIVE_URL = 'https://wishlist.planary.ch';
 
 export const INSTAGRAM_URL = 'https://instagram.com/planaryofficial';
 export const TIKTOK_URL = 'https://www.tiktok.com/@planaryofficial';
@@ -29,8 +28,6 @@ export const HERO_SCENE_URL: string | null = null;
 // pointer tilt; otherwise both are applied to the wrapper, as in the reference.
 export const HERO_SCENE_HAS_OWN_MOTION = false;
 
-// TODO(planary): shown in place of the live addresses on /account until they're known.
-export const TOURNAMENT_LIVE_LABEL = '[live address]';
-export const WISHLIST_LIVE_LABEL = '[live address]';
-// TODO(planary): each team member's GitHub or email link.
-export const TEAM_PERSON_LINK = '#todo-link';
+// The addresses shown for each app on /account.
+export const TOURNAMENT_LIVE_LABEL = 'tournament.planary.ch';
+export const WISHLIST_LIVE_LABEL = 'wishlist.planary.ch';

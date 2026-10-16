@@ -1,22 +1,12 @@
 import { HeroNav } from '../components/HeroNav';
 import { SubpageShell } from '../components/SubpageShell';
 import { ArrowRight } from '../components/icons';
-import { CONTACT_EMAIL, CONTACT_MAILTO, GITHUB_URL, INSTAGRAM_URL, TEAM_PERSON_LINK, TIKTOK_URL } from '../lib/links';
+import { CONTACT_EMAIL, CONTACT_MAILTO, GITHUB_URL, INSTAGRAM_URL, TIKTOK_URL } from '../lib/links';
 
-// TODO(planary): real names, roles and one-line bios. Placeholders until then; never invent people.
-const PEOPLE = [
-  {
-    name: '[Name]',
-    role: '[Role, for example design and front end]',
-    bio: '[One plain sentence on what this person works on at Planary.]',
-    link: { href: TEAM_PERSON_LINK, label: '[GitHub or email]' },
-  },
-  {
-    name: '[Name]',
-    role: '[Role, for example back end and the casino]',
-    bio: '[One plain sentence on what this person works on at Planary.]',
-    link: { href: TEAM_PERSON_LINK, label: '[GitHub or email]' },
-  },
+// TODO(planary): roles and one-line bios. They show once filled in; never invent them.
+const PEOPLE: { name: string; role?: string; bio?: string; link: { href: string; label: string } }[] = [
+  { name: 'Mykyta Pantelei', link: { href: 'https://github.com/Fallka0', label: 'GitHub' } },
+  { name: 'Etienne Schwab', link: { href: 'https://github.com/etschwab', label: 'GitHub' } },
 ];
 
 export function TeamPage() {
@@ -36,10 +26,10 @@ export function TeamPage() {
             <section className="sec wrap g" aria-labelledby="people-h">
               <h2 id="people-h" className="d h-m people-h" data-reveal="">People</h2>
               <ul className="people" data-reveal="">
-                {PEOPLE.map((p, i) => (
-                  <li className="person" key={i}>
-                    <div><h3 className="d p-n">{p.name}</h3><p className="p-r">{p.role}</p></div>
-                    <div><p className="lede">{p.bio}</p><a className="alink" href={p.link.href}>{p.link.label} <ArrowRight /></a></div>
+                {PEOPLE.map((p) => (
+                  <li className="person" key={p.name}>
+                    <div><h3 className="d p-n">{p.name}</h3>{p.role && <p className="p-r">{p.role}</p>}</div>
+                    <div>{p.bio && <p className="lede">{p.bio}</p>}<a className="alink" href={p.link.href}>{p.link.label} <ArrowRight /></a></div>
                   </li>
                 ))}
               </ul>
