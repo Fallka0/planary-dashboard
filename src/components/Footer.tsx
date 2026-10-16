@@ -13,17 +13,21 @@ import {
 } from '../lib/links';
 import { Logo } from './Logo';
 
-export function Footer() {
+export type ProductPage = 'casino' | 'tournament' | 'wishlist' | 'account';
+
+/** `current` marks the product page you're on in the Products list. */
+export function Footer({ current }: { current?: ProductPage }) {
+  const cur = (page: ProductPage) => (current === page ? ('page' as const) : undefined);
   return (
     <footer className="foot g">
       <div className="foot-wm"><Logo /></div>
       <div className="fc1">
         <h2>Products</h2>
         <ul>
-          <li><a className="ul" href={CASINO_INFO_URL}>Planary Casino</a></li>
-          <li><a className="ul" href={TOURNAMENT_INFO_URL}>Tournament</a></li>
-          <li><a className="ul" href={WISHLIST_INFO_URL}>Planary Wishlist</a></li>
-          <li><a className="ul" href={ACCOUNT_INFO_URL}>Planary Account</a></li>
+          <li><a className="ul" href={CASINO_INFO_URL} aria-current={cur('casino')}>Planary Casino</a></li>
+          <li><a className="ul" href={TOURNAMENT_INFO_URL} aria-current={cur('tournament')}>Tournament</a></li>
+          <li><a className="ul" href={WISHLIST_INFO_URL} aria-current={cur('wishlist')}>Planary Wishlist</a></li>
+          <li><a className="ul" href={ACCOUNT_INFO_URL} aria-current={cur('account')}>Planary Account</a></li>
         </ul>
       </div>
       <div className="fc2">

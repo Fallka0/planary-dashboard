@@ -28,3 +28,9 @@ export const HERO_SCENE_URL: string | null = null;
 // Set to true if the Spline scene already carries the 12 s rotation and the
 // pointer tilt; otherwise both are applied to the wrapper, as in the reference.
 export const HERO_SCENE_HAS_OWN_MOTION = false;
+
+// TODO(planary): shown in place of the live addresses on /account until they're known.
+export const TOURNAMENT_LIVE_LABEL = '[live address]';
+export const WISHLIST_LIVE_LABEL = '[live address]';
+// TODO(planary): each team member's GitHub or email link.
+export const TEAM_PERSON_LINK = '#todo-link';

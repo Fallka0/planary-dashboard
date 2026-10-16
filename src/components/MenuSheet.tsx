@@ -7,10 +7,12 @@ interface MenuSheetProps {
   open: boolean;
   /** `refocus` returns focus to the Menu button (Close and Esc do; in-page links don't). */
   onClose: (refocus: boolean) => void;
+  /** Subpage version: links lead back to the homepage, no socials, Team can be current. */
+  subpage?: { current?: 'team' };
 }
 
 /** Full-screen phone menu. Opens and closes instantly, no animation. */
-export function MenuSheet({ open, onClose }: MenuSheetProps) {
+export function MenuSheet({ open, onClose, subpage }: MenuSheetProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -35,15 +37,28 @@ export function MenuSheet({ open, onClose }: MenuSheetProps) {
           Close
         </button>
       </div>
-      <ul className="sheet-nav">
-        <li><a href="#products" onClick={() => onClose(false)}>Products</a></li>
-        <li><a href={TEAM_URL}>Team</a></li>
-        <li><a href="#contact" onClick={() => onClose(false)}>Contact</a></li>
-      </ul>
-      <div className="sheet-foot">
-        <a className="btn btn-paper" href={AUTH_URL}>Sign in</a>
-        <Socials />
-      </div>
+      {subpage ? (
+        <>
+          <ul className="sheet-nav">
+            <li><a href="/#products">Products</a></li>
+            <li><a href={TEAM_URL} aria-current={subpage.current === 'team' ? 'page' : undefined}>Team</a></li>
+            <li><a href="/#contact" style={{ borderBottom: '1px solid #2a2a31' }}>Contact</a></li>
+          </ul>
+          <div className="sheet-foot"><a className="btn btn-paper" href={AUTH_URL}>Sign in</a></div>
+        </>
+      ) : (
+        <>
+          <ul className="sheet-nav">
+            <li><a href="#products" onClick={() => onClose(false)}>Products</a></li>
+            <li><a href={TEAM_URL}>Team</a></li>
+            <li><a href="#contact" onClick={() => onClose(false)}>Contact</a></li>
+          </ul>
+          <div className="sheet-foot">
+            <a className="btn btn-paper" href={AUTH_URL}>Sign in</a>
+            <Socials />
+          </div>
+        </>
+      )}
     </div>
   );
 }

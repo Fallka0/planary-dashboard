@@ -1,0 +1,15 @@
+/* Object animations: chips fall, bracket builds. From the update's snippets/animations.css. */
+.is-armed .drop,.is-armed .plate,.is-armed .rod{opacity:0}
+.rod{stroke-dasharray:1 1}
+.is-armed.is-play .drop{animation:pl-drop 640ms both}
+.is-armed.is-play .plate{animation:pl-plate 480ms cubic-bezier(.22,1,.36,1) both}
+.is-armed.is-play .rod{animation:pl-rod 420ms cubic-bezier(.22,1,.36,1) both}
+.is-armed.is-play .plate-final{animation:pl-plate 480ms cubic-bezier(.22,1,.36,1) 1480ms both,pl-float 6s ease-in-out 2.4s infinite}
+.is-armed.is-play .t1{animation-delay:90ms}.is-armed.is-play .t2{animation-delay:180ms}.is-armed.is-play .t3{animation-delay:270ms}.is-armed.is-play .t4{animation-delay:360ms}.is-armed.is-play .t5{animation-delay:450ms}.is-armed.is-play .t6{animation-delay:540ms}.is-armed.is-play .t7{animation-delay:630ms}.is-armed.is-play .t8{animation-delay:720ms}.is-armed.is-play .t9{animation-delay:810ms}.is-armed.is-play .t10{animation-delay:1000ms}.is-armed.is-play .t11{animation-delay:1090ms}.is-armed.is-play .t12{animation-delay:1180ms}.is-armed.is-play .t13{animation-delay:1270ms}
+.is-armed.is-play .k1{animation-delay:70ms}.is-armed.is-play .k2{animation-delay:140ms}.is-armed.is-play .k3{animation-delay:210ms}.is-armed.is-play .k4{animation-delay:860ms}.is-armed.is-play .k5{animation-delay:940ms}
+.is-armed.is-play .r0{animation-delay:520ms}.is-armed.is-play .r1{animation-delay:560ms}.is-armed.is-play .r2{animation-delay:600ms}.is-armed.is-play .r3{animation-delay:640ms}.is-armed.is-play .r4{animation-delay:1180ms}.is-armed.is-play .r5{animation-delay:1220ms}
+@keyframes pl-drop{0%{opacity:0;transform:translateY(-460px);animation-timing-function:cubic-bezier(.55,0,1,.45)}12%{opacity:1}72%{transform:translateY(0);animation-timing-function:cubic-bezier(0,.55,.45,1)}84%{transform:translateY(-7px);animation-timing-function:cubic-bezier(.55,0,1,.45)}100%{opacity:1;transform:translateY(0)}}
+@keyframes pl-plate{from{opacity:0;transform:translateY(-36px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pl-rod{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
+@keyframes pl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (prefers-reduced-motion:reduce){.is-armed .drop,.is-armed .plate,.is-armed .rod{opacity:1;animation:none !important;stroke-dashoffset:0}}

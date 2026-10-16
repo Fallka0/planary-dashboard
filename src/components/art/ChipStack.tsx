@@ -1,12 +1,20 @@
 import { useSvgIds } from '../../lib/hooks';
 
-/** Two stacks of play-money chips for the casino card. Stand-in until the final render arrives. Pass `src` to swap in a final image without touching layout. */
+/**
+ * Two stacks of play-money chips. Each chip is a `.drop tN` group (bottom to top,
+ * tall stack first) so it can fall into place when its `[data-anim]` wrapper plays;
+ * the top chip of each stack carries the Planary mark. Stand-in until the final
+ * render arrives: pass `src` to swap in an image without touching layout.
+ */
 export function ChipStack({ src }: { src?: string }) {
   const id = useSvgIds();
   if (src) return <img className="art-img" src={src} alt="" />;
   return (
     <svg viewBox="40 250 600 430">
     <defs>
+    <mask id={id('pmP')} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#ffffff" /><path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" stroke="#000000" strokeWidth="11" /></mask>
+    <mask id={id('pmB')} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#ffffff" /><circle cx="50" cy="50" r="28" fill="#000000" /></mask>
+    <symbol id={id('pmark')} viewBox="0 0 100 100"><circle cx="50" cy="50" r="25" fill="currentColor" mask={`url(#${id('pmP')})`} /><path d="M94 50A44 12.5 0 0 0 6 50" transform="rotate(-28 50 50)" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" mask={`url(#${id('pmB')})`} /><path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" /></symbol>
     <linearGradient id={id('chipSide')} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#000000" /><stop offset=".16" stopColor="#34343c" /><stop offset=".34" stopColor="#101014" /><stop offset=".7" stopColor="#050506" /><stop offset=".9" stopColor="#24242a" /><stop offset="1" stopColor="#000000" /></linearGradient>
     <linearGradient id={id('chipInsert')} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#f4f4f7" /><stop offset="1" stopColor="#a9a9b3" /></linearGradient>
     <radialGradient id={id('chipTop')} cx=".38" cy=".3" r=".8"><stop offset="0" stopColor="#43434c" /><stop offset=".55" stopColor="#141418" /><stop offset="1" stopColor="#050506" /></radialGradient>
@@ -38,23 +46,21 @@ export function ChipStack({ src }: { src?: string }) {
     </defs>
     <ellipse cx="330" cy="470" rx="300" ry="220" fill={`url(#${id('chipSpot')})`} />
     <ellipse cx="260" cy="600" rx="170" ry="26" fill="#000000" opacity=".7" filter={`url(#${id('cB14')})`} />
-    <use href={`#${id('chip')}`} transform="translate(250 560)" />
-    <use href={`#${id('chip')}`} transform="translate(255 536) scale(-1 1)" />
-    <use href={`#${id('chip')}`} transform="translate(249 512)" />
-    <use href={`#${id('chip')}`} transform="translate(256 488) scale(-1 1)" />
-    <use href={`#${id('chip')}`} transform="translate(252 464)" />
-    <use href={`#${id('chip')}`} transform="translate(246 440) scale(-1 1)" />
-    <use href={`#${id('chip')}`} transform="translate(252 416)" />
-    <use href={`#${id('chip')}`} transform="translate(257 392) scale(-1 1)" />
-    <use href={`#${id('chip')}`} transform="translate(251 368)" />
-    <use href={`#${id('chip')}`} transform="translate(248 344) scale(-1 1)" />
-    <ellipse cx="226" cy="334" rx="80" ry="12" fill="#ffffff" opacity=".14" filter={`url(#${id('cB14')})`} />
+    <g className="drop t0"><use href={`#${id('chip')}`} transform="translate(250 560)" /></g>
+    <g className="drop t1"><use href={`#${id('chip')}`} transform="translate(255 536) scale(-1 1)" /></g>
+    <g className="drop t2"><use href={`#${id('chip')}`} transform="translate(249 512)" /></g>
+    <g className="drop t3"><use href={`#${id('chip')}`} transform="translate(256 488) scale(-1 1)" /></g>
+    <g className="drop t4"><use href={`#${id('chip')}`} transform="translate(252 464)" /></g>
+    <g className="drop t5"><use href={`#${id('chip')}`} transform="translate(246 440) scale(-1 1)" /></g>
+    <g className="drop t6"><use href={`#${id('chip')}`} transform="translate(252 416)" /></g>
+    <g className="drop t7"><use href={`#${id('chip')}`} transform="translate(257 392) scale(-1 1)" /></g>
+    <g className="drop t8"><use href={`#${id('chip')}`} transform="translate(251 368)" /></g>
+    <g className="drop t9"><use href={`#${id('chip')}`} transform="translate(248 344) scale(-1 1)" /><g transform="translate(248 344) scale(1 .307)" style={{ color: "#d9d9e0" }} opacity=".92"><use href={`#${id('pmark')}`} x="-74" y="-74" width="148" height="148" /></g><ellipse cx="226" cy="334" rx="80" ry="12" fill="#ffffff" opacity=".14" filter={`url(#${id('cB14')})`} /></g>
     <ellipse cx="455" cy="650" rx="140" ry="22" fill="#000000" opacity=".7" filter={`url(#${id('cB14')})`} />
-    <use href={`#${id('chip')}`} transform="translate(452 610) scale(.86)" />
-    <use href={`#${id('chip')}`} transform="translate(456 589.4) scale(-.86 .86)" />
-    <use href={`#${id('chip')}`} transform="translate(450 568.8) scale(.86)" />
-    <use href={`#${id('chip')}`} transform="translate(454 548.2) scale(-.86 .86)" />
-    <ellipse cx="434" cy="540" rx="64" ry="10" fill="#ffffff" opacity=".14" filter={`url(#${id('cB14')})`} />
+    <g className="drop t10"><use href={`#${id('chip')}`} transform="translate(452 610) scale(.86)" /></g>
+    <g className="drop t11"><use href={`#${id('chip')}`} transform="translate(456 589.4) scale(-.86 .86)" /></g>
+    <g className="drop t12"><use href={`#${id('chip')}`} transform="translate(450 568.8) scale(.86)" /></g>
+    <g className="drop t13"><use href={`#${id('chip')}`} transform="translate(454 548.2) scale(-.86 .86)" /><g transform="translate(454 548.2) scale(.86 .264)" style={{ color: "#d9d9e0" }} opacity=".92"><use href={`#${id('pmark')}`} x="-74" y="-74" width="148" height="148" /></g><ellipse cx="434" cy="540" rx="64" ry="10" fill="#ffffff" opacity=".14" filter={`url(#${id('cB14')})`} /></g>
     </svg>
   );
 }

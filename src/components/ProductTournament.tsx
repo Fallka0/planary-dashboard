@@ -2,8 +2,10 @@ import { TOURNAMENT_INFO_URL, TOURNAMENT_LIVE_URL } from '../lib/links';
 import { BracketSculpture } from './art/BracketSculpture';
 import { OpenLink } from './OpenLink';
 import { ArrowRight } from './icons';
+import { useAnimOnView } from '../lib/useAnimOnView';
 
 export function ProductTournament({ artSrc }: { artSrc?: string }) {
+  const artRef = useAnimOnView<HTMLDivElement>();
   return (
     <article className="tour" data-reveal="" aria-labelledby="tour-h">
       <div className="tour-txt">
@@ -14,7 +16,7 @@ export function ProductTournament({ artSrc }: { artSrc?: string }) {
           <a className="alink" href={TOURNAMENT_INFO_URL}>More about Tournament <ArrowRight /></a>
         </div>
       </div>
-      <div className="tour-art" aria-hidden="true">
+      <div className="tour-art" aria-hidden="true" data-anim="" ref={artRef}>
         <BracketSculpture src={artSrc} />
       </div>
     </article>

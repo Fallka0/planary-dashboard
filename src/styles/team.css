@@ -1,0 +1,37 @@
+/* /team, ported from reference/team.html */
+.thero{padding-bottom:120px;border-bottom:1px solid var(--rule)}
+.thero-in{padding-top:160px;row-gap:40px}
+.t-h1{grid-column:1/-1}
+.t-sub{grid-column:7/span 5;color:var(--t2)}
+.people-h{grid-column:1/span 4;align-self:start}
+.people{grid-column:5/span 8;list-style:none;padding:0}
+.person{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,3fr);column-gap:24px;row-gap:12px;border-top:1px solid var(--ink);padding:28px 0 40px}
+.person:last-child{border-bottom:1px solid var(--rule)}
+.p-n{font-size:clamp(26px,2.6cqw,38px);line-height:1.1}
+.p-r{margin-top:10px;font-size:14px;color:var(--t2)}
+.person .alink{margin-top:12px}
+.t-stmt{grid-column:1/span 8}
+.band{background:var(--card);border-radius:24px;padding:56px;row-gap:40px;align-items:end}
+.k{font:600 12px/1.4 var(--body);letter-spacing:.02em;color:var(--t2);margin-bottom:14px}
+.b1{grid-column:1/span 5}.b2{grid-column:6/span 4}.b3{grid-column:10/span 3}
+.b-big{font-size:clamp(32px,3.6cqw,54px);line-height:1}
+.b-mail{font-size:clamp(20px,1.9cqw,28px);line-height:1.1;display:inline-block;padding-bottom:4px}
+.b-links{list-style:none;padding:0;display:grid;gap:2px;font-size:14px}
+.b-links a{display:inline-flex;align-items:center;min-height:32px}
+.b-links span{color:var(--t2);margin-left:6px}
+
+@container site (max-width:900px){
+.thero-in{padding-top:120px}
+.t-sub{grid-column:5/span 8}
+.people-h{grid-column:1/-1;margin-bottom:40px}.people{grid-column:1/-1}
+.t-stmt{grid-column:1/span 10}
+.band{padding:48px}
+.b1{grid-column:1/-1}.b2{grid-column:1/span 6}.b3{grid-column:7/span 6}
+}
+@container site (max-width:640px){
+.thero{padding-bottom:72px}.thero-in{padding-top:96px;row-gap:28px}
+.t-sub,.t-stmt{grid-column:1/-1}
+.person{grid-template-columns:minmax(0,1fr);padding:24px 0 32px}
+.band{padding:28px 24px;border-radius:20px}
+.b1,.b2,.b3{grid-column:1/-1}
+}

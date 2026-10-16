@@ -1,11 +1,13 @@
 import { CASINO_INFO_URL, CASINO_LIVE_URL } from '../lib/links';
 import { ChipStack } from './art/ChipStack';
 import { ArrowRight } from './icons';
+import { useAnimOnView } from '../lib/useAnimOnView';
 
 export function ProductCasino({ artSrc }: { artSrc?: string }) {
+  const artRef = useAnimOnView<HTMLDivElement>();
   return (
     <article className="casino" data-reveal="" aria-labelledby="casino-h">
-      <div className="casino-art" aria-hidden="true">
+      <div className="casino-art" aria-hidden="true" data-anim="" ref={artRef}>
         <ChipStack src={artSrc} />
       </div>
       <div className="casino-txt">
