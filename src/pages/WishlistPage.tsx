@@ -1,11 +1,13 @@
 import { AccountRow } from '../components/AccountRow';
 import { HeroNav } from '../components/HeroNav';
 import { SubpageShell } from '../components/SubpageShell';
-import { RibbonScene } from '../components/art/RibbonScene';
+import { GiftStack } from '../components/art/GiftStack';
 import { ArrowRight } from '../components/icons';
 import { WISHLIST_LIVE_URL } from '../lib/links';
+import { useAnimOnView } from '../lib/useAnimOnView';
 
 export function WishlistPage() {
+  const artRef = useAnimOnView<HTMLDivElement>();
   return (
     <SubpageShell current="wishlist">
       {(menu) => (
@@ -14,7 +16,7 @@ export function WishlistPage() {
             <HeroNav {...menu} anchorBase="/" signIn="ink" />
             <div className="wrap">
               <div className="g whead-in">
-                <h1 className="d h-xl w-h1">Planary<br />Wishlist</h1>
+                <h1 className="d h-xl w-h1"><span className="ln"><span>Planary</span></span><span className="ln"><span>Wishlist</span></span></h1>
                 <div className="w-side">
                   <p className="sub">Gift planning with structure: save gift ideas, organise them into lists and share them with the people who ask.</p>
                   <div className="acts">
@@ -23,13 +25,13 @@ export function WishlistPage() {
                   </div>
                 </div>
               </div>
-              <div className="w-scene" aria-hidden="true">
-                <RibbonScene />
+              <div className="w-scene" aria-hidden="true" data-anim="" ref={artRef}>
+                <GiftStack />
               </div>
             </div>
           </header>
 
-          <main>
+          <main id="main" tabIndex={-1}>
             <section id="how" className="sec wrap g verbs" aria-labelledby="verbs-h">
               <h2 id="verbs-h" className="d h-m verbs-h" data-reveal="">It goes like this.</h2>
               <div className="v v1" data-reveal=""><h3>Save</h3><p>Note a gift idea the moment you have it, before it slips away again.</p></div>

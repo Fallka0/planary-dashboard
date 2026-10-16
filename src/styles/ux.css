@@ -1,0 +1,22 @@
+/* Skip link, headline rise, compact bar and copy email. From the update's snippets/ux.css. */
+.skip{position:absolute;left:24px;top:-80px;z-index:70;background:var(--paper);color:var(--ink);font:600 14px/1 var(--body);padding:14px 20px;border-radius:999px;text-decoration:none;transition:top 120ms}
+.skip:focus{top:24px}
+.ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.ln>span{display:inline-block;animation:ln-rise 900ms cubic-bezier(.22,1,.36,1) both}
+.ln+.ln>span{animation-delay:90ms}
+.hero-sub,.hero-cta{animation:ux-up 500ms cubic-bezier(.22,1,.36,1) both}
+.hero-sub{animation-delay:380ms}.hero-cta{animation-delay:470ms}
+@keyframes ln-rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
+@keyframes ux-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.bar{position:fixed;top:14px;left:14px;right:14px;z-index:45;height:64px;display:flex;align-items:center;gap:40px;padding:0 clamp(20px,4.45vw,64px);background:var(--ink);color:var(--paper);transform:translateY(calc(-100% - 14px));visibility:hidden;transition:transform 260ms cubic-bezier(.22,1,.36,1),visibility 0s linear 260ms}
+.bar.is-on{transform:none;visibility:visible;transition:transform 260ms cubic-bezier(.22,1,.36,1),visibility 0s}
+.bar .nav-links{display:flex}
+.bar .signin-b{margin-left:auto;height:40px;padding:0 20px}
+.bar .menu-btn{display:none}
+@media (max-width:640px){.bar{top:8px;left:8px;right:8px;height:56px;padding:0 20px}.bar .nav-links,.bar .signin-b{display:none}.bar .menu-btn{display:inline-flex;align-items:center}}
+.c-row{display:flex;align-items:flex-end;flex-wrap:wrap;gap:16px 24px}
+.c-copy{display:flex;align-items:center;gap:12px;padding-bottom:12px}
+.c-copied{font-size:14px;font-weight:600;color:#3d3a55;min-width:6ch}
+.pl .rbtn-ink{border:0;cursor:pointer;background:var(--ink);color:var(--paper)}
+.pl .rbtn-ink:hover{background:var(--indigo)}
+@media (prefers-reduced-motion:reduce){.ln>span,.hero-sub,.hero-cta{animation:none}.bar{transition:none}}

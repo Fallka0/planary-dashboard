@@ -17,12 +17,12 @@ export function TeamPage() {
           <header className="thero">
             <HeroNav {...menu} anchorBase="/" current="team" signIn="ink" />
             <div className="wrap g thero-in">
-              <h1 className="d h-xl t-h1">A small team<br />in Switzerland.</h1>
+              <h1 className="d h-xl t-h1"><span className="ln"><span>A small team</span></span><span className="ln"><span>in Switzerland.</span></span></h1>
               <p className="sub t-sub">We design, build and look after every Planary app ourselves, from the casino’s card tables to the gift lists.</p>
             </div>
           </header>
 
-          <main>
+          <main id="main" tabIndex={-1}>
             <section className="sec wrap g" aria-labelledby="people-h">
               <h2 id="people-h" className="d h-m people-h" data-reveal="">People</h2>
               <ul className="people" data-reveal="">

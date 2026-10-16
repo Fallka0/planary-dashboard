@@ -1,0 +1,22 @@
+/* 404, ported from reference/404.html (headline, logo and starfield rules are shared: ux.css, hero.css) */
+.nf{padding-top:120px;padding-bottom:160px;align-items:center;row-gap:56px}
+.nf-txt{grid-column:1/span 6}
+.nf-sub{margin-top:32px;color:var(--t2)}
+.nf-code{margin-top:28px;font-size:13px;color:var(--t2)}
+.nf-art{grid-column:7/span 6;position:relative;aspect-ratio:1;border-radius:24px;overflow:hidden;background:radial-gradient(90% 70% at 52% 46%,#ffffff 0%,#eeeef2 46%,#dedee4 100%);display:grid;place-items:center}
+.nf-obj{width:78%;aspect-ratio:1}
+.nf-obj svg{width:100%;height:100%;display:block;overflow:visible}
+.nf-sub,.nf-txt .acts,.nf-code{animation:ux-up 500ms cubic-bezier(.22,1,.36,1) both}
+.nf-sub{animation-delay:380ms}.nf-txt .acts{animation-delay:470ms}.nf-code{animation-delay:540ms}
+.nf-art .nf-obj{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){.nf-sub,.nf-txt .acts,.nf-code{animation:none}}
+
+@container site (max-width:900px){
+.nf{padding-top:96px}
+.nf-txt{grid-column:1/-1}
+.nf-art{grid-column:1/span 8}
+}
+@container site (max-width:640px){
+.nf{padding-top:72px;padding-bottom:96px;row-gap:40px}
+.nf-art{grid-column:1/-1;border-radius:20px}
+}

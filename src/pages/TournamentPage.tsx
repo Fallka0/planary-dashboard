@@ -16,7 +16,7 @@ export function TournamentPage() {
             <HeroNav {...menu} anchorBase="/" signIn="ink" />
             <div className="wrap g thead-in">
               <div className="t-txt">
-                <h1 className="d h-xl">Tournament</h1>
+                <h1 className="d h-xl"><span className="ln"><span>Tournament</span></span></h1>
                 <p className="sub t-sub">Brackets, scheduling and match flow for organisers, clubs and gaming communities.</p>
                 <div className="acts">
                   <a className="btn btn-ink" href={TOURNAMENT_LIVE_URL}>Open Tournament</a>
@@ -29,7 +29,7 @@ export function TournamentPage() {
             </div>
           </header>
 
-          <main>
+          <main id="main" tabIndex={-1}>
             <section id="handles" className="sec wrap g" aria-labelledby="handles-h">
               <h2 id="handles-h" className="d h-m handles-h" data-reveal="">What it handles</h2>
               <ol className="steps" data-reveal="">

@@ -1,13 +1,15 @@
 import { WISHLIST_INFO_URL, WISHLIST_LIVE_URL } from '../lib/links';
-import { RibbonScene } from './art/RibbonScene';
+import { GiftStack } from './art/GiftStack';
+import { useAnimOnView } from '../lib/useAnimOnView';
 import { OpenLink } from './OpenLink';
 import { ArrowRight } from './icons';
 
 export function ProductWishlist({ artSrc }: { artSrc?: string }) {
+  const artRef = useAnimOnView<HTMLAnchorElement>();
   return (
     <article className="wish g" data-reveal="" aria-labelledby="wish-h">
-      <a className="wish-media" href={WISHLIST_INFO_URL} tabIndex={-1} aria-hidden="true">
-        <RibbonScene src={artSrc} />
+      <a className="wish-media" href={WISHLIST_INFO_URL} tabIndex={-1} aria-hidden="true" data-anim="" ref={artRef}>
+        <GiftStack src={artSrc} />
       </a>
       <h3 id="wish-h" className="d p-name wish-name">Planary Wishlist</h3>
       <div className="wish-body">

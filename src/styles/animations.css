@@ -1,4 +1,4 @@
-/* Object animations: chips fall, bracket builds. From the update's snippets/animations.css. */
+/* Object animations: chips fall, bracket builds (snippets/animations.css), gift boxes drop (gifts.css). */
 .is-armed .drop,.is-armed .plate,.is-armed .rod{opacity:0}
 .rod{stroke-dasharray:1 1}
 .is-armed.is-play .drop{animation:pl-drop 640ms both}
@@ -13,3 +13,11 @@
 @keyframes pl-rod{from{opacity:1;stroke-dashoffset:1}to{opacity:1;stroke-dashoffset:0}}
 @keyframes pl-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @media (prefers-reduced-motion:reduce){.is-armed .drop,.is-armed .plate,.is-armed .rod{opacity:1;animation:none !important;stroke-dashoffset:0}}
+/* wishlist gifts: studio card, boxes drop in, bow pops */
+.is-armed .gdrop,.is-armed .bow{opacity:0}
+.is-armed.is-play .gdrop{animation:pl-drop 700ms both}
+.is-armed.is-play .g1{animation-delay:260ms}.is-armed.is-play .g2{animation-delay:520ms}.is-armed.is-play .g3{animation-delay:820ms}
+.bow{transform-box:fill-box;transform-origin:50% 90%}
+.is-armed.is-play .bow{animation:gf-bow 460ms cubic-bezier(.34,1.56,.64,1) 1180ms both}
+@keyframes gf-bow{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.is-armed .gdrop,.is-armed .bow{opacity:1;animation:none !important}}
