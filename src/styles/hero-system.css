@@ -1,0 +1,109 @@
+/* Hero system: the Planary account in the middle, one app per orbit.
+   Opening (chaos → flat stage), labels, hotspots and the four previews.
+   The orbit and app positions come from --sy-* variables that HeroSystem writes
+   during the opening; the fallbacks below are the rest state. Every variable is
+   prefixed --sy- because .pl already defines --t2 (a text colour). */
+
+.hs{position:absolute;inset:0}
+
+/* art */
+.hs-art{position:absolute;inset:0;width:100%;height:100%;display:block;transform:translate(var(--px,0px),var(--py,0px));transition:transform 900ms var(--ease)}
+.hs-art text{font-family:var(--body)}
+.sy-lab .n{font-size:12.5px;font-weight:700;fill:#0b0b0f;stroke:#f1f1f4;stroke-width:4px;paint-order:stroke;stroke-linejoin:round}
+.sy-lab .s{font-size:10.5px;font-weight:500;fill:#55555e;stroke:#f1f1f4;stroke-width:4px;paint-order:stroke;stroke-linejoin:round}
+.sy-dial{transform-box:view-box;transform-origin:300px 430px;transform:rotate(calc(var(--sy-dial,0) * 1deg))}
+.sy-orb{transform-box:view-box;transform-origin:300px 430px}
+.sy-orb.o0{transform:rotate(calc(var(--sy-t0,-28) * 1deg)) scale(1,var(--sy-s0,.4))}
+.sy-orb.o1{transform:rotate(calc(var(--sy-t1,-28) * 1deg)) scale(1,var(--sy-s1,.4))}
+.sy-orb.o2{transform:rotate(calc(var(--sy-t2,-28) * 1deg)) scale(1,var(--sy-s2,.4))}
+.sy-orb.o3{transform:rotate(calc(var(--sy-t3,-28) * 1deg)) scale(1,var(--sy-s3,.4))}
+.sy-body.b0{transform:translate(calc(var(--sy-b0x,334.13) * 1px),calc(var(--sy-b0y,364.02) * 1px))}
+.sy-body.b1{transform:translate(calc(var(--sy-b1x,259.81) * 1px),calc(var(--sy-b1y,529.02) * 1px))}
+.sy-body.b2{transform:translate(calc(var(--sy-b2x,316.30) * 1px),calc(var(--sy-b2y,308.99) * 1px))}
+
+/* labels appear once it has settled; the open dot grows, the others dim */
+.sy-lab{opacity:0;transition:opacity 400ms linear}
+.hs.is-settled .sy-lab{opacity:1}
+.sy-body,.sy-core{transition:opacity 200ms linear}
+.hs.has-open .sy-body:not(.is-on),.hs.has-open .sy-core:not(.is-on){opacity:.28}
+.hs .is-on .sy-lab{opacity:0}
+.sy-dot{transform-box:fill-box;transform-origin:center;transition:transform 320ms var(--ease)}
+.is-on .sy-dot{transform:scale(1.5)}
+
+/* hotspots, leader line, preview layer (moves with the art) */
+.hs-layer{position:absolute;inset:0;z-index:2;pointer-events:none;transform:translate(var(--px,0px),var(--py,0px));transition:transform 900ms var(--ease)}
+.hs-lead{position:absolute;inset:0;overflow:visible}
+.hs-lead line{stroke:#0b0b0f;stroke-width:1;stroke-dasharray:3 4}
+.hs-lead circle{fill:#0b0b0f}
+.hs-hot{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;pointer-events:none}
+.hs.is-settled .hs-hot{pointer-events:auto;cursor:pointer}
+.pl .hs-hot:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+/* caption */
+.hs-cap{position:absolute;left:28px;bottom:30px;z-index:2;margin:0;font-size:12px;line-height:1.45;color:var(--t2);max-width:260px}
+.hs-cap b{display:block;color:var(--ink);font-weight:600}
+
+/* previews: each opens as a circle growing from its dot */
+.pv{position:absolute;left:0;top:0;font-family:var(--body);clip-path:circle(0px at var(--ox,0px) var(--oy,0px));visibility:hidden;transition:clip-path 560ms var(--ease),visibility 0s linear 560ms}
+.pv.is-open{clip-path:circle(150% at var(--ox,0px) var(--oy,0px));visibility:visible;transition:clip-path 620ms var(--ease),visibility 0s}
+.pv-lens,.pv-card,.pv-ticket,.pv-tag{filter:drop-shadow(0 18px 28px rgba(11,11,15,.16))}
+.pv img{display:block;width:100%;height:100%;object-fit:cover}
+.pv .pv-n{margin:0;font:300 22px/1.05 var(--disp);letter-spacing:-.045em;color:var(--ink)}
+.pv .pv-l{margin:4px 0 0;font-size:12px;line-height:1.4;color:var(--t2)}
+.pv .pv-u{margin:8px 0 0;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--ink)}
+
+/* account: a dark lens with the ring at -28deg, front half only */
+.pv-account{width:240px;text-align:center}
+.pv-lens{position:relative;width:208px;height:208px;margin:0 auto 14px;border-radius:50%;background:#0b0b0f;box-shadow:0 0 0 7px #f5f5f7,0 0 0 8px rgba(11,11,15,.3)}
+.pv-lens-art{display:block;width:100%;height:100%;border-radius:50%}
+.la-av{font:400 15px/1 var(--disp);letter-spacing:-.03em;fill:#0b0b0f}
+.la-n{font:600 12px/1 var(--body);fill:#f5f5f7}
+.pv-ring{position:absolute;left:50%;top:50%;width:300px;height:84px;margin:-42px 0 0 -150px;border-radius:50%;border:1.5px solid #0b0b0f;transform:rotate(-28deg);pointer-events:none;clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%)}
+.pv-account .pv-u{justify-content:center}
+
+/* casino: a playing card with corner indices */
+.pv-casino{width:212px}
+.pv-card{position:relative;height:300px;border-radius:16px;background:#f5f5f7;padding:40px 14px 14px;box-shadow:inset 0 0 0 1px #0b0b0f,inset 0 0 0 6px #f5f5f7,inset 0 0 0 7px rgba(11,11,15,.35)}
+.pv-idx{position:absolute;left:14px;top:12px;display:flex;flex-direction:column;align-items:center;font:400 18px/1 var(--disp);letter-spacing:-.04em;color:#0b0b0f}
+.pv-idx svg{width:15px;height:15px;margin-top:3px}
+.pv-idx-b{left:auto;top:auto;right:14px;bottom:12px;transform:rotate(180deg)}
+.pv-card-pic{height:150px;border-radius:10px;overflow:hidden;background:#0b0b0f;margin:0 6px}
+.pv-card .pv-n{margin:14px 6px 0}
+.pv-card .pv-l{margin:4px 6px 0;max-width:150px}
+
+/* tournament: a ticket with notches and a perforation */
+.pv-tournament{width:326px}
+.pv-ticket{position:relative;background:#141418;color:#f5f5f7;border-radius:14px;overflow:hidden;-webkit-mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat}
+.pv-ticket-pic{height:168px;border-bottom:2px dashed #3a3a43}
+.pv-ticket-stub{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:16px 18px 18px}
+.pv-ticket .pv-n{color:#f5f5f7}
+.pv-ticket .pv-l{color:#a3a3ad}
+.pv-ticket-no{margin:0;text-align:right;font:600 10px/1.35 var(--body);letter-spacing:.02em;color:#a3a3ad;font-variant-numeric:tabular-nums}
+
+/* wishlist: a gift tag with cut corners and a punched hole */
+.pv-wishlist{width:300px}
+.pv-tag{position:relative;height:244px;background:#f5f5f7;padding:12px 12px 14px 46px;clip-path:polygon(40px 0,100% 0,100% 100%,40px 100%,0 calc(100% - 40px),0 40px)}
+.pv-tag-edge{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.pv-tag-edge polygon{fill:none;stroke:#0b0b0f;stroke-width:2}
+.pv-tag-edge line{stroke:#0b0b0f;stroke-opacity:.3;stroke-dasharray:2 4}
+.pv-hole{position:absolute;left:14px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:#dedee4;box-shadow:inset 0 0 0 1px #0b0b0f}
+.pv-tag-pic{height:148px;border-radius:8px;overflow:hidden;background:#ececf0}
+.pv-tag-txt{padding:12px 2px 0}
+.is-flip .pv-tag{padding:12px 46px 14px 12px;clip-path:polygon(0 0,calc(100% - 40px) 0,100% 40px,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%)}
+.is-flip .pv-tag-edge{transform:scaleX(-1)}
+.is-flip .pv-hole{left:auto;right:14px}
+
+/* phone: bigger names, no hosts, no caption, smaller previews (the account's host line would touch the socials) */
+@container site (max-width:640px){
+.sy-lab .n{font-size:20px;stroke-width:6px}
+.sy-lab .s,.hs-cap,.pv-account .pv-u{display:none}
+.pv-tournament{width:290px}
+.pv-wishlist{width:270px}
+.pv-account{width:210px}
+.pv-lens{width:180px;height:180px}
+}
+
+@media (prefers-reduced-motion:reduce){
+.hs-art,.hs-layer{transform:none !important}
+.pv,.pv.is-open,.sy-dot,.sy-lab{transition:none}
+}

@@ -31,8 +31,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .scroll:hover svg{transform:translateY(3px)}
 .hero-r{position:relative;background:radial-gradient(90% 70% at 52% 46%,#ffffff 0%,#eeeef2 46%,#dedee4 100%);display:grid;place-items:center;overflow:hidden;min-height:440px}
 .signin{position:absolute;top:28px;right:28px;z-index:2}
-.obj{width:min(560px,86%);aspect-ratio:1;transform:translate(var(--px,0px),var(--py,0px));transition:transform 900ms var(--ease)}
-.obj svg{width:100%;height:100%;display:block;overflow:visible}
 .socials{position:absolute;right:28px;bottom:28px;display:flex;gap:8px;list-style:none;margin:0;padding:0}
 .sbtn{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;transition:background-color 120ms}
 .sbtn:hover{background:var(--indigo)}
@@ -201,7 +199,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .hero-cta{margin-top:32px}
 .scroll{width:60px;height:60px;bottom:-30px}
 .hero-r{min-height:470px}
-.obj{width:90%}
 .socials{right:auto;left:var(--m);bottom:20px}
 .statement{padding:144px 0 112px}
 .statement p{grid-column:1/-1;font-size:26px}
@@ -243,7 +240,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 }
 @media (max-width:640px){.pl{padding:8px}}
 @media (prefers-reduced-motion:reduce){
-.obj{transform:none !important;transition:none}
 .is-pre{opacity:1;transform:none}
 .pl *{transition-duration:0ms !important}
 }

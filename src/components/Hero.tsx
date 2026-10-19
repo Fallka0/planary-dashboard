@@ -4,8 +4,7 @@ import { useReducedMotion } from '../lib/hooks';
 import { AUTH_URL } from '../lib/links';
 import { HeroNav } from './HeroNav';
 import { Socials } from './Socials';
-import { HeroLogo } from './art/HeroLogo';
-import { Starfield } from './art/Starfield';
+import { HeroSystem } from './hero/HeroSystem';
 import { ArrowDown } from './icons';
 
 interface HeroProps {
@@ -17,8 +16,8 @@ export function Hero({ menuOpen, onOpenMenu }: HeroProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
 
-  // The logo drifts up to 8px/6px toward the pointer, the starfield the other way.
-  // 2D translate only: a 3D rotate made the browser rasterize the SVG.
+  // The system drifts up to 8px/6px toward the pointer (--px/--py, read by
+  // hero-system.css). 2D translate only: a 3D rotate made the browser rasterize the SVG.
   useEffect(() => {
     const el = panelRef.current;
     if (!el || reduce) return;
@@ -54,10 +53,7 @@ export function Hero({ menuOpen, onOpenMenu }: HeroProps) {
 
       <div className="hero-r" ref={panelRef}>
         <a className="btn btn-ink signin" href={AUTH_URL}>Sign in</a>
-        <Starfield />
-        <div className="obj">
-          <HeroLogo />
-        </div>
+        <HeroSystem />
         <Socials />
       </div>
     </header>
