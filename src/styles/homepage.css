@@ -56,7 +56,10 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 /* body + section index */
 .body{display:grid;grid-template-columns:200px minmax(0,1fr)}
 .rail{position:relative}
-.idx{position:sticky;top:112px;margin:248px 0 0 var(--m);padding:0;list-style:none;display:grid;gap:20px}
+/* The nav is the sticky element: the rail is as tall as the body, while the nav is only as tall as
+   the list, so a sticky list inside it had no room to move and scrolled away with the page. */
+.rail nav{position:sticky;top:112px;margin:248px 0 0 var(--m)}
+.idx{position:relative;margin:0;padding:0;list-style:none;display:grid;gap:20px}
 .idx::before{content:"";position:absolute;left:3.5px;top:8px;bottom:8px;width:1px;background:var(--rule)}
 .idx::after{content:"";position:absolute;left:3.5px;top:8px;width:1px;height:calc((100% - 16px) * var(--p,0));background:var(--ink)}
 .idx a{position:relative;display:flex;align-items:center;gap:14px;font-size:11px;line-height:1.3;color:var(--t2);text-decoration:none;min-height:24px}
