@@ -26,10 +26,10 @@ export function Footer({ current }: { current?: ProductPage }) {
       <div className="fc1">
         <h2>Products</h2>
         <ul>
-          <li><a className="ul" href={CASINO_INFO_URL} aria-current={cur('casino')}>Planary Casino</a></li>
+          <li><a className="ul" href={CASINO_INFO_URL} aria-current={cur('casino')}>Casino</a></li>
           <li><a className="ul" href={TOURNAMENT_INFO_URL} aria-current={cur('tournament')}>Tournament</a></li>
-          <li><a className="ul" href={WISHLIST_INFO_URL} aria-current={cur('wishlist')}>Planary Wishlist</a></li>
-          <li><a className="ul" href={ACCOUNT_INFO_URL} aria-current={cur('account')}>Planary Account</a></li>
+          <li><a className="ul" href={WISHLIST_INFO_URL} aria-current={cur('wishlist')}>Wishlist</a></li>
+          <li><a className="ul" href={ACCOUNT_INFO_URL} aria-current={cur('account')}>Account</a></li>
         </ul>
       </div>
       <div className="fc2">
