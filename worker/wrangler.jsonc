@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Planary's own page-view counter: stats.planary.ch. No cookies, no stored IP addresses.
+  "name": "planary-stats",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-01",
+  // No database_id: the first deploy creates the database, later commands find it by name.
+  "d1_databases": [{ "binding": "DB", "database_name": "planary-stats", "migrations_dir": "migrations" }],
+  // Checks sign-in tokens for the read API by asking planary-auth directly, worker to worker.
+  "services": [{ "binding": "AUTH", "service": "planary-auth" }],
+  "routes": [{ "pattern": "stats.planary.ch", "custom_domain": true, "zone_name": "planary.ch" }],
+  // Once a day: drops yesterday's salt (so visitor hashes can't be linked again) and old rows.
+  "triggers": { "crons": ["17 3 * * *"] },
+  "vars": {
+    // Who may read the numbers, comma separated. Matched against the planary-auth account email.
+    "ADMIN_EMAILS": "mykytapantelei@gmail.com"
+  },
+  "observability": { "enabled": true }
+}
