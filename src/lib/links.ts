@@ -8,6 +8,10 @@ export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
 
 // Detail pages are planned at these paths but don't exist yet.
 export const TEAM_URL = '/team';
+export const IMPRESSUM_URL = '/impressum';
+export const DATENSCHUTZ_URL = '/datenschutz';
+/** The address named in the Impressum and the Datenschutz text as the person responsible. */
+export const LEGAL_EMAIL = 'mykytapantelei@gmail.com';
 export const CASINO_INFO_URL = '/casino';
 export const TOURNAMENT_INFO_URL = '/tournament';
 export const WISHLIST_INFO_URL = '/wishlist';

@@ -4,7 +4,9 @@ import {
   CASINO_INFO_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
+  DATENSCHUTZ_URL,
   GITHUB_URL,
+  IMPRESSUM_URL,
   INSTAGRAM_URL,
   TEAM_URL,
   TIKTOK_URL,
@@ -46,7 +48,7 @@ export function Footer({ current }: { current?: ProductPage }) {
           <li><a className="ul" href={GITHUB_URL}>GitHub</a></li>
         </ul>
       </div>
-      <div className="legal"><span>© Planary, Switzerland</span><span>{CONTACT_EMAIL}</span></div>
+      <div className="legal"><span>© Planary, Switzerland</span><span className="legal-links"><a className="ul" href={IMPRESSUM_URL}>Impressum</a><a className="ul" href={DATENSCHUTZ_URL}>Datenschutz</a><span>{CONTACT_EMAIL}</span></span></div>
     </footer>
   );
 }
