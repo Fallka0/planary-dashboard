@@ -1,0 +1,130 @@
+/* Planary tokens for the Tournament page, legal pages, Console and customer portal.
+   Two sets: the marketing site (planary.ch) and the apps (Console, portal; same as the Tournament app).
+   Light is the reference. Dark follows prefers-color-scheme on planary.ch; the apps also have a toggle
+   that sets data-theme on <html>. Ink panels (beamer screen, Tournament card, pricing "Verein") stay ink in both. */
+
+/* ── planary.ch ── */
+:root {
+  --frame: #0b0b0f;
+  --bg: #f5f5f7;
+  --card: #ececf0;
+  --card2: #e3e3e9;
+  --raise: #ffffff;
+  --ink: #0b0b0f;
+  --t2: #55555e;
+  --rule: #d4d4db;
+  --rule-s: #a9a9b3;
+  --pri: #1f1b3a;
+  --pri-h: #2d2852;
+  --on-pri: #f5f5f7;
+  --violet: #8b5cf6;
+  --live: #f0a020;
+  --live-t: #8a4b00;
+  --ok: #1d6b45;
+  --ok-bg: #e1f0e7;
+  --scr: #0b0b0f;
+  --scr-2: #16161b;
+  --scr-3: #1f1f25;
+  --scr-ink: #f1f1f4;
+  --scr-t2: #a3a3ad;
+  --scr-rule: #2a2a31;
+  --ph: #b8b8c2;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --disp: "Unbounded","Archivo",ui-sans-serif,sans-serif;
+  --body: "Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --m: clamp(20px,4.45cqw,64px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111115;
+    --card: #1a1a1f;
+    --card2: #232329;
+    --raise: #1c1c22;
+    --ink: #f1f1f4;
+    --t2: #a3a3ad;
+    --rule: #2a2a31;
+    --rule-s: #474750;
+    --pri: #f1f1f4;
+    --pri-h: #ffffff;
+    --on-pri: #0b0b0f;
+    --live: #ffb224;
+    --live-t: #ffc45e;
+    --ok: #8fd8ae;
+    --ok-bg: #15301f;
+    --scr: #0b0b0f;
+    --scr-2: #17171c;
+    --scr-3: #202026;
+    --scr-rule: #2a2a31;
+    --ph: #5a5a64;
+  }
+}
+
+/* ── apps: Console, portal (scope with .app) ── */
+.app {
+  --frame: #0b0b0f;
+  --bg: #f5f5f7;
+  --panel: #ececf0;
+  --panel2: #e3e3e9;
+  --raise: #ffffff;
+  --ink: #0b0b0f;
+  --t2: #55555e;
+  --t3: #6b6b75;
+  --rule: #d4d4db;
+  --rule-s: #a9a9b3;
+  --btn: #1f1b3a;
+  --btn-h: #2d2852;
+  --btn-fg: #f5f5f7;
+  --violet: #8b5cf6;
+  --ok: #1d6b45;
+  --ok-bg: #e1f0e7;
+  --warn: #8a4b00;
+  --warn-bg: #fbefd9;
+  --err: #9b1c2e;
+  --err-bg: #f8e6e9;
+  --info-bg: #e8e6f6;
+  --live: #f0a020;
+  --bar: #1f1b3a;
+  --bar-2: #b9b6cc;
+  --scrim: rgba(11,11,15,.42);
+  --shadow: 0 30px 80px rgba(11,11,15,.24),0 2px 8px rgba(11,11,15,.08);
+  --sb: #0b0b0f;
+  --sb-2: #18181d;
+  --sb-ink: #f1f1f4;
+  --sb-t2: #a3a3ad;
+  --sb-rule: #24242a;
+  --ease: cubic-bezier(.22,1,.36,1);
+  --disp: "Unbounded","Archivo",ui-sans-serif,sans-serif;
+  --body: "Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.app[data-theme="dark"], [data-theme="dark"] .app {
+  --bg: #111115;
+  --panel: #1a1a1f;
+  --panel2: #232329;
+  --raise: #1c1c22;
+  --ink: #f1f1f4;
+  --t2: #a3a3ad;
+  --t3: #8e8e98;
+  --rule: #2a2a31;
+  --rule-s: #474750;
+  --btn: #f1f1f4;
+  --btn-h: #ffffff;
+  --btn-fg: #0b0b0f;
+  --ok: #8fd8ae;
+  --ok-bg: #15301f;
+  --warn: #ffc45e;
+  --warn-bg: #33260d;
+  --err: #f3a3b0;
+  --err-bg: #3a1820;
+  --info-bg: #221f33;
+  --live: #ffb224;
+  --bar: #d9d6f2;
+  --bar-2: #4a4760;
+  --scrim: rgba(0,0,0,.66);
+  --shadow: 0 30px 80px rgba(0,0,0,.6),0 0 0 1px #2a2a31;
+  --sb: #0b0b0f;
+  --sb-2: #17171c;
+  --sb-rule: #24242a;
+}
+
+/* Status always pairs a colour with an icon or dot AND a word ("Up", "Down", "Overdue").
+   Charts: one series, var(--bar), 4px rounded tops, 2px gaps; errors use the --err family. */

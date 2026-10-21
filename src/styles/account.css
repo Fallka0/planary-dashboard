@@ -5,7 +5,7 @@
 .a-sub{margin-top:32px;color:var(--t2i)}
 .ahead-r{position:relative;background:radial-gradient(90% 70% at 52% 46%,#ffffff 0%,#eeeef2 46%,#dedee4 100%);display:grid;place-items:center;overflow:hidden;min-height:360px}
 .ahead-r .signin{position:absolute;top:28px;right:28px}
-.a-key{display:block;width:min(420px,72%);height:auto;filter:drop-shadow(0 30px 30px rgba(11,11,15,.22))}
+.a-key{display:block;width:min(420px,72%);height:auto}
 .what-h{grid-column:1/span 5;align-self:start}
 .rows{grid-column:7/span 6;list-style:none;padding:0;border-bottom:1px solid var(--rule)}
 .rows li{border-top:1px solid var(--ink);padding:24px 0 32px}

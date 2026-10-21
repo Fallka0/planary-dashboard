@@ -5,7 +5,8 @@ import { AUTH_URL } from '../lib/links';
 import { HeroNav } from './HeroNav';
 import { Socials } from './Socials';
 import { HeroSystem } from './hero/HeroSystem';
-import { ArrowDown } from './icons';
+import { HOME } from '../content/home.en';
+import { ArrowDown, ArrowRight } from './icons';
 
 interface HeroProps {
   menuOpen: boolean;
@@ -45,8 +46,11 @@ export function Hero({ menuOpen, onOpenMenu }: HeroProps) {
         <HeroNav menuOpen={menuOpen} onOpenMenu={onOpenMenu} />
         <div className="hero-copy">
           <h1 className="d h-hero"><span className="ln"><span>Planned</span></span><span className="ln"><span>properly.</span></span></h1>
-          <p className="hero-sub">Planary is a small studio in Switzerland making a few focused apps, all behind one sign-in.</p>
-          <div className="hero-cta"><a className="btn btn-paper" href="#products">See the products</a></div>
+          <p className="hero-sub">{HOME.hero.sub}</p>
+          <div className="hero-cta">
+            <a className="btn btn-paper" href={HOME.hero.cta.href}>{HOME.hero.cta.label}</a>
+            <a className="alink hero-all" href={HOME.hero.alt.href}>{HOME.hero.alt.label} <ArrowRight /></a>
+          </div>
         </div>
         <a className="scroll" href="#statement" aria-label="Scroll to the next section"><ArrowDown /></a>
       </div>

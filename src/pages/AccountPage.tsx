@@ -1,6 +1,6 @@
 import { HeroNav } from '../components/HeroNav';
 import { SubpageShell } from '../components/SubpageShell';
-import { KeyObject } from '../components/art/KeyObject';
+import { AccountCard } from '../components/art/AccountCard';
 import { ArrowUpRight } from '../components/icons';
 import {
   AUTH_URL,
@@ -33,7 +33,7 @@ export function AccountPage() {
             </div>
             <div className="ahead-r">
               <a className="btn btn-ink signin" href={AUTH_URL}>Sign in</a>
-              <KeyObject className="a-key" />
+              <AccountCard className="a-key" play />
             </div>
           </header>
 

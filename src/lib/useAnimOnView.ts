@@ -6,7 +6,7 @@ import { prefersReducedMotion } from './hooks';
  * once (`.is-play`) when 30% of it is visible. With reduced motion, or without
  * JS, nothing is armed and the object simply shows in place.
  */
-export function useAnimOnView<T extends HTMLElement>() {
+export function useAnimOnView<T extends Element>() {
   const ref = useRef<T>(null);
   useLayoutEffect(() => {
     const el = ref.current;

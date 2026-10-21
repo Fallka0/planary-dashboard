@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { FocusEvent, KeyboardEvent, MouseEvent, PointerEvent } from 'react';
+import { HOME } from '../../content/home.en';
 import { useReducedMotion } from '../../lib/hooks';
 import { AUTH_URL, CASINO_LIVE_URL, TOURNAMENT_LIVE_URL, WISHLIST_LIVE_URL } from '../../lib/links';
 import { Previews } from './Previews';
@@ -232,8 +233,8 @@ export function HeroSystem() {
         <Previews open={active} placed={layout?.placed ?? {}} />
       </div>
       <p className="hs-cap">
-        <b>One sign-in, a few apps</b>
-        Your Planary account in the middle, every app on its own orbit. Point at one to look inside.
+        <b>{HOME.hero.artCaption.title}</b>
+        {HOME.hero.artCaption.hint}
       </p>
     </div>
   );
