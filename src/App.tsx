@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { AccountRow } from './components/AccountRow';
+import { AlsoFromPlanary } from './components/AlsoFromPlanary';
 import { CompactBar } from './components/CompactBar';
 import { ContactCard } from './components/ContactCard';
 import { Footer } from './components/Footer';
@@ -7,12 +8,11 @@ import { Frame } from './components/Frame';
 import { Hero } from './components/Hero';
 import { MenuSheet } from './components/MenuSheet';
 import { Principles } from './components/Principles';
-import { ProductCasino } from './components/ProductCasino';
 import { ProductTournament } from './components/ProductTournament';
-import { ProductWishlist } from './components/ProductWishlist';
 import { SectionIndex } from './components/SectionIndex';
 import { Statement } from './components/Statement';
 import { Studio } from './components/Studio';
+import { HOME } from './content/home.en';
 import { useMenu } from './lib/useMenu';
 import { useReveals } from './lib/useReveals';
 
@@ -37,10 +37,9 @@ export default function App() {
           <Statement />
 
           <section id="products" aria-labelledby="products-h">
-            <div className="g" data-reveal=""><h2 id="products-h" className="d sec-h products-h">What’s on the shelf</h2></div>
-            <ProductCasino />
+            <div className="g" data-reveal=""><h2 id="products-h" className="d sec-h products-h">{HOME.products.h2}</h2></div>
             <ProductTournament />
-            <ProductWishlist />
+            <AlsoFromPlanary />
             <AccountRow />
           </section>
 

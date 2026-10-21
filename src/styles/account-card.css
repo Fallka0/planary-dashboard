@@ -1,0 +1,35 @@
+/* The Planary Account card (design/account-card/account-card.css). Settles in once, then floats; the app dots
+   light up in turn. Shared by the homepage, the subpages' account rows and the /account hero.
+   Dark rules live with the pages that follow the system theme. */
+.acct-obj{display:block;overflow:visible}
+.acct-obj .ak-float{animation:ak-float 6.5s ease-in-out infinite}
+.acct-obj .ak-shadow{transform-box:fill-box;transform-origin:center;animation:ak-shadow 6.5s ease-in-out infinite}
+@keyframes ak-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes ak-shadow{0%,100%{transform:none;opacity:1}50%{transform:scaleX(.9);opacity:.75}}
+.acct-obj .ak-dl{animation:ak-dot 7.5s ease-in-out infinite}
+.acct-obj .ak-dl1{animation-delay:.5s}.acct-obj .ak-dl2{animation-delay:1s}
+@keyframes ak-dot{0%,100%{opacity:.5}6%,14%{opacity:1}24%{opacity:.5}}
+.acct-obj .ak-sheen{animation:ak-sheen 9s cubic-bezier(.45,0,.55,1) 2s infinite;transform:translateX(-60px)}
+@keyframes ak-sheen{0%{transform:translateX(-60px)}35%,100%{transform:translateX(190px)}}
+.acct-obj .ak-mark,.acct-obj .ak-dot{transform-box:fill-box;transform-origin:center}
+.acct-obj .ak-line{stroke-dasharray:1 1}
+.ao-play .acct-obj .ao-all,.acct-obj.ao-play .ao-all,.acct-obj.is-play .ao-all{animation:ak-in 900ms cubic-bezier(.22,1,.36,1) both}
+.ao-play .acct-obj .ak-mark,.acct-obj.ao-play .ak-mark,.acct-obj.is-play .ak-mark{animation:ak-stamp 700ms cubic-bezier(.22,1,.36,1) 300ms both}
+.ao-play .acct-obj .ak-line,.acct-obj.ao-play .ak-line,.acct-obj.is-play .ak-line{animation:ak-draw 600ms cubic-bezier(.22,1,.36,1) 550ms both}
+.ao-play .acct-obj .ak-dot,.acct-obj.ao-play .ak-dot,.acct-obj.is-play .ak-dot{animation:ak-pop 420ms cubic-bezier(.34,1.56,.64,1) both}
+.ao-play .acct-obj .ak-d0,.acct-obj.ao-play .ak-d0,.acct-obj.is-play .ak-d0{animation-delay:700ms}
+.ao-play .acct-obj .ak-d1,.acct-obj.ao-play .ak-d1,.acct-obj.is-play .ak-d1{animation-delay:800ms}
+.ao-play .acct-obj .ak-d2,.acct-obj.ao-play .ak-d2,.acct-obj.is-play .ak-d2{animation-delay:900ms}
+.acct-obj.is-armed:not(.is-play) .ao-all{opacity:0}
+.acct-obj .ao-all{transform-box:view-box;transform-origin:110px 70px}
+@keyframes ak-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes ak-stamp{from{opacity:0;transform:scale(1.18)}to{opacity:1;transform:none}}
+@keyframes ak-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes ak-pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+.acct .acct-key.acct-obj{grid-column:1/span 2;width:128px;height:auto}
+.acct .acct-title{grid-column:3/span 5}
+.acct .acct-body{grid-column:8/span 3}
+.acct .acct-link{grid-column:11/span 2}
+@container site (max-width:900px){.acct .acct-title{grid-column:3/span 5}.acct .acct-body{grid-column:8/span 5}.acct .acct-link{grid-column:3/-1}}
+@container site (max-width:640px){.acct .acct-key.acct-obj{grid-column:1/span 1;width:72px}.acct .acct-title,.acct .acct-body,.acct .acct-link{grid-column:2/-1}}
+@media (prefers-reduced-motion:reduce){.acct-obj.is-armed .ao-all{opacity:1}.pl .acct-obj *,.acct-obj *{animation:none !important}.acct-obj .ak-sheen{display:none}}

@@ -1,21 +1,19 @@
+import { useRef } from 'react';
+import { HOME } from '../content/home.en';
+import { usePun } from '../lib/usePun';
+
 export function Studio() {
+  const ref = useRef<HTMLElement>(null);
+  usePun(ref);
+  const [small, big] = HOME.studio.h2;
   return (
-    <section id="studio" className="studio g" aria-labelledby="studio-h">
-      <div className="studio-txt" data-reveal="">
-        <h2 id="studio-h" className="d sec-h">Small on purpose.</h2>
-        <p className="studio-p">Planary is an independent product studio based in Switzerland. We design, build and look after every app ourselves, which is why there are only a few of them.</p>
-      </div>
-      <div className="studio-aside" data-reveal="">
-        <div className="place" aria-hidden="true">
-          <span className="tk" />
-          <span className="ln" />
-          <span className="pt" />
-          <span className="ln" style={{ flex: '0 0 22%' }} />
-          <span className="tk" />
-        </div>
-        <strong>Planary</strong>
-        <span>Switzerland</span>
-      </div>
+    <section id="studio" className="studio g" aria-labelledby="studio-h" ref={ref}>
+      <h2 id="studio-h" className="pun" data-reveal="" aria-label={`${small} ${big}`}>
+        <span className="d pun-s" aria-hidden="true"><i className="pun-bl" />{small}</span>
+        <span className="d pun-b" aria-hidden="true"><i className="pun-bl" />{big}</span>
+        <span className="pun-t" aria-hidden="true" />
+      </h2>
+      <p className="studio-p" data-reveal="">{HOME.studio.p}</p>
     </section>
   );
 }

@@ -56,8 +56,12 @@ function cleanUrls(): Plugin {
   };
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   appType: 'mpa',
+  define: {
+    // Drafted legal sections show in dev and on Vercel preview deployments, never in production.
+    __LEGAL_DRAFTS__: JSON.stringify(mode === 'development' || process.env.VERCEL_ENV === 'preview'),
+  },
   plugins: [react(), cleanUrls()],
   server: {
     port: 5375,
@@ -71,4 +75,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

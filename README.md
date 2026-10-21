@@ -13,6 +13,10 @@ The planary.ch homepage: the front door to the Planary apps (Planary Casino, Tou
 
 The site is a multi-page Vite build: `index.html` (homepage), `404.html`, and `team/`, `casino/`, `tournament/`, `wishlist/` and `account/`, each with its own `index.html`, entry in `src/entries/` and stylesheet, so a page loads only its own CSS. `vite.config.ts` serves `/team` etc. without a trailing slash and answers unknown paths with the 404 page in dev and preview; `vercel.json` does the same in production.
 
+`/tournament` (German), `/impressum` and `/datenschutz` share `src/styles/tour.css` and the chrome in `src/components/tour/`. The homepage, those three pages and their dark mode follow `prefers-color-scheme`; the other subpages stay light. Copy for the new pages lives in `src/content/`, tokens and icons from the handoff in `src/design/`.
+
+Drafted legal sections (marked "Entwurf") are compiled in only when `__LEGAL_DRAFTS__` is true: in `npm run dev` and on Vercel preview deployments (`VERCEL_ENV=preview`). Production builds leave them out entirely.
+
 - `src/App.tsx` assembles the homepage from `src/components/`, one component per block of the design (`Hero`, `SectionIndex`, `ProductCasino`, …).
 - `src/pages/` holds the subpages and the 404. Each lays out its own header and sections; `SubpageShell` adds the frame, compact bar, phone menu, reveals and footer.
 - `src/components/art/` holds the drawn objects: `HeroLogo` (the animated Planary logo in the hero and on the 404), `Starfield`, `ChipStack`, `BracketSculpture`, `GiftStack` and `KeyObject`. The stand-ins take a `src` prop, so a final render replaces them without touching layout.

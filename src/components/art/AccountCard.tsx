@@ -1,0 +1,100 @@
+import type { Ref } from 'react';
+import { useSvgIds } from '../../lib/hooks';
+
+/**
+ * The Planary Account card: a thick black card at the tournament slabs' angle, the
+ * Planary mark raised in silver, a name line and three app dots. With `data-anim`
+ * (via `useAnimOnView`) it settles in once when it scrolls into view; it always
+ * floats, the dots light up in turn and a sheen crosses it (account-card.css).
+ * `play` starts the entrance on load instead (the /account hero).
+ */
+export function AccountCard({ className = 'acct-key', animRef, play = false }: { className?: string; animRef?: Ref<SVGSVGElement>; play?: boolean }) {
+  const id = useSvgIds();
+  return (
+    <svg className={`acct-obj ak ${className}${play ? ' ao-play' : ''}`} data-anim={animRef ? '' : undefined} ref={animRef} viewBox="0 0 220 150" aria-hidden="true">
+<defs>
+<linearGradient id={id('kT')} x1="0" y1="0" x2="1" y2="1">
+<stop className="ak-t0" offset="0" stopColor="#5a5a64"/>
+<stop className="ak-t1" offset=".42" stopColor="#18181d"/>
+<stop offset="1" stopColor="#050507"/>
+</linearGradient>
+<linearGradient id={id('kW')} gradientUnits="userSpaceOnUse" x1="35.76" y1="0" x2="184.24" y2="0">
+<stop offset="0" stopColor="#0b0b0e"/>
+<stop offset="0.620" stopColor="#030304"/>
+<stop offset="0.624" stopColor="#1c1c22"/>
+<stop offset="1" stopColor="#2a2a31"/>
+</linearGradient>
+<linearGradient id={id('kS')} x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stopColor="#ffffff"/>
+<stop offset=".45" stopColor="#d4d4db"/>
+<stop offset=".75" stopColor="#9a9aa4"/>
+<stop offset="1" stopColor="#e4e4ea"/>
+</linearGradient>
+<linearGradient id={id('kG')} gradientUnits="userSpaceOnUse" x1="-30" y1="0" x2="30" y2="0">
+<stop offset="0" stopColor="#fff" stopOpacity="0"/>
+<stop offset=".5" stopColor="#fff" stopOpacity=".13"/>
+<stop offset="1" stopColor="#fff" stopOpacity="0"/>
+</linearGradient>
+<clipPath id={id('kC')}>
+<path d="M9 0H103A9 9 0 0 1 112 9V61A9 9 0 0 1 103 70H9A9 9 0 0 1 0 61V9A9 9 0 0 1 9 0Z"/>
+</clipPath>
+<filter id={id('kB')} x="-50%" y="-200%" width="200%" height="500%">
+<feGaussianBlur stdDeviation="6"/>
+</filter>
+<mask id={id('kmP')} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+<rect width="100" height="100" fill="#fff"/>
+<path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" stroke="#000" strokeWidth="11"/>
+</mask>
+<mask id={id('kmB')} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+<rect width="100" height="100" fill="#fff"/>
+<circle cx="50" cy="50" r="28" fill="#000"/>
+</mask>
+<g id={id('km')}>
+<circle cx="50" cy="50" r="25" mask={`url(#${id('kmP')})`}/>
+<path d="M94 50A44 12.5 0 0 0 6 50" transform="rotate(-28 50 50)" fill="none" strokeWidth="5" strokeLinecap="round" mask={`url(#${id('kmB')})`}/>
+<path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" strokeWidth="5" strokeLinecap="round"/>
+</g>
+</defs>
+<g className="ao-all">
+<g className="ak-shadow-w">
+<ellipse className="ak-shadow" cx="110" cy="124" rx="78" ry="10" fill="#0b0b0f" fillOpacity=".22" filter={`url(#${id('kB')})`}/>
+</g>
+<g className="ak-float">
+<g className="ak-card">
+<path d="M35.76 53.50 L35.77 53.78 L35.80 54.05 L35.85 54.33 L35.92 54.61 L36.02 54.88 L36.13 55.15 L36.27 55.41 L36.42 55.68 L36.60 55.94 L36.79 56.19 L37.00 56.44 L37.23 56.68 L37.48 56.92 L37.75 57.15 L38.04 57.37 L38.34 57.59 L38.65 57.80 L38.99 58.00 L120.39 105.00 L120.74 105.19 L121.10 105.38 L121.48 105.55 L121.86 105.71 L122.26 105.87 L122.68 106.01 L123.10 106.14 L123.53 106.27 L123.97 106.38 L124.42 106.48 L124.87 106.57 L125.33 106.65 L125.80 106.71 L126.27 106.77 L126.75 106.81 L127.23 106.84 L127.71 106.86 L128.19 106.86 L128.67 106.86 L129.15 106.84 L129.63 106.81 L130.10 106.77 L130.57 106.71 L131.04 106.65 L131.50 106.57 L131.96 106.48 L132.40 106.38 L132.84 106.27 L133.28 106.14 L133.70 106.01 L134.11 105.87 L134.51 105.71 L134.90 105.55 L135.27 105.38 L135.63 105.19 L135.98 105.00 L181.01 79.00 L181.35 78.80 L181.66 78.59 L181.96 78.37 L182.25 78.15 L182.52 77.92 L182.77 77.68 L183.00 77.44 L183.21 77.19 L183.40 76.94 L183.58 76.68 L183.73 76.41 L183.87 76.15 L183.98 75.88 L184.08 75.61 L184.15 75.33 L184.20 75.05 L184.23 74.78 L184.24 74.50 L184.24 80.00 L184.23 80.28 L184.20 80.55 L184.15 80.83 L184.08 81.11 L183.98 81.38 L183.87 81.65 L183.73 81.91 L183.58 82.18 L183.40 82.44 L183.21 82.69 L183.00 82.94 L182.77 83.18 L182.52 83.42 L182.25 83.65 L181.96 83.87 L181.66 84.09 L181.35 84.30 L181.01 84.50 L135.98 110.50 L135.63 110.69 L135.27 110.88 L134.90 111.05 L134.51 111.21 L134.11 111.37 L133.70 111.51 L133.28 111.64 L132.84 111.77 L132.40 111.88 L131.96 111.98 L131.50 112.07 L131.04 112.15 L130.57 112.21 L130.10 112.27 L129.63 112.31 L129.15 112.34 L128.67 112.36 L128.19 112.36 L127.71 112.36 L127.23 112.34 L126.75 112.31 L126.27 112.27 L125.80 112.21 L125.33 112.15 L124.87 112.07 L124.42 111.98 L123.97 111.88 L123.53 111.77 L123.10 111.64 L122.68 111.51 L122.26 111.37 L121.86 111.21 L121.48 111.05 L121.10 110.88 L120.74 110.69 L120.39 110.50 L38.99 63.50 L38.65 63.30 L38.34 63.09 L38.04 62.87 L37.75 62.65 L37.48 62.42 L37.23 62.18 L37.00 61.94 L36.79 61.69 L36.60 61.44 L36.42 61.18 L36.27 60.91 L36.13 60.65 L36.02 60.38 L35.92 60.11 L35.85 59.83 L35.80 59.55 L35.77 59.28 L35.76 59.00Z" fill={`url(#${id('kW')})`}/>
+<g transform="matrix(0.86603 0.50000 -0.86603 0.50000 91.813 18.500)">
+<path d="M9 0H103A9 9 0 0 1 112 9V61A9 9 0 0 1 103 70H9A9 9 0 0 1 0 61V9A9 9 0 0 1 9 0Z" fill={`url(#${id('kT')})`}/>
+<path className="ak-rim" d="M9 0H103A9 9 0 0 1 112 9V61A9 9 0 0 1 103 70H9A9 9 0 0 1 0 61V9A9 9 0 0 1 9 0Z" fill="none" stroke="#ffffff" strokeOpacity="0" strokeWidth=".5"/>
+<g className="ak-mark">
+<g transform="translate(12.1 14.1) scale(0.42)" fill="#000" stroke="#000" opacity=".6">
+<use href={`#${id('km')}`}/>
+</g>
+<g transform="translate(11 13) scale(0.42)" fill={`url(#${id('kS')})`} stroke={`url(#${id('kS')})`}>
+<use href={`#${id('km')}`}/>
+</g>
+</g>
+<path className="ak-line" pathLength="1" d="M62 21H100" stroke="#d9d9e0" strokeOpacity=".38" strokeWidth=".9" strokeLinecap="round"/>
+<path d="M62 28H82" stroke="#d9d9e0" strokeOpacity=".18" strokeWidth=".9" strokeLinecap="round"/>
+<g className="ak-dot ak-d0">
+<circle cx="80" cy="57" r="2.9" fill="#d9d9e0" className="ak-dl ak-dl0"/>
+</g>
+<g className="ak-dot ak-d1">
+<circle cx="89" cy="57" r="2.9" fill="#d9d9e0" className="ak-dl ak-dl1"/>
+</g>
+<g className="ak-dot ak-d2">
+<circle cx="98" cy="57" r="2.9" fill="#d9d9e0" className="ak-dl ak-dl2"/>
+</g>
+<g clipPath={`url(#${id('kC')})`}>
+<g className="ak-sheen">
+<rect x="-30" y="-60" width="60" height="200" fill={`url(#${id('kG')})`} transform="rotate(35 0 40)"/>
+</g>
+</g>
+</g>
+<path d="M35.76 53.50 L35.77 53.78 L35.80 54.05 L35.85 54.33 L35.92 54.61 L36.02 54.88 L36.13 55.15 L36.27 55.41 L36.42 55.68 L36.60 55.94 L36.79 56.19 L37.00 56.44 L37.23 56.68 L37.48 56.92 L37.75 57.15 L38.04 57.37 L38.34 57.59 L38.65 57.80 L38.99 58.00 L120.39 105.00 L120.74 105.19 L121.10 105.38 L121.48 105.55 L121.86 105.71 L122.26 105.87 L122.68 106.01 L123.10 106.14 L123.53 106.27 L123.97 106.38 L124.42 106.48 L124.87 106.57 L125.33 106.65 L125.80 106.71 L126.27 106.77 L126.75 106.81 L127.23 106.84 L127.71 106.86 L128.19 106.86" fill="none" stroke="#ffffff" strokeOpacity=".55" strokeWidth=".7" strokeLinecap="round"/>
+<path d="M128.19 106.86 L128.67 106.86 L129.15 106.84 L129.63 106.81 L130.10 106.77 L130.57 106.71 L131.04 106.65 L131.50 106.57 L131.96 106.48 L132.40 106.38 L132.84 106.27 L133.28 106.14 L133.70 106.01 L134.11 105.87 L134.51 105.71 L134.90 105.55 L135.27 105.38 L135.63 105.19 L135.98 105.00 L181.01 79.00 L181.35 78.80 L181.66 78.59 L181.96 78.37 L182.25 78.15 L182.52 77.92 L182.77 77.68 L183.00 77.44 L183.21 77.19 L183.40 76.94 L183.58 76.68 L183.73 76.41 L183.87 76.15 L183.98 75.88 L184.08 75.61 L184.15 75.33 L184.20 75.05 L184.23 74.78 L184.24 74.50" fill="none" stroke="#ffffff" strokeOpacity=".18" strokeWidth=".6" strokeLinecap="round"/>
+</g>
+</g>
+</g>
+    </svg>
+  );
+}
