@@ -18,10 +18,14 @@ deleted after 395 days. Browsers that send Do Not Track aren't counted.
 | `POST /e` | planary.ch and `*.planary.ch` | `{"u": location.href, "r": document.referrer}`, sent as `text/plain` |
 | `GET /api/sites?days=30` | admins | sites with views in the range |
 | `GET /api/stats?site=planary.ch&days=30` | admins | totals, per day, top paths, referrers, countries, devices |
+| `GET /api/internal/visitors?days=30` | planary-org (`x-internal-key`) | `{days, sites: {host: [visitors per day]}}` for the Console overview, counts only |
 
 Admins sign in through planary-auth (bearer token, checked over the `AUTH` service binding) and
 must be listed in `ADMIN_EMAILS` (`wrangler.jsonc`). Visitors are unique per day; the total is the
 sum of the days.
+
+The internal route answers 404 without the key. Set the same `INTERNAL_KEY` here and in
+planary-org: `wrangler secret put INTERNAL_KEY`.
 
 ## Run
 
