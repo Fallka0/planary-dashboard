@@ -135,3 +135,33 @@ describe('helpers', () => {
     expect(refHost('not a url', 'planary.ch')).toBe('');
   });
 });
+
+describe('internal visitors', () => {
+  const internal = (path: string, key?: string) => app.request(path, { headers: key ? { 'x-internal-key': key } : {} }, env);
+
+  it('answers 404 without the key, even for admins', async () => {
+    expect((await internal('/api/internal/visitors?days=7')).status).toBe(404);
+    expect((await internal('/api/internal/visitors?days=7', 'wrong')).status).toBe(404);
+    expect((await read('/api/internal/visitors?days=7', 'admin@planary.test')).status).toBe(404);
+  });
+
+  it('counts unique visitors per day and site, zero-filled, oldest first', async () => {
+    await view('https://tournament.planary.ch/gurten-lan', { ip: '203.0.113.1' });
+    await view('https://tournament.planary.ch/gurten-lan/beamer', { ip: '203.0.113.1' });
+    await view('https://tournament.planary.ch/', { ip: '203.0.113.2' });
+    await view('https://casino.planary.ch/', { ip: '203.0.113.3', ua: IPHONE });
+    const old = new Date(Date.now() - 2 * 86_400_000);
+    await env.DB.prepare("INSERT INTO views (day, site, path, ref, country, device, visitor) VALUES (?, 'tournament.planary.ch', '/', '', '', 'desktop', 'abc')").bind(today(old)).run();
+
+    const res = await internal('/api/internal/visitors?days=7', 'test-internal-key');
+    expect(res.status).toBe(200);
+    const body = (await res.json()) as { days: string[]; sites: Record<string, number[]> };
+    expect(body.days).toHaveLength(7);
+    expect(body.days[6]).toBe(today());
+    expect(body.days[4]).toBe(today(old));
+    expect(body.sites['tournament.planary.ch']).toEqual([0, 0, 0, 0, 1, 0, 2]);
+    expect(body.sites['casino.planary.ch']).toEqual([0, 0, 0, 0, 0, 0, 1]);
+    expect(JSON.stringify(body)).not.toContain('gurten-lan');
+    expect((await internal('/api/internal/visitors?days=0', 'test-internal-key')).status).toBe(400);
+  });
+});

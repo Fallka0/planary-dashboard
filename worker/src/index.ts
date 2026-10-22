@@ -2,6 +2,7 @@
 //   POST /e          a page view from planary.ch or a subdomain (the beacon in the web apps)
 //   GET  /api/sites  the sites with views in the range, for the console (admins only)
 //   GET  /api/stats  the numbers for one site (admins only)
+//   GET  /api/internal/visitors  unique visitors per day and site, for planary-org (x-internal-key)
 // No cookies, no IP addresses stored. Visitors are counted per day with a salt that is deleted
 // the next day, so a visitor can't be recognised across days.
 import { Hono, type Context } from 'hono';
@@ -98,6 +99,8 @@ app.use('/api/*', async (c, next) => {
 });
 app.use('/api/*', async (c, next) => {
   if (c.req.method === 'OPTIONS') return next();
+  // Worker to worker, with its own key check below.
+  if (c.req.path.startsWith('/api/internal/')) return next();
   const email = await emailFromRequest(c.env, c.req.raw);
   if (!email) return c.json({ error: 'Sign in to continue.', code: 'unauthorized' }, 401);
   if (!isAdmin(c.env, email)) return c.json({ error: 'Only Planary admins can see this.', code: 'forbidden' }, 403);
@@ -158,6 +161,32 @@ app.get('/api/stats', async (c) => {
     countries: countries.results,
     devices: devices.results,
   });
+});
+
+/** Constant-time comparison, so the key can't be guessed byte by byte from response times. */
+async function keyOk(env: Env, given: string | undefined) {
+  if (!env.INTERNAL_KEY || !given) return false;
+  const enc = new TextEncoder();
+  const [a, b] = await Promise.all([crypto.subtle.digest('SHA-256', enc.encode(given)), crypto.subtle.digest('SHA-256', enc.encode(env.INTERNAL_KEY))]);
+  return crypto.subtle.timingSafeEqual(a, b);
+}
+
+/** Unique visitors per day and site, oldest first, days without views as 0. Only counts leave. */
+app.get('/api/internal/visitors', async (c) => {
+  if (!(await keyOk(c.env, c.req.header('x-internal-key')))) return c.json({ error: 'Not found.', code: 'not_found' }, 404);
+  const r = range(c);
+  if (!r) return badRange(c);
+  const days: string[] = [];
+  for (let d = new Date(`${r.from}T00:00:00Z`); today(d) <= r.to; d = new Date(d.getTime() + 86_400_000)) days.push(today(d));
+  const { results } = await c.env.DB.prepare(
+    'SELECT site, day, COUNT(DISTINCT visitor) AS visitors FROM views WHERE day BETWEEN ? AND ? GROUP BY site, day',
+  ).bind(r.from, r.to).all<{ site: string; day: string; visitors: number }>();
+  const sites: Record<string, number[]> = {};
+  for (const row of results) {
+    sites[row.site] ??= days.map(() => 0);
+    sites[row.site][days.indexOf(row.day)] = row.visitors;
+  }
+  return c.json({ days, sites });
 });
 
 app.get('/', (c) => c.text('planary-stats'));
