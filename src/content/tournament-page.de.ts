@@ -5,19 +5,19 @@ export const TOURNAMENT_PAGE = {
     "links": [
       {
         "label": "So funktioniert's",
-        "href": "#ablauf"
+        "href": "/tournament#ablauf"
       },
       {
         "label": "Beispiel",
-        "href": "#beispiel"
+        "href": "/tournament#beispiel"
       },
       {
         "label": "Preise",
-        "href": "#preise"
+        "href": "/preise"
       },
       {
         "label": "FAQ",
-        "href": "#faq"
+        "href": "/tournament#faq"
       }
     ],
     "signIn": "Anmelden",
@@ -167,71 +167,7 @@ export const TOURNAMENT_PAGE = {
     "pick": "Klick auf ein Spiel im Bracket."
   },
   "pricing": {
-    "id": "preise",
-    "h2": "Gratis anfangen. Zahlen, wenn es gross wird.",
-    "lede": "Kleine Turniere kosten nichts. Für grosse Events und Vereine mit vielen Turnieren gibt es zwei Pläne.",
-    "ph": "Platzhalter",
-    "plans": [
-      {
-        "id": "gratis",
-        "n": "Gratis",
-        "for": "Für kleine Turniere unter Freunden oder im Verein.",
-        "cur": "CHF",
-        "amt": "0",
-        "per": "für immer",
-        "ph": false,
-        "li": [
-          "Bis 16 Teams pro Turnier",
-          "Ein laufendes Turnier",
-          "Anmeldung, Spielplan, Bracket",
-          "Beamer-Ansicht mit Planary-Logo"
-        ],
-        "cta": "Gratis starten",
-        "style": "card"
-      },
-      {
-        "id": "event",
-        "n": "Event",
-        "for": "Für ein grosses Turnier, einmal bezahlt.",
-        "cur": "CHF",
-        "amt": "49",
-        "per": "pro Turnier",
-        "ph": true,
-        "li": [
-          "Bis 128 Teams",
-          "Dein Logo und deine Farben auf dem Beamer",
-          "Check-in vor Ort und Warteliste",
-          "Export als CSV und PDF",
-          "Support am Turniertag"
-        ],
-        "cta": "Event buchen",
-        "style": "card"
-      },
-      {
-        "id": "verein",
-        "n": "Verein",
-        "for": "Für Vereine und Communities mit regelmässigen Turnieren.",
-        "cur": "CHF",
-        "amt": "19",
-        "per": "pro Monat, jährlich bezahlt",
-        "ph": true,
-        "li": [
-          "Unbegrenzt viele Turniere",
-          "Bis 128 Teams pro Turnier",
-          "Mehrere Organisatoren im Team",
-          "Eigenes Logo, Rechnung per E-Mail",
-          "Kundenportal mit Abrechnung und Support"
-        ],
-        "cta": "Verein starten",
-        "style": "ink",
-        "tag": "Für Vereine"
-      }
-    ],
-    "notes": [
-      "Preise in CHF.",
-      "Bezahlen mit Karte oder TWINT, Vereine auch auf Rechnung.",
-      "Jederzeit kündbar."
-    ]
+    "id": "preise"
   },
   "faq": {
     "id": "faq",
@@ -266,13 +202,13 @@ export const TOURNAMENT_PAGE = {
       {
         "q": "Ich habe mehr als 16 Teams. Was nun?",
         "a": [
-          "Dann buchst du den Plan Event für dieses Turnier oder wechselst zum Plan Verein. Bis zur Zahlung bleibt alles, was du eingerichtet hast."
+          "Dann kaufst du für dieses Turnier einen Tournament Pass für CHF 29 oder wechselst zu Plus für CHF 149 im Jahr. Bis zur Zahlung bleibt alles, was du eingerichtet hast."
         ]
       },
       {
         "q": "Wie bezahle ich?",
         "a": [
-          "Mit Karte oder TWINT über unseren Zahlungsanbieter. Vereine können auch auf Rechnung bezahlen. Rechnungen findest du im Kundenportal."
+          "Den Tournament Pass mit Karte oder TWINT. Plus und Pro mit Karte oder auf Rechnung mit QR-Code, eine Rechnung pro Jahr. Rechnungen findest du im Kundenportal."
         ]
       }
     ]

@@ -4,6 +4,8 @@ import { TOURNAMENT_PAGE as C } from '../content/tournament-page.de';
 import { Ic } from '../components/Ic';
 import { Logo } from '../components/Logo';
 import { Bracket } from '../components/tour/Bracket';
+import { PricingCards } from '../components/tour/PricingCards';
+import { PRICING } from '../content/pricing.de';
 import { TourFrame, TourNav } from '../components/tour/TourChrome';
 import type { IconName } from '../design/icons';
 import { TOURNAMENT_NEW_URL } from '../lib/links';
@@ -213,24 +215,8 @@ function Pricing() {
   const p = C.pricing;
   return (
     <section id={p.id} className="sec wrap g" aria-labelledby="pr-h">
-      <div className="pr-h"><h2 id="pr-h" className="d h-m">{p.h2}</h2><p className="lede">{p.lede}</p></div>
-      <div className="pr">
-        {p.plans.map((plan) => (
-          <article className={`pc${plan.style === 'ink' ? ' ink' : ''}`} aria-labelledby={`pc-${plan.id}`} key={plan.id}>
-            <div>
-              <h3 id={`pc-${plan.id}`} className="pc-n">{plan.n}{'tag' in plan && <span className="pc-tag">· {plan.tag}</span>}</h3>
-              <p className="pc-for" style={{ marginTop: 8 }}>{plan.for}</p>
-            </div>
-            <p className="pc-price">
-              <span className="pc-cur">{plan.cur}</span><span className="pc-amt">{plan.amt}</span><span className="pc-per">{plan.per}</span>
-              {plan.ph && <span className="chip chip-ph">{p.ph}</span>}
-            </p>
-            <ul>{plan.li.map((x) => <li key={x}><Ic name="check" small /><span>{x}</span></li>)}</ul>
-            <a className={`btn ${plan.style === 'ink' ? 'btn-paper' : 'btn-pri'}`} href={`${TOURNAMENT_NEW_URL}?plan=${plan.id}`}>{plan.cta}</a>
-          </article>
-        ))}
-      </div>
-      <p className="pr-note">{p.notes.map((n) => <span key={n}><Ic name="info" small />{n}</span>)}</p>
+      <div className="pr-h"><h2 id="pr-h" className="d h-m">{PRICING.h2}</h2><p className="lede">{PRICING.lede}</p></div>
+      <PricingCards compareHref="/preise#vergleich" />
     </section>
   );
 }
