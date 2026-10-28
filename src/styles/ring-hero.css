@@ -1,0 +1,68 @@
+/* The ring hero: "Planned properly." inside the Planary ring, the apps orbiting on it.
+   Everything is #f2f2f5 at different opacities on #0b0b0f. RingHero.tsx animates; this file lays out
+   and sets the start state, so frame 0 matches the CSS before the script runs. */
+
+.hero.rh-hero{display:block;grid-template-columns:none;position:relative;height:calc(100svh - 28px);min-height:640px;max-height:1100px;
+  background:#0b0b0f;color:#f2f2f5;padding:28px var(--m) 0;overflow:hidden}
+.rh-hero .nav{position:relative;z-index:6}
+.rh-hero .signin{z-index:6}
+.pl .rh-hero .btn-paper{background:#f2f2f5;color:#0b0b0f}
+.pl .rh-hero .btn-paper:hover{background:#ffffff}
+
+.rh{position:absolute;inset:0}
+.rh-svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:hidden;pointer-events:none}
+.rh-back{z-index:0}
+.rh-front{z-index:2}
+.rh-hits{z-index:4}
+
+/* the ring: four half ellipses; pathLength=1, so the draw is a dash offset from 1 to 0 */
+.rh-ring{fill:none;stroke:#f2f2f5;stroke-dasharray:1 1;stroke-dashoffset:1;stroke-linecap:butt;vector-effect:non-scaling-stroke}
+.rh-back .rh-outer{stroke-width:1}
+.rh-back .rh-inner{stroke-width:.8}
+.rh-front .rh-outer{stroke-width:1.1}
+.rh-front .rh-inner{stroke-width:.8}
+/* the band in front cuts through the letters: a wide stroke in the background colour */
+.rh-occ{stroke:#0b0b0f;stroke-width:16}
+
+.rh-dot{fill:#f2f2f5}
+.rh-outline{fill:none;stroke:#f2f2f5;stroke-width:1;opacity:0}
+.rh-label{fill:#f2f2f5;font:500 11px/1 var(--body);letter-spacing:.04em}
+
+/* links over every dot and label: invisible hit areas, a visible ring on keyboard focus */
+.rh-hit{pointer-events:auto;cursor:pointer;outline:none}
+.rh-hit circle:first-child,.rh-hit rect{fill:transparent}
+.rh-focus{fill:none;stroke:#f2f2f5;stroke-width:1.5;opacity:0}
+.rh-hit:focus-visible .rh-focus{opacity:1}
+
+/* headline and CTAs: centred; the copy box adds no stacking context, so the layers above interleave */
+.rh-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px var(--m) 0;pointer-events:none}
+.rh-h{position:relative;z-index:1;font-family:var(--disp);font-weight:400;font-size:clamp(44px,9.4cqw,128px);line-height:1;letter-spacing:-.04em;text-align:center;color:#f2f2f5;margin:0}
+.rh-ln{display:block;overflow:hidden;padding:.04em .06em .16em;margin-bottom:-.12em}
+.rh-ln>span{display:inline-block;transform:translateY(110%);will-change:transform}
+.rh-cta{position:relative;z-index:5;display:flex;align-items:center;gap:12px 28px;flex-wrap:wrap;justify-content:center;margin-top:clamp(52px,5cqw,64px);opacity:0;pointer-events:auto}
+.rh-all{color:#f2f2f5}
+
+/* the next section starts where the flattened ring ends: in dark mode it gets the line as its top border */
+@media (prefers-color-scheme:dark){.pl .rh-hero + .body{box-shadow:inset 0 1px 0 rgba(242,242,245,calc(.8 * var(--rh-edge,1)))}}
+
+@container site (max-width:640px){
+  .hero.rh-hero{height:calc(100svh - 16px);min-height:560px;padding:16px var(--m) 0}
+  .rh-copy{padding-top:72px}
+  .rh-label{font-size:10px}
+  .rh-h{font-size:clamp(40px,13.4cqw,64px)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rh-ring{stroke-dashoffset:0}
+  .rh-ln>span{transform:none}
+  .rh-cta{opacity:1}
+}
+
+/* knockouts in the background colour, so a dot or label stays legible where it crosses a letter */
+.rh-dot{stroke:#0b0b0f;stroke-width:2;paint-order:stroke}
+.rh-label{stroke:#0b0b0f;stroke-width:3px;stroke-linejoin:round;paint-order:stroke}
+/* Sign in sits in the nav row here (the old light panel that held it is gone) */
+.rh-hero .signin{position:static;margin-left:auto}
+/* focus stays monochrome inside the hero: off-white outline on the CTAs, the drawn ring on dots */
+.pl .rh-hero :focus-visible{outline-color:#f2f2f5}
+.pl .rh-hit:focus-visible{outline:none}

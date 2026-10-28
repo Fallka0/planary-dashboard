@@ -16,8 +16,6 @@ html.pt-first .pt-intro{display:grid}
 /* the page's own headline rise waits for the intro / curtain */
 html.pt-first .ln>span{animation-delay:1350ms}
 html.pt-first .ln+.ln>span{animation-delay:1440ms}
-html.pt-first .hero-sub{animation-delay:1730ms}
-html.pt-first .hero-cta{animation-delay:1820ms}
 html.pt-reveal .ln>span{animation-delay:260ms}
 html.pt-reveal .ln+.ln>span{animation-delay:350ms}
 .pt-curtain{display:grid;transform:translateY(100%)}

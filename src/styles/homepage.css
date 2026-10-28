@@ -13,23 +13,12 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* hero */
-.hero{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);min-height:860px;position:relative}
-.hero-l{background:var(--ink);color:var(--paper);display:flex;flex-direction:column;padding:28px var(--m) 0;position:relative}
 .nav{display:flex;align-items:center;gap:56px;min-height:48px}
 .wm{font-family:var(--disp);font-weight:400;font-size:21px;letter-spacing:-.05em;line-height:1;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;gap:.3em}
 .wm-mark{width:1.18em;height:1.18em;flex:none;display:block}
 .nav-links{display:flex;gap:32px;list-style:none;margin:0;padding:0}
 .nav-links a{font-size:14px;font-weight:500;display:inline-flex;align-items:center;min-height:44px}
 .menu-btn{display:none;margin-left:auto;background:none;border:0;color:inherit;font:500 14px/1 var(--body);min-height:44px;padding:0 2px;cursor:pointer}
-.hero-copy{margin-top:auto;padding:120px 0 136px}
-.h-hero{font-size:clamp(40px,7.2cqw,100px);line-height:.96;margin-left:-.05em}
-.hero-sub{margin-top:32px;max-width:34ch;font-size:17px;line-height:1.55;color:var(--t2i)}
-.hero-cta{margin-top:40px;display:flex}
-.scroll{position:absolute;left:var(--m);bottom:-36px;width:72px;height:72px;border-radius:50%;background:#26262c;color:var(--paper);display:grid;place-items:center;z-index:3;text-decoration:none;transition:background-color 120ms}
-.scroll:hover{background:#34343b}
-.scroll svg{transition:transform 120ms var(--ease)}
-.scroll:hover svg{transform:translateY(3px)}
-.hero-r{position:relative;background:radial-gradient(90% 70% at 52% 46%,#ffffff 0%,#eeeef2 46%,#dedee4 100%);display:grid;place-items:center;overflow:hidden;min-height:440px}
 .signin{position:absolute;top:28px;right:28px;z-index:2}
 .socials{position:absolute;right:28px;bottom:28px;display:flex;gap:8px;list-style:none;margin:0;padding:0}
 .sbtn{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;transition:background-color 120ms}
@@ -140,8 +129,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .g{column-gap:16px}
 .nav{gap:32px}
 .nav-links{gap:24px}
-.hero{min-height:720px}
-.hero-copy{padding:96px 0 120px}
 .acct-title{grid-column:2/span 6}
 .acct-body{grid-column:8/span 5}
 .acct-link{grid-column:2/-1;justify-self:start}
@@ -153,15 +140,8 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 }
 @container site (max-width:640px){
 .g{grid-template-columns:repeat(4,minmax(0,1fr));column-gap:12px}
-.hero{grid-template-columns:minmax(0,1fr);min-height:0}
-.hero-l{padding:16px var(--m) 0;min-height:600px}
 .nav-links,.signin{display:none}
 .menu-btn{display:inline-flex;align-items:center}
-.hero-copy{padding:112px 0 104px}
-.hero-sub{font-size:16px;margin-top:24px}
-.hero-cta{margin-top:32px}
-.scroll{width:60px;height:60px;bottom:-30px}
-.hero-r{min-height:470px}
 .socials{right:auto;left:var(--m);bottom:20px}
 .statement{padding:144px 0 112px}
 .statement p{grid-column:1/-1;font-size:26px}
@@ -305,8 +285,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .studio .studio-p{margin-top:40px}
 }
 
-.hero-cta{gap:12px 28px;flex-wrap:wrap;align-items:center}
-.hero-all{color:var(--paper)}
 .legal-links a{color:var(--ink)}
 
 
@@ -314,9 +292,6 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 @media (prefers-color-scheme:dark){
 .pl{color-scheme:dark}
 .pl .site{background:#111115;color:#f1f1f4}
-.pl .hero-l{background:#0b0b0f;box-shadow:inset -1px 0 0 #2a2a31}
-.pl .hero-r{background:radial-gradient(90% 70% at 52% 46%,#26262c 0%,#18181d 50%,#111115 100%)}
-.pl .hero-r .hs-art{filter:invert(1) hue-rotate(180deg)}
 .pl .hs-cap,.pl .lede,.pl .prin p,.pl .studio-p,.pl .acct-body,.pl .foot h2,.pl .foot ul span,.pl .legal,.pl .idx a,.pl .app-p,.pl .also-p{color:#a3a3ad}
 .pl .hs-cap b,.pl .idx a:hover,.pl .idx .is-on a{color:#f1f1f4}
 .pl .idx::before{background:#2a2a31}

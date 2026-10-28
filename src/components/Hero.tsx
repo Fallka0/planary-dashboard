@@ -1,65 +1,18 @@
-import { useEffect, useRef } from 'react';
 import type { MouseEvent } from 'react';
-import { useReducedMotion } from '../lib/hooks';
-import { AUTH_URL } from '../lib/links';
 import { HeroNav } from './HeroNav';
-import { Socials } from './Socials';
-import { HeroSystem } from './hero/HeroSystem';
-import { HOME } from '../content/home.en';
-import { ArrowDown, ArrowRight } from './icons';
+import { RingHero } from './ring-hero/RingHero';
 
 interface HeroProps {
   menuOpen: boolean;
   onOpenMenu: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
+/** The homepage hero: nav on top, the ring composition filling the rest. */
 export function Hero({ menuOpen, onOpenMenu }: HeroProps) {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-
-  // The system drifts up to 8px/6px toward the pointer (--px/--py, read by
-  // hero-system.css). 2D translate only: a 3D rotate made the browser rasterize the SVG.
-  useEffect(() => {
-    const el = panelRef.current;
-    if (!el || reduce) return;
-    const move = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty('--px', `${(((e.clientX - r.left) / r.width - 0.5) * 16).toFixed(1)}px`);
-      el.style.setProperty('--py', `${(((e.clientY - r.top) / r.height - 0.5) * 12).toFixed(1)}px`);
-    };
-    const leave = () => {
-      el.style.setProperty('--px', '0px');
-      el.style.setProperty('--py', '0px');
-    };
-    el.addEventListener('pointermove', move);
-    el.addEventListener('pointerleave', leave);
-    return () => {
-      el.removeEventListener('pointermove', move);
-      el.removeEventListener('pointerleave', leave);
-      leave();
-    };
-  }, [reduce]);
-
   return (
-    <header className="hero">
-      <div className="hero-l">
-        <HeroNav menuOpen={menuOpen} onOpenMenu={onOpenMenu} />
-        <div className="hero-copy">
-          <h1 className="d h-hero"><span className="ln"><span>Planned</span></span><span className="ln"><span>properly.</span></span></h1>
-          <p className="hero-sub">{HOME.hero.sub}</p>
-          <div className="hero-cta">
-            <a className="btn btn-paper" href={HOME.hero.cta.href}>{HOME.hero.cta.label}</a>
-            <a className="alink hero-all" href={HOME.hero.alt.href}>{HOME.hero.alt.label} <ArrowRight /></a>
-          </div>
-        </div>
-        <a className="scroll" href="#statement" aria-label="Scroll to the next section"><ArrowDown /></a>
-      </div>
-
-      <div className="hero-r" ref={panelRef}>
-        <a className="btn btn-ink signin" href={AUTH_URL}>Sign in</a>
-        <HeroSystem />
-        <Socials />
-      </div>
+    <header className="hero rh-hero">
+      <HeroNav menuOpen={menuOpen} onOpenMenu={onOpenMenu} signIn="paper" />
+      <RingHero />
     </header>
   );
 }
