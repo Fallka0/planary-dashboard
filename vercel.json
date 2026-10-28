@@ -7,6 +7,7 @@
     { "source": "/wishlist", "destination": "/wishlist/index.html" },
     { "source": "/account", "destination": "/account/index.html" },
     { "source": "/impressum", "destination": "/impressum/index.html" },
-    { "source": "/datenschutz", "destination": "/datenschutz/index.html" }
+    { "source": "/datenschutz", "destination": "/datenschutz/index.html" },
+    { "source": "/preise", "destination": "/preise/index.html" }
   ]
 }

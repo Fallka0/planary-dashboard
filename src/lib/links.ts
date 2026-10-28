@@ -11,7 +11,7 @@ export const TEAM_URL = '/team';
 export const IMPRESSUM_URL = '/impressum';
 export const DATENSCHUTZ_URL = '/datenschutz';
 /** The address for legal and data protection questions, named in the Impressum and the Datenschutz text. */
-export const LEGAL_EMAIL = 'info@planary.ch';
+export const LEGAL_EMAIL = 'mykytapantelei@gmail.com';
 /** The person responsible, as named in the Impressum and the Datenschutz text. */
 export const LEGAL_ADDRESS = ['Mykyta Pantelei', 'Meienstrasse 4', '3052 Zollikofen', 'Schweiz'];
 export const CASINO_INFO_URL = '/casino';
