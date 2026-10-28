@@ -3,6 +3,7 @@ import { HOME } from '../../content/home.en';
 import { whenVisible } from '../../lib/whenVisible';
 import { ArrowRight } from '../icons';
 import { ORBIT_SECONDS, RING_APPS } from './ring-apps';
+import { RingPreviews } from './RingPreviews';
 
 /*
  * The hero: "Planned properly." with the Planary ring wrapped around it and the apps orbiting on the ring.
@@ -13,6 +14,7 @@ import { ORBIT_SECONDS, RING_APPS } from './ring-apps';
  *   front svg  a background-coloured band that cuts the letters, front halves, dots on the front half
  *   hit svg    transparent links over every dot and label (focus ring lives here)
  *   CTAs
+ *   previews   the app cards that open from a dot on hover, focus or a first tap (RingPreviews.tsx)
  *
  * One requestAnimationFrame loop writes attributes on fixed DOM nodes. No React render per frame.
  */
@@ -23,6 +25,10 @@ const SEG = 72; // points per half ellipse
 const DEG = Math.PI / 180;
 const HOVER_SPEED = 0.13;
 /** Width of a label's hit area: roughly the rendered text width at 11px with the label tracking. */
+// Preview placement, in px from the hero's edges.
+const PV = { gap: 44, edge: 16, top: 76, bottom: 16, close: 140 };
+/** Where each preview links to, by app id. */
+const PV_URLS = Object.fromEntries(RING_APPS.map((a) => [a.id, a.url]));
 const labelWidth = (name: string) => Math.round(name.length * 7.2 + 10);
 
 // Entrance, in ms after the start.
@@ -78,7 +84,9 @@ export function RingHero() {
   const gBack = useRef<(SVGGElement | null)[]>([]);
   const gFront = useRef<(SVGGElement | null)[]>([]);
   const hits = useRef<(SVGAElement | null)[]>([]);
-  const hovered = useRef(-1);
+  const hovered = useRef(-1); // the app under the pointer or focus; its preview is open
+  const pvLayer = useRef<HTMLDivElement>(null);
+  const lead = useRef<SVGLineElement>(null);
 
   useLayoutEffect(() => {
     const el = root.current;
@@ -97,6 +105,8 @@ export function RingHero() {
     const hover = new Array<number>(n).fill(1); // eased hover scale per app
     const outline = new Array<number>(n).fill(0); // eased hover outline per app
     const side = new Array<boolean | null>(n).fill(null); // true = front, cached to avoid DOM churn
+    const at: [number, number][] = RING_APPS.map(() => [0, 0]); // dot positions this frame
+    const cards = RING_APPS.map((a) => pvLayer.current?.querySelector<HTMLElement>(`[data-pv="${a.id}"]`) ?? null);
     let par = { x: 0, y: 0 }; // smoothed pointer, -1..1
     let parTarget = { x: 0, y: 0 };
     let visible = true;
@@ -197,6 +207,7 @@ export function RingHero() {
         const k = (sin + 1) / 2; // 0 at the back, 1 at the front
         const appear = reduce ? 1 : expo((t - T.dots - i * T.dotStagger) / T.dotDur);
         const [x, y] = point(g, MID, th);
+        at[i] = [x, y];
         const r = app.size * (0.7 + 0.3 * k) * hover[i] * appear;
         const front = sin > 0; // switches exactly at the ends of the major axis
         const labelLeft = x > W - 110;
@@ -229,8 +240,76 @@ export function RingHero() {
           // Out of reach while hidden: before the entrance and once the ring has flattened.
           const live = appear > 0.5 && labelFade > 0.2;
           if (hit.style.display !== (live ? '' : 'none')) hit.style.display = live ? '' : 'none';
+          if (!live && hovered.current === i) closeNow();
         }
       }
+      placePreview();
+    };
+
+    // ── previews: the open card follows its (slowed) dot and stays inside the hero ──
+    const placePreview = () => {
+      const i = hovered.current;
+      const card = i >= 0 ? cards[i] : null;
+      const line = lead.current;
+      if (!card) return;
+      const [x, y] = at[i];
+      const w = card.offsetWidth;
+      const h = card.offsetHeight;
+      let left: number;
+      let top: number;
+      let flip = false;
+      let to: [number, number] | null = null;
+      if (RING_APPS[i].id === 'account') {
+        // the lens sits on its dot
+        const lens = card.querySelector<HTMLElement>('.pv-lens');
+        const lensMid = lens ? lens.offsetTop + lens.offsetHeight / 2 : h / 2;
+        left = Math.min(Math.max(PV.edge, x - w / 2), W - PV.edge - w);
+        top = Math.min(Math.max(PV.top, y - lensMid), H - PV.bottom - h);
+      } else {
+        const right = x + PV.gap + w <= W - PV.edge;
+        flip = !right;
+        left = Math.max(PV.edge, right ? x + PV.gap : x - PV.gap - w);
+        top = Math.max(PV.top, Math.min(H - PV.bottom - h, y - h / 2));
+        to = [right ? left : left + w, Math.max(top + 24, Math.min(top + h - 24, y))];
+        // the wishlist tag hangs from its dot by a string to the punched hole
+        if (RING_APPS[i].id === 'wishlist') to = [right ? left + 20 : left + w - 20, top + h / 2];
+      }
+      card.style.left = `${left.toFixed(1)}px`;
+      card.style.top = `${top.toFixed(1)}px`;
+      card.style.setProperty('--ox', `${(x - left).toFixed(1)}px`);
+      card.style.setProperty('--oy', `${(y - top).toFixed(1)}px`);
+      card.classList.toggle('is-flip', flip);
+      if (line) {
+        line.style.display = to ? '' : 'none';
+        if (to) {
+          line.setAttribute('x1', x.toFixed(1));
+          line.setAttribute('y1', y.toFixed(1));
+          line.setAttribute('x2', to[0].toFixed(1));
+          line.setAttribute('y2', to[1].toFixed(1));
+        }
+      }
+    };
+    let closeTimer = 0;
+    const openCard = (i: number) => {
+      window.clearTimeout(closeTimer);
+      if (hovered.current === i) return;
+      if (hovered.current >= 0) cards[hovered.current]?.classList.remove('is-open');
+      hovered.current = i;
+      placePreview();
+      cards[i]?.classList.add('is-open');
+      pvLayer.current?.setAttribute('data-open', RING_APPS[i].id);
+      if (reduce) once();
+    };
+    function closeNow() {
+      window.clearTimeout(closeTimer);
+      if (hovered.current >= 0) cards[hovered.current]?.classList.remove('is-open');
+      hovered.current = -1;
+      pvLayer.current?.setAttribute('data-open', '');
+      if (reduce) once();
+    }
+    const closeSoon = () => {
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(closeNow, PV.close);
     };
 
     // ── loop control: continuous while visible and the tab is shown; on demand with reduced motion ──
@@ -281,29 +360,38 @@ export function RingHero() {
       el.addEventListener('pointerleave', leave);
     }
 
-    // Hover and keyboard focus slow the orbit and highlight the dot.
-    const enter = (i: number) => () => {
-      hovered.current = i;
-      if (reduce) once();
-    };
-    const exit = () => {
-      hovered.current = -1;
-      if (reduce) once();
-    };
+    // Hover and keyboard focus open the app's preview, slow the orbit and highlight the dot.
+    // On touch the first tap opens the preview and the second one follows the link.
+    let lastType = 'mouse';
     const offs: (() => void)[] = [];
+    const listen = (node: EventTarget, type: string, fn: (e: Event) => void) => {
+      node.addEventListener(type, fn);
+      offs.push(() => node.removeEventListener(type, fn));
+    };
     hits.current.forEach((a, i) => {
       if (!a) return;
-      const on = enter(i);
-      a.addEventListener('pointerenter', on);
-      a.addEventListener('pointerleave', exit);
-      a.addEventListener('focus', on);
-      a.addEventListener('blur', exit);
-      offs.push(() => {
-        a.removeEventListener('pointerenter', on);
-        a.removeEventListener('pointerleave', exit);
-        a.removeEventListener('focus', on);
-        a.removeEventListener('blur', exit);
+      listen(a, 'pointerdown', (e) => (lastType = (e as PointerEvent).pointerType));
+      listen(a, 'pointerenter', (e) => (e as PointerEvent).pointerType === 'mouse' && openCard(i));
+      listen(a, 'pointerleave', (e) => (e as PointerEvent).pointerType === 'mouse' && closeSoon());
+      // a tap focuses the link too: that focus must not open the card, or the click would follow the link
+      listen(a, 'focus', () => lastType === 'mouse' && openCard(i));
+      listen(a, 'blur', closeSoon);
+      listen(a, 'click', (e) => {
+        if (lastType !== 'mouse' && hovered.current !== i) {
+          e.preventDefault();
+          openCard(i);
+        }
+        lastType = 'mouse';
       });
+    });
+    cards.forEach((c) => {
+      if (!c) return;
+      listen(c, 'pointerenter', () => window.clearTimeout(closeTimer));
+      listen(c, 'pointerleave', closeSoon);
+    });
+    listen(document, 'pointerdown', (e) => {
+      const t = e.target as Element | null;
+      if (hovered.current >= 0 && t && !t.closest('.rh-hit, .pv')) closeNow();
     });
 
     run();
@@ -317,6 +405,7 @@ export function RingHero() {
       el.removeEventListener('pointermove', move);
       el.removeEventListener('pointerleave', leave);
       offs.forEach((f) => f());
+      window.clearTimeout(closeTimer);
     };
   }, []);
 
@@ -376,6 +465,7 @@ export function RingHero() {
             href={app.url}
             className="rh-hit"
             aria-label={`${app.name}, ${app.url.replace(/^https?:\/\//, '')}`}
+            aria-describedby={`pv-${app.id}`}
             ref={(n) => { hits.current[i] = n as unknown as SVGAElement | null; }}
             style={{ display: 'none' }}
           >
@@ -385,6 +475,13 @@ export function RingHero() {
           </a>
         ))}
       </svg>
+
+      <div className="rh-pv" ref={pvLayer} data-open="">
+        <svg className="rh-lead" aria-hidden="true" focusable="false">
+          <line ref={lead} />
+        </svg>
+        <RingPreviews urls={PV_URLS} />
+      </div>
     </div>
   );
 }
