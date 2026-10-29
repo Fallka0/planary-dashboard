@@ -8,6 +8,7 @@ import {
   CASINO_INFO_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
+  AGB_URL,
   DATENSCHUTZ_URL,
   GITHUB_URL,
   IMPRESSUM_URL,
@@ -150,7 +151,7 @@ const FOOT_EN: { h: string; links: FootLink[] }[] = [
   { h: 'Elsewhere', links: [['Instagram', INSTAGRAM_URL], ['TikTok', TIKTOK_URL], ['GitHub', GITHUB_URL]] },
 ];
 
-function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' }) {
+function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' | 'agb' }) {
   const tour = variant !== 'legal';
   const cols = !tour ? FOOT_EN : variant === 'pricing' ? FOOT_DE.map((c) => ({ ...c, links: c.links.map(([l, h]): FootLink => [l, h]) })) : FOOT_DE;
   return (
@@ -171,6 +172,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
         <span className="legal-links">
           <a className="ul" href={IMPRESSUM_URL} aria-current={legalCurrent === 'impressum' ? 'page' : undefined}>Impressum</a>
           <a className="ul" href={DATENSCHUTZ_URL} aria-current={legalCurrent === 'datenschutz' ? 'page' : undefined}>Datenschutz</a>
+          <a className="ul" href={AGB_URL} aria-current={legalCurrent === 'agb' ? 'page' : undefined}>AGB</a>
           <span>{CONTACT_EMAIL}</span>
         </span>
       </div>
@@ -180,7 +182,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
 
 interface TourFrameProps {
   variant: ChromeVariant;
-  legalCurrent?: 'impressum' | 'datenschutz';
+  legalCurrent?: 'impressum' | 'datenschutz' | 'agb';
   /** Hides nav, footer and sheet (the beamer view takes the whole frame). */
   bare?: boolean;
   /** Receives the menu controls, renders the page's header and main. */
