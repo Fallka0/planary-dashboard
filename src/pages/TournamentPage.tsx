@@ -5,7 +5,7 @@ import { Ic } from '../components/Ic';
 import { Logo } from '../components/Logo';
 import { Bracket } from '../components/tour/Bracket';
 import { PricingCards } from '../components/tour/PricingCards';
-import { PRICING } from '../content/pricing.de';
+import { TOURNAMENT_PRICING } from '../content/pricing.de';
 import { TourFrame, TourNav } from '../components/tour/TourChrome';
 import type { IconName } from '../design/icons';
 import { TOURNAMENT_NEW_URL } from '../lib/links';
@@ -212,11 +212,15 @@ function Example({ tab, setTab, sel, setSel, onOpenBeamer, beamerBtnRef }: Examp
 }
 
 function Pricing() {
-  const p = C.pricing;
+  const p = TOURNAMENT_PRICING;
   return (
     <section id={p.id} className="sec wrap g" aria-labelledby="pr-h">
-      <div className="pr-h"><h2 id="pr-h" className="d h-m">{PRICING.h2}</h2><p className="lede">{PRICING.lede}</p></div>
-      <PricingCards compareHref="/preise#vergleich" />
+      <div className="pr-h"><h2 id="pr-h" className="d h-m">{p.h2}</h2><p className="lede">{p.lede}</p></div>
+      <PricingCards page={false} />
+      <p className="pr-note">
+        {p.notes.map((n) => <span key={n}><Ic name="info" small />{n}</span>)}
+        <a className="alink pr-all" href="/preise">{p.all}<Ic name="arrow-r" small /></a>
+      </p>
     </section>
   );
 }

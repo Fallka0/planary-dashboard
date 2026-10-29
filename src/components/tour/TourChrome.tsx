@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
+import { PRICING_PAGE } from '../../content/pricing.de';
 import { TOURNAMENT_PAGE as C } from '../../content/tournament-page.de';
 import {
   ACCOUNT_INFO_URL,
@@ -25,7 +26,18 @@ import { Logo, LogoMark } from '../Logo';
  * The chrome of the Tournament page (German) and the legal pages (German text in the
  * English site chrome of planary.ch, as today): nav, phone sheet and footer.
  */
-export type ChromeVariant = 'tournament' | 'legal';
+export type ChromeVariant = 'tournament' | 'pricing' | 'legal';
+
+/** The German nav links: the Tournament page's anchors, or the pricing pages' site nav. */
+function navLinks(variant: ChromeVariant): { label: string; href: string; cur?: boolean }[] {
+  if (variant !== 'pricing') return [...C.nav.links];
+  const onPreise = typeof location !== 'undefined' && location.pathname.replace(/\/$/, '') === '/preise';
+  return PRICING_PAGE.nav.map((l) => ({
+    label: l.label,
+    href: l.href === '#faq' && !onPreise ? '/preise#faq' : l.href,
+    cur: 'cur' in l,
+  }));
+}
 
 interface NavProps {
   variant: ChromeVariant;
@@ -34,18 +46,18 @@ interface NavProps {
 }
 
 export function TourNav({ variant, menuOpen, onOpenMenu }: NavProps) {
-  const tour = variant === 'tournament';
+  const tour = variant !== 'legal';
   return (
     <nav className="nav" aria-label={tour ? 'Hauptnavigation' : 'Main'} lang={tour ? undefined : 'en'}>
       <a className="wm" href="/">
         <LogoMark />
         <span>Planary</span>
-        {tour && <span className="wm-app">{C.nav.app}</span>}
+        {variant === 'tournament' && <span className="wm-app">{C.nav.app}</span>}
       </a>
       {tour ? (
         <>
           <ul className="nav-links">
-            {C.nav.links.map((l) => <li key={l.href}><a className="ul" href={l.href}>{l.label}</a></li>)}
+            {navLinks(variant).map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={l.cur ? 'page' : undefined}>{l.label}</a></li>)}
           </ul>
           <div className="nav-r">
             <a className="tl ul" href={AUTH_URL}>{C.nav.signIn}</a>
@@ -77,7 +89,7 @@ interface SheetProps {
 
 function TourSheet({ variant, open, onClose }: SheetProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
-  const tour = variant === 'tournament';
+  const tour = variant !== 'legal';
   useEffect(() => {
     if (open) closeRef.current?.focus();
   }, [open]);
@@ -103,7 +115,7 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
       {tour ? (
         <>
           <ul className="sheet-nav">
-            {C.nav.links.map((l) => <li key={l.href}><a href={l.href} onClick={() => onClose(false)}>{l.label}</a></li>)}
+            {navLinks(variant).map((l) => <li key={l.href}><a href={l.href} aria-current={l.cur ? 'page' : undefined} onClick={() => onClose(false)}>{l.label}</a></li>)}
           </ul>
           <div className="sheet-foot">
             <a className="btn btn-paper" href={TOURNAMENT_NEW_URL}>{C.nav.cta}</a>
@@ -138,8 +150,8 @@ const FOOT_EN: { h: string; links: FootLink[] }[] = [
 ];
 
 function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' }) {
-  const tour = variant === 'tournament';
-  const cols = tour ? FOOT_DE : FOOT_EN;
+  const tour = variant !== 'legal';
+  const cols = !tour ? FOOT_EN : variant === 'pricing' ? FOOT_DE.map((c) => ({ ...c, links: c.links.map(([l, h]): FootLink => [l, h]) })) : FOOT_DE;
   return (
     <footer className="foot wrap g">
       <div className="foot-wm"><Logo /></div>

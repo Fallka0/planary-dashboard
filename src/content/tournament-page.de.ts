@@ -202,13 +202,13 @@ export const TOURNAMENT_PAGE = {
       {
         "q": "Ich habe mehr als 16 Teams. Was nun?",
         "a": [
-          "Dann kaufst du für dieses Turnier einen Tournament Pass für CHF 29 oder wechselst zu Plus für CHF 149 im Jahr. Bis zur Zahlung bleibt alles, was du eingerichtet hast."
+          "Dann kaufst du für dieses Turnier einen Turnier-Pass für CHF 29 oder wechselst zu Plus. Bis zur Zahlung bleibt alles, was du eingerichtet hast."
         ]
       },
       {
         "q": "Wie bezahle ich?",
         "a": [
-          "Den Tournament Pass mit Karte oder TWINT. Plus und Pro mit Karte oder auf Rechnung mit QR-Code, eine Rechnung pro Jahr. Rechnungen findest du im Kundenportal."
+          "Mit Karte über unseren Zahlungsanbieter. Mit Plus auch auf Rechnung. Rechnungen findest du im Kundenportal."
         ]
       }
     ]

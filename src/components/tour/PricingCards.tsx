@@ -1,31 +1,33 @@
-import { PRICING } from '../../content/pricing.de';
+import { PRICING_PAGE as P } from '../../content/pricing.de';
 import { Ic } from '../Ic';
 
-/** The three plans and the Tournament Pass beside them, on /tournament and /preise. */
-export function PricingCards({ compareHref }: { compareHref: string }) {
-  const p = PRICING;
+/**
+ * Gratis, Turnier-Pass and Plus. On /preise the pass is drawn as a ticket ("Kein Abo") and
+ * the cards carry h2s; in the /tournament section they are plain cards under its h2.
+ */
+export function PricingCards({ page }: { page: boolean }) {
+  const H = page ? 'h2' : 'h3';
   return (
-    <>
-      <div className="pr">
-        {p.plans.map((plan) => (
-          <article className={`pc${plan.style === 'ink' ? ' ink' : ''}${plan.style === 'pass' ? ' pass' : ''}`} aria-labelledby={`pc-${plan.id}`} key={plan.id}>
+    <div className={`pr${page ? ' pp-cards' : ''}`}>
+      {P.plans.map((plan) => {
+        const pass = plan.style === 'pass';
+        const ink = plan.style === 'ink';
+        const btn = ink ? 'btn-paper' : page && plan.id === 'gratis' ? 'btn-line' : 'btn-pri';
+        return (
+          <article className={`pc${ink ? ' ink' : ''}${page && pass ? ' pass' : ''}`} aria-labelledby={`pc-${plan.id}`} key={plan.id}>
             <div>
-              <h3 id={`pc-${plan.id}`} className="pc-n">{plan.n}{'tag' in plan && <span className="pc-tag">· {plan.tag}</span>}</h3>
+              <div className="pc-top">
+                <H id={`pc-${plan.id}`} className="pc-n">{plan.n}</H>
+                {page && 'tag' in plan && <span className="chip chip-ph">{plan.tag}</span>}
+              </div>
               <p className="pc-for" style={{ marginTop: 8 }}>{plan.for}</p>
             </div>
-            <p className="pc-price">
-              <span className="pc-cur">CHF</span><span className="pc-amt">{plan.amt}</span><span className="pc-per">{plan.per}</span>
-            </p>
+            <p className="pc-price"><span className="pc-cur">CHF</span><span className="pc-amt">{plan.amt}</span><span className="pc-per">{plan.per}</span></p>
             <ul>{plan.li.map((x) => <li key={x}><Ic name="check" small /><span>{x}</span></li>)}</ul>
-            <a className={`btn ${plan.style === 'ink' ? 'btn-paper' : 'btn-pri'}`} href={plan.href}>{plan.cta}</a>
+            <a className={`btn ${btn}`} href={plan.href}>{plan.cta}</a>
           </article>
-        ))}
-      </div>
-      <p className="pr-line"><Ic name="info" small />{p.line}</p>
-      <p className="pr-note">
-        {p.notes.map((n) => <span key={n}>{n}</span>)}
-        <a className="alink" href={compareHref}>{p.compareLink}<Ic name="arrow-r" small /></a>
-      </p>
-    </>
+        );
+      })}
+    </div>
   );
 }
