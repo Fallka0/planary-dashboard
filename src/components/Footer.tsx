@@ -1,6 +1,5 @@
 import {
   ACCOUNT_INFO_URL,
-  AUTH_URL,
   CASINO_INFO_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
@@ -14,6 +13,7 @@ import {
   WISHLIST_INFO_URL,
 } from '../lib/links';
 import { Logo } from './Logo';
+import { AccountLink } from './Profile';
 
 export type ProductPage = 'casino' | 'tournament' | 'wishlist' | 'account';
 
@@ -37,7 +37,7 @@ export function Footer({ current }: { current?: ProductPage }) {
         <ul>
           <li><a className="ul" href={TEAM_URL}>Team</a></li>
           <li><a className="ul" href={CONTACT_MAILTO}>Contact</a></li>
-          <li><a className="ul" href={AUTH_URL}>Sign in</a></li>
+          <li><AccountLink /></li>
         </ul>
       </div>
       <div className="fc3">

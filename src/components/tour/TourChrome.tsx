@@ -21,6 +21,7 @@ import {
 import { useMenu } from '../../lib/useMenu';
 import { Ic } from '../Ic';
 import { Logo, LogoMark } from '../Logo';
+import { AccountLink, ProfileButton, SheetAccount } from '../Profile';
 
 /**
  * The chrome of the Tournament page (German) and the legal pages (German text in the
@@ -60,7 +61,7 @@ export function TourNav({ variant, menuOpen, onOpenMenu }: NavProps) {
             {navLinks(variant).map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={l.cur ? 'page' : undefined}>{l.label}</a></li>)}
           </ul>
           <div className="nav-r">
-            <a className="tl ul" href={AUTH_URL}>{C.nav.signIn}</a>
+            <ProfileButton signInClass="tl ul" tone="ink" lang="de" />
             <a className="btn btn-pri btn-s" href={TOURNAMENT_NEW_URL}>{C.nav.cta}</a>
           </div>
         </>
@@ -71,7 +72,7 @@ export function TourNav({ variant, menuOpen, onOpenMenu }: NavProps) {
             <li><a className="ul" href={TEAM_URL}>Team</a></li>
             <li><a className="ul" href={CONTACT_MAILTO}>Contact</a></li>
           </ul>
-          <div className="nav-r"><a className="btn btn-pri btn-s" href={AUTH_URL}>Sign in</a></div>
+          <div className="nav-r"><ProfileButton signInClass="btn btn-pri btn-s" tone="ink" /></div>
         </>
       )}
       <button className="menu-btn" type="button" aria-expanded={menuOpen} aria-controls="menu-sheet" onClick={onOpenMenu}>
@@ -119,7 +120,7 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
           </ul>
           <div className="sheet-foot">
             <a className="btn btn-paper" href={TOURNAMENT_NEW_URL}>{C.nav.cta}</a>
-            <a className="btn btn-scr" href={AUTH_URL}>{C.nav.signIn}</a>
+            <SheetAccount signInClass="btn btn-scr" lang="de" />
           </div>
         </>
       ) : (
@@ -129,7 +130,7 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
             <li><a href={TEAM_URL}>Team</a></li>
             <li><a href={CONTACT_MAILTO}>Contact</a></li>
           </ul>
-          <div className="sheet-foot"><a className="btn btn-paper" href={AUTH_URL}>Sign in</a></div>
+          <div className="sheet-foot"><SheetAccount /></div>
         </>
       )}
     </div>
@@ -160,7 +161,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
           <h2>{c.h}</h2>
           <ul>
             {c.links.map(([label, href, cur]) => (
-              <li key={label}><a className="ul" href={href} aria-current={cur ? 'page' : undefined}>{label}</a></li>
+              <li key={label}>{href === AUTH_URL ? <AccountLink lang={tour ? 'de' : 'en'} /> : <a className="ul" href={href} aria-current={cur ? 'page' : undefined}>{label}</a>}</li>
             ))}
           </ul>
         </div>
