@@ -12,10 +12,10 @@ export interface RingApp {
 }
 
 export const RING_APPS: RingApp[] = [
-  { id: 'tournament', name: 'Tournament', url: TOURNAMENT_LIVE_URL, size: 6.5, offset: 52 },
-  { id: 'casino', name: 'Casino', url: CASINO_LIVE_URL, size: 4.75, offset: 142 },
-  { id: 'wishlist', name: 'Wishlist', url: WISHLIST_LIVE_URL, size: 4.75, offset: 232 },
-  { id: 'account', name: 'Account', url: AUTH_URL, size: 4.25, offset: 322 },
+  { id: 'tournament', name: 'Tournament', url: TOURNAMENT_LIVE_URL, size: 8.5, offset: 52 },
+  { id: 'casino', name: 'Casino', url: CASINO_LIVE_URL, size: 6.5, offset: 142 },
+  { id: 'wishlist', name: 'Wishlist', url: WISHLIST_LIVE_URL, size: 6.5, offset: 232 },
+  { id: 'account', name: 'Account', url: AUTH_URL, size: 6, offset: 322 },
 ];
 
 /** One full orbit, in seconds. Every app moves at the same angular speed. */

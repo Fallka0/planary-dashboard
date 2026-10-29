@@ -98,6 +98,7 @@ export function RingHero() {
     // ── state ──
     let W = 0;
     let H = 0;
+    let docTop = 0; // the hero's top in page coordinates, so a frame reads scrollY instead of forcing a layout
     let hlCy = 0; // headline centre, the ring's centre
     let start = reduce ? -Infinity : Number.POSITIVE_INFINITY; // entrance clock origin (performance.now)
     let angle = 0; // orbit rotation in degrees, shared by every app
@@ -112,15 +113,30 @@ export function RingHero() {
     let visible = true;
     let raf = 0;
     let last = 0;
+    // Preview sizes, measured once (and on resize), so following a dot never forces a layout per frame.
+    const cardSize = cards.map(() => ({ w: 0, h: 0, lens: 0 }));
+    const measureCards = () =>
+      cards.forEach((c, i) => {
+        if (!c) return;
+        const lens = c.querySelector<HTMLElement>('.pv-lens');
+        cardSize[i] = { w: c.offsetWidth, h: c.offsetHeight, lens: lens ? lens.offsetTop + lens.offsetHeight / 2 : c.offsetHeight / 2 };
+      });
+    let cardPos: [number, number] | null = null; // eased position of the open preview; null = place it without easing
+    const nextSection = el.closest('.hero')?.nextElementSibling as HTMLElement | null | undefined;
+    let edge = '';
+    let lastDash = '';
 
     const measure = () => {
       const r = el.getBoundingClientRect();
       W = r.width;
       H = r.height;
+      docTop = r.top + window.scrollY;
       const hr = h1.current?.getBoundingClientRect();
       const ty = h1.current ? new DOMMatrixReadOnly(getComputedStyle(h1.current).transform).m42 : 0; // ignore our own scroll offset
       hlCy = hr ? hr.top - r.top - ty + hr.height / 2 : H / 2;
       for (const s of svgs.current) s?.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      measureCards();
+      cardPos = null;
     };
 
     const frame = (now: number) => {
@@ -130,7 +146,7 @@ export function RingHero() {
       const done = reduce || t > 3200;
 
       // ── scroll: 0 at rest, 1 when the ring has flattened onto the next section's top edge ──
-      const top = el.getBoundingClientRect().top;
+      const top = docTop - window.scrollY;
       const p = clamp01(-top / (H * 0.62));
       const e = p * p * (3 - 2 * p);
       const flat = reduce ? 0 : e; // reduced motion: no flattening, just the fade below
@@ -178,9 +194,16 @@ export function RingHero() {
       set(frontInner.current, half(g, INNER, true), 0.35 * (1 - flat) * fade);
       set(occluder.current, half(g, MID, true), (1 - flat) * fade);
       // Hand-over: once the line lies on the hero's bottom edge, the next section's top border takes over.
-      const next = el.closest('.hero')?.nextElementSibling as HTMLElement | null | undefined;
-      next?.style.setProperty('--rh-edge', reduce || flat > 0.995 ? '1' : '0');
-      for (const node of [backOuter, backInner, frontOuter, frontInner, occluder]) node.current?.style.setProperty('stroke-dashoffset', dash);
+      // Written only when they change: a style write per frame would restyle the whole next section.
+      const edgeNow = reduce || flat > 0.995 ? '1' : '0';
+      if (edgeNow !== edge) {
+        edge = edgeNow;
+        nextSection?.style.setProperty('--rh-edge', edge);
+      }
+      if (dash !== lastDash) {
+        lastDash = dash;
+        for (const node of [backOuter, backInner, frontOuter, frontInner, occluder]) node.current?.style.setProperty('stroke-dashoffset', dash);
+      }
 
       // ── headline, CTAs ──
       const [l1, l2] = lines.current;
@@ -243,49 +266,56 @@ export function RingHero() {
           if (!live && hovered.current === i) closeNow();
         }
       }
-      placePreview();
+      placePreview(dt);
     };
 
     // ── previews: the open card follows its (slowed) dot and stays inside the hero ──
-    const placePreview = () => {
+    const placePreview = (dt = 0) => {
       const i = hovered.current;
       const card = i >= 0 ? cards[i] : null;
       const line = lead.current;
       if (!card) return;
       const [x, y] = at[i];
-      const w = card.offsetWidth;
-      const h = card.offsetHeight;
+      if (!cardSize[i].w) measureCards();
+      const { w, h, lens } = cardSize[i];
       let left: number;
       let top: number;
       let flip = false;
-      let to: [number, number] | null = null;
       if (RING_APPS[i].id === 'account') {
         // the lens sits on its dot
-        const lens = card.querySelector<HTMLElement>('.pv-lens');
-        const lensMid = lens ? lens.offsetTop + lens.offsetHeight / 2 : h / 2;
         left = Math.min(Math.max(PV.edge, x - w / 2), W - PV.edge - w);
-        top = Math.min(Math.max(PV.top, y - lensMid), H - PV.bottom - h);
+        top = Math.min(Math.max(PV.top, y - lens), H - PV.bottom - h);
       } else {
         const right = x + PV.gap + w <= W - PV.edge;
         flip = !right;
         left = Math.max(PV.edge, right ? x + PV.gap : x - PV.gap - w);
         top = Math.max(PV.top, Math.min(H - PV.bottom - h, y - h / 2));
+      }
+      // The card glides after its dot instead of jumping, also when it flips to the other side.
+      const fresh = !cardPos;
+      cardPos = fresh || reduce ? [left, top] : [follow(cardPos![0], left, 0.22, dt), follow(cardPos![1], top, 0.22, dt)];
+      [left, top] = cardPos;
+      card.style.transform = `translate3d(${left.toFixed(2)}px, ${top.toFixed(2)}px, 0)`;
+      if (fresh) {
+        // The circle grows from where the dot is at the moment it opens; moving its centre later would stall the transition.
+        card.style.setProperty('--ox', `${(x - left).toFixed(1)}px`);
+        card.style.setProperty('--oy', `${(y - top).toFixed(1)}px`);
+      }
+      card.classList.toggle('is-flip', flip);
+      let to: [number, number] | null = null;
+      if (RING_APPS[i].id !== 'account') {
+        const right = !flip;
         to = [right ? left : left + w, Math.max(top + 24, Math.min(top + h - 24, y))];
         // the wishlist tag hangs from its dot by a string to the punched hole
         if (RING_APPS[i].id === 'wishlist') to = [right ? left + 20 : left + w - 20, top + h / 2];
       }
-      card.style.left = `${left.toFixed(1)}px`;
-      card.style.top = `${top.toFixed(1)}px`;
-      card.style.setProperty('--ox', `${(x - left).toFixed(1)}px`);
-      card.style.setProperty('--oy', `${(y - top).toFixed(1)}px`);
-      card.classList.toggle('is-flip', flip);
       if (line) {
         line.style.display = to ? '' : 'none';
         if (to) {
-          line.setAttribute('x1', x.toFixed(1));
-          line.setAttribute('y1', y.toFixed(1));
-          line.setAttribute('x2', to[0].toFixed(1));
-          line.setAttribute('y2', to[1].toFixed(1));
+          line.setAttribute('x1', x.toFixed(2));
+          line.setAttribute('y1', y.toFixed(2));
+          line.setAttribute('x2', to[0].toFixed(2));
+          line.setAttribute('y2', to[1].toFixed(2));
         }
       }
     };
@@ -295,6 +325,8 @@ export function RingHero() {
       if (hovered.current === i) return;
       if (hovered.current >= 0) cards[hovered.current]?.classList.remove('is-open');
       hovered.current = i;
+      cardPos = null;
+      measureCards(); // images may have loaded since the last measure
       placePreview();
       cards[i]?.classList.add('is-open');
       pvLayer.current?.setAttribute('data-open', RING_APPS[i].id);
