@@ -1,6 +1,5 @@
-import type { CSSProperties } from 'react';
+import type { ReactNode } from 'react';
 import { useSvgIds } from '../../lib/hooks';
-import type { Placed, PreviewKey } from './system';
 
 /** The flat Planary mark for the card's corner indices (same paths as Logo.tsx). */
 function Mark() {
@@ -82,30 +81,25 @@ function AccountArt() {
   );
 }
 
-interface Props {
-  open: PreviewKey | '';
-  placed: Partial<Record<PreviewKey, Placed>>;
-}
-
-function boxStyle(p: Placed | undefined): CSSProperties | undefined {
-  if (!p) return undefined;
-  return { left: p.x, top: p.y, '--ox': `${p.ox}px`, '--oy': `${p.oy}px` } as CSSProperties;
-}
-
-function cls(key: PreviewKey, open: Props['open'], p: Placed | undefined) {
-  return `pv pv-${key}${open === key ? ' is-open' : ''}${p?.flip ? ' is-flip' : ''}`;
+/** Each preview is a link to its app (out of the tab order: the dot is the link for keyboards). */
+function Shell({ id, url, children }: { id: string; url: string; children: ReactNode }) {
+  return (
+    <a className={`pv pv-${id}`} id={`pv-${id}`} data-pv={id} href={url} tabIndex={-1} role="tooltip">
+      {children}
+    </a>
+  );
 }
 
 /**
  * The four previews. Each one has its own shape: a lens for the account, a
  * playing card for Casino, a ticket for Tournament and a gift tag for Wishlist.
  * They are always rendered (hidden with visibility) so they can be measured and
- * so the hotspots can point at them with aria-describedby.
+ * so the dots can point at them with aria-describedby. RingHero places and opens them.
  */
-export function Previews({ open, placed }: Props) {
+export function RingPreviews({ urls }: { urls: Record<string, string> }) {
   return (
     <>
-      <div className={cls('account', open, placed.account)} style={boxStyle(placed.account)} id="pv-account" data-pv="account">
+      <Shell id="account" url={urls.account}>
         <div className="pv-lens">
           <AccountArt />
           <span className="pv-ring" aria-hidden="true" />
@@ -113,9 +107,9 @@ export function Previews({ open, placed }: Props) {
         <p className="pv-n">Account</p>
         <p className="pv-l">One sign-in for every Planary app</p>
         <p className="pv-u">auth.planary.ch<ExternalIcon /></p>
-      </div>
+      </Shell>
 
-      <div className={cls('casino', open, placed.casino)} style={boxStyle(placed.casino)} id="pv-casino" data-pv="casino">
+      <Shell id="casino" url={urls.casino}>
         <div className="pv-card">
           <span className="pv-idx">C<Mark /></span>
           <div className="pv-card-pic"><img src="/hero/pv-casino.webp" alt="" width="420" height="420" decoding="async" /></div>
@@ -123,9 +117,9 @@ export function Previews({ open, placed }: Props) {
           <p className="pv-l">Play-money tables, one chip balance</p>
           <span className="pv-idx pv-idx-b" aria-hidden="true">C<Mark /></span>
         </div>
-      </div>
+      </Shell>
 
-      <div className={cls('tournament', open, placed.tournament)} style={boxStyle(placed.tournament)} id="pv-tournament" data-pv="tournament">
+      <Shell id="tournament" url={urls.tournament}>
         <div className="pv-ticket">
           <div className="pv-ticket-pic"><img src="/hero/pv-tournament.webp" alt="" width="640" height="354" decoding="async" /></div>
           <div className="pv-ticket-stub">
@@ -136,9 +130,9 @@ export function Previews({ open, placed }: Props) {
             <p className="pv-ticket-no" aria-hidden="true">Nº 2026<br />Admit all</p>
           </div>
         </div>
-      </div>
+      </Shell>
 
-      <div className={cls('wishlist', open, placed.wishlist)} style={boxStyle(placed.wishlist)} id="pv-wishlist" data-pv="wishlist">
+      <Shell id="wishlist" url={urls.wishlist}>
         <div className="pv-tag">
           <svg className="pv-tag-edge" viewBox="0 0 300 244" preserveAspectRatio="none" aria-hidden="true">
             <polygon points="40,0.5 299.5,0.5 299.5,243.5 40,243.5 0.5,204 0.5,40" vectorEffect="non-scaling-stroke" />
@@ -151,7 +145,7 @@ export function Previews({ open, placed }: Props) {
             <p className="pv-l">Lists you share, gifts you plan</p>
           </div>
         </div>
-      </div>
+      </Shell>
     </>
   );
 }

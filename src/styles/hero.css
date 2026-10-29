@@ -15,7 +15,6 @@
 @keyframes hl-shadow{0%,100%{transform:scaleX(1);opacity:.3}50%{transform:scaleX(.9);opacity:.2}}
 @media (prefers-reduced-motion:reduce){.hl-ring,.hl-planet,.hl-float,.hl-shadow,.hl-cast{animation:none}.hl-glint{animation:none;opacity:0}}
 .stars{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;transform:translate(calc(var(--px,0px) * -.6),calc(var(--py,0px) * -.6));transition:transform 900ms cubic-bezier(.22,1,.36,1)}
-.hero-r .obj{position:relative;z-index:1}
 .stars .tw{animation:st-tw 4s ease-in-out infinite}
 .stars .tw.b{animation-duration:5.5s;animation-delay:-1.3s}
 .stars .tw.c{animation-duration:3.2s;animation-delay:-2.1s}
