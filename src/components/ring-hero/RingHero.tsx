@@ -437,6 +437,25 @@ export function RingHero() {
         {dotGroup(false)}
       </svg>
 
+      {/* Before the copy in the DOM so Tab goes nav, dots, CTAs; z-index keeps the visual layers. */}
+      <svg className="rh-svg rh-hits" ref={(n) => { svgs.current[2] = n; }}>
+        {RING_APPS.map((app, i) => (
+          <a
+            key={app.id}
+            href={app.url}
+            className="rh-hit"
+            aria-label={`${app.name}, ${app.url.replace(/^https?:\/\//, '')}`}
+            aria-describedby={`pv-${app.id}`}
+            ref={(n) => { hits.current[i] = n as unknown as SVGAElement | null; }}
+            style={{ display: 'none' }}
+          >
+            <circle r={16} />
+            <rect y={-11} width={labelWidth(app.name)} height={22} />
+            <circle className="rh-focus" r={8} />
+          </a>
+        ))}
+      </svg>
+
       <div className="rh-copy">
         <h1 className="d rh-h" ref={h1}>
           {['Planned', 'properly.'].map((w, i) => (
@@ -458,23 +477,6 @@ export function RingHero() {
         {dotGroup(true)}
       </svg>
 
-      <svg className="rh-svg rh-hits" ref={(n) => { svgs.current[2] = n; }}>
-        {RING_APPS.map((app, i) => (
-          <a
-            key={app.id}
-            href={app.url}
-            className="rh-hit"
-            aria-label={`${app.name}, ${app.url.replace(/^https?:\/\//, '')}`}
-            aria-describedby={`pv-${app.id}`}
-            ref={(n) => { hits.current[i] = n as unknown as SVGAElement | null; }}
-            style={{ display: 'none' }}
-          >
-            <circle r={16} />
-            <rect y={-11} width={labelWidth(app.name)} height={22} />
-            <circle className="rh-focus" r={8} />
-          </a>
-        ))}
-      </svg>
 
       <div className="rh-pv" ref={pvLayer} data-open="">
         <svg className="rh-lead" aria-hidden="true" focusable="false">
