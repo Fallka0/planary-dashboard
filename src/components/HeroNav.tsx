@@ -1,6 +1,7 @@
 import type { MouseEvent } from 'react';
-import { AUTH_URL, TEAM_URL } from '../lib/links';
+import { TEAM_URL } from '../lib/links';
 import { Logo } from './Logo';
+import { ProfileButton } from './Profile';
 
 interface HeroNavProps {
   menuOpen: boolean;
@@ -22,7 +23,7 @@ export function HeroNav({ menuOpen, onOpenMenu, anchorBase = '', current, signIn
         <li><a className="ul" href={TEAM_URL} aria-current={current === 'team' ? 'page' : undefined}>Team</a></li>
         <li><a className="ul" href={`${anchorBase}#contact`}>Contact</a></li>
       </ul>
-      {signIn && <a className={`btn btn-${signIn} signin`} href={AUTH_URL}>Sign in</a>}
+      {signIn && <ProfileButton className="signin" signInClass={`btn btn-${signIn}`} tone={signIn} />}
       <button
         className="menu-btn"
         type="button"

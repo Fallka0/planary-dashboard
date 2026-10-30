@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
+import { PRICING_PAGE } from '../../content/pricing.de';
 import { TOURNAMENT_PAGE as C } from '../../content/tournament-page.de';
 import { VAULT_PAGE as V } from '../../content/vault-page.en';
 import {
@@ -8,6 +9,7 @@ import {
   CASINO_INFO_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
+  AGB_URL,
   DATENSCHUTZ_URL,
   GITHUB_URL,
   IMPRESSUM_URL,
@@ -23,17 +25,36 @@ import {
 import { useMenu } from '../../lib/useMenu';
 import { Ic } from '../Ic';
 import { Logo, LogoMark } from '../Logo';
+import { AccountLink, ProfileButton, SheetAccount } from '../Profile';
 
 /**
  * The chrome of the product pages, Tournament (German) and Vault (English), and the legal pages
  * (German text in the English site chrome of planary.ch, as today): nav, phone sheet and footer.
  */
-export type ChromeVariant = 'tournament' | 'vault' | 'legal';
+export type ChromeVariant = 'tournament' | 'pricing' | 'vault' | 'legal';
 
-/** The product nav: app name, links, sign-in and the main call to action. */
-function productNav(variant: ChromeVariant) {
-  if (variant === 'tournament') return { app: C.nav.app, links: C.nav.links, signIn: C.nav.signIn, cta: C.nav.cta, ctaHref: TOURNAMENT_NEW_URL, menu: C.nav.menu, close: C.nav.close, label: 'Hauptnavigation' };
-  if (variant === 'vault') return { app: V.nav.app, links: V.nav.links, signIn: V.nav.signIn, cta: V.nav.cta, ctaHref: VAULT_LIVE_URL, menu: V.nav.menu, close: V.nav.close, label: 'Main' };
+type NavLink = { label: string; href: string; cur?: boolean };
+
+/** The German nav links: the Tournament page's anchors, or the pricing pages' site nav. */
+function germanLinks(variant: ChromeVariant): NavLink[] {
+  if (variant !== 'pricing') return [...C.nav.links];
+  const onPreise = typeof location !== 'undefined' && location.pathname.replace(/\/$/, '') === '/preise';
+  return PRICING_PAGE.nav.map((l) => ({
+    label: l.label,
+    href: l.href === '#faq' && !onPreise ? '/preise#faq' : l.href,
+    cur: 'cur' in l,
+  }));
+}
+
+/** The product nav: app name, links, the main call to action and its language. Null on the legal pages. */
+function productNav(variant: ChromeVariant, current?: string) {
+  if (variant === 'tournament' || variant === 'pricing') {
+    return { app: variant === 'tournament' ? C.nav.app : null, links: germanLinks(variant), cta: C.nav.cta, ctaHref: TOURNAMENT_NEW_URL, menu: C.nav.menu, close: C.nav.close, label: 'Hauptnavigation', lang: 'de' as const };
+  }
+  if (variant === 'vault') {
+    const links: NavLink[] = V.nav.links.map((l) => ({ label: l.label, href: l.href, cur: current === l.href }));
+    return { app: V.nav.app, links, cta: V.nav.cta, ctaHref: VAULT_LIVE_URL, menu: V.nav.menu, close: V.nav.close, label: 'Main', lang: 'en' as const };
+  }
   return null;
 }
 
@@ -44,21 +65,21 @@ interface NavProps {
 }
 
 export function TourNav({ variant, menuOpen, onOpenMenu, current }: NavProps & { current?: string }) {
-  const p = productNav(variant);
+  const p = productNav(variant, current);
   return (
-    <nav className="nav" aria-label={p ? p.label : 'Main'} lang={variant === 'tournament' ? undefined : 'en'}>
+    <nav className="nav" aria-label={p ? p.label : 'Main'} lang={p?.lang === 'de' ? undefined : 'en'}>
       <a className="wm" href="/">
         <LogoMark />
         <span>Planary</span>
-        {p && <span className="wm-app">{p.app}</span>}
+        {p?.app && <span className="wm-app">{p.app}</span>}
       </a>
       {p ? (
         <>
           <ul className="nav-links">
-            {p.links.map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={current === l.href ? 'page' : undefined}>{l.label}</a></li>)}
+            {p.links.map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={l.cur ? 'page' : undefined}>{l.label}</a></li>)}
           </ul>
           <div className="nav-r">
-            <a className="tl ul" href={AUTH_URL}>{p.signIn}</a>
+            <ProfileButton signInClass="tl ul" tone="ink" lang={p.lang} />
             <a className="btn btn-pri btn-s" href={p.ctaHref}>{p.cta}</a>
           </div>
         </>
@@ -69,7 +90,7 @@ export function TourNav({ variant, menuOpen, onOpenMenu, current }: NavProps & {
             <li><a className="ul" href={TEAM_URL}>Team</a></li>
             <li><a className="ul" href={CONTACT_MAILTO}>Contact</a></li>
           </ul>
-          <div className="nav-r"><a className="btn btn-pri btn-s" href={AUTH_URL}>Sign in</a></div>
+          <div className="nav-r"><ProfileButton signInClass="btn btn-pri btn-s" tone="ink" /></div>
         </>
       )}
       <button className="menu-btn" type="button" aria-expanded={menuOpen} aria-controls="menu-sheet" onClick={onOpenMenu}>
@@ -99,7 +120,7 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
       role="dialog"
       aria-modal="true"
       aria-label={p ? p.menu : 'Menu'}
-      lang={variant === 'tournament' ? undefined : 'en'}
+      lang={p?.lang === 'de' ? undefined : 'en'}
       onKeyDown={(e) => {
         if (e.key === 'Escape') onClose(true);
       }}
@@ -113,11 +134,11 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
       {p ? (
         <>
           <ul className="sheet-nav">
-            {p.links.map((l) => <li key={l.href}><a href={l.href} onClick={() => onClose(false)}>{l.label}</a></li>)}
+            {p.links.map((l) => <li key={l.href}><a href={l.href} aria-current={l.cur ? 'page' : undefined} onClick={() => onClose(false)}>{l.label}</a></li>)}
           </ul>
           <div className="sheet-foot">
             <a className="btn btn-paper" href={p.ctaHref}>{p.cta}</a>
-            <a className="btn btn-scr" href={AUTH_URL}>{p.signIn}</a>
+            <SheetAccount signInClass="btn btn-scr" lang={p.lang} />
           </div>
         </>
       ) : (
@@ -127,7 +148,7 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
             <li><a href={TEAM_URL}>Team</a></li>
             <li><a href={CONTACT_MAILTO}>Contact</a></li>
           </ul>
-          <div className="sheet-foot"><a className="btn btn-paper" href={AUTH_URL}>Sign in</a></div>
+          <div className="sheet-foot"><SheetAccount /></div>
         </>
       )}
     </div>
@@ -147,9 +168,9 @@ const footEn = (vault: boolean): { h: string; links: FootLink[] }[] => [
   { h: 'Elsewhere', links: [['Instagram', INSTAGRAM_URL], ['TikTok', TIKTOK_URL], ['GitHub', GITHUB_URL]] },
 ];
 
-function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' }) {
-  const tour = variant === 'tournament';
-  const cols = tour ? FOOT_DE : footEn(variant === 'vault');
+function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' | 'agb' }) {
+  const tour = variant === 'tournament' || variant === 'pricing';
+  const cols = !tour ? footEn(variant === 'vault') : variant === 'pricing' ? FOOT_DE.map((c) => ({ ...c, links: c.links.map(([l, h]): FootLink => [l, h]) })) : FOOT_DE;
   return (
     <footer className="foot wrap g">
       <div className="foot-wm"><Logo /></div>
@@ -158,7 +179,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
           <h2>{c.h}</h2>
           <ul>
             {c.links.map(([label, href, cur]) => (
-              <li key={label}><a className="ul" href={href} aria-current={cur ? 'page' : undefined}>{label}</a></li>
+              <li key={label}>{href === AUTH_URL ? <AccountLink lang={tour ? 'de' : 'en'} /> : <a className="ul" href={href} aria-current={cur ? 'page' : undefined}>{label}</a>}</li>
             ))}
           </ul>
         </div>
@@ -168,6 +189,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
         <span className="legal-links">
           <a className="ul" href={IMPRESSUM_URL} aria-current={legalCurrent === 'impressum' ? 'page' : undefined}>Impressum</a>
           <a className="ul" href={DATENSCHUTZ_URL} aria-current={legalCurrent === 'datenschutz' ? 'page' : undefined}>Datenschutz</a>
+          <a className="ul" href={AGB_URL} aria-current={legalCurrent === 'agb' ? 'page' : undefined}>AGB</a>
           <span>{CONTACT_EMAIL}</span>
         </span>
       </div>
@@ -177,7 +199,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
 
 interface TourFrameProps {
   variant: ChromeVariant;
-  legalCurrent?: 'impressum' | 'datenschutz';
+  legalCurrent?: 'impressum' | 'datenschutz' | 'agb';
   /** Hides nav, footer and sheet (the beamer view takes the whole frame). */
   bare?: boolean;
   /** Receives the menu controls, renders the page's header and main. */

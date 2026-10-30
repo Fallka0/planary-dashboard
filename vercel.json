@@ -9,6 +9,9 @@
     { "source": "/vault/pricing", "destination": "/vault/pricing/index.html" },
     { "source": "/account", "destination": "/account/index.html" },
     { "source": "/impressum", "destination": "/impressum/index.html" },
-    { "source": "/datenschutz", "destination": "/datenschutz/index.html" }
+    { "source": "/datenschutz", "destination": "/datenschutz/index.html" },
+    { "source": "/preise", "destination": "/preise/index.html" },
+    { "source": "/preise/vergleich", "destination": "/preise/vergleich/index.html" },
+    { "source": "/agb", "destination": "/agb/index.html" }
   ]
 }

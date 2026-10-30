@@ -4,8 +4,6 @@
 .ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
 .ln>span{display:inline-block;animation:ln-rise 900ms cubic-bezier(.22,1,.36,1) both}
 .ln+.ln>span{animation-delay:90ms}
-.hero-sub,.hero-cta{animation:ux-up 500ms cubic-bezier(.22,1,.36,1) both}
-.hero-sub{animation-delay:380ms}.hero-cta{animation-delay:470ms}
 @keyframes ln-rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
 @keyframes ux-up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .bar{position:fixed;top:14px;left:14px;right:14px;z-index:45;height:64px;display:flex;align-items:center;gap:40px;padding:0 clamp(20px,4.45vw,64px);background:var(--ink);color:var(--paper);transform:translateY(calc(-100% - 14px));visibility:hidden;transition:transform 260ms cubic-bezier(.22,1,.36,1),visibility 0s linear 260ms}
@@ -19,4 +17,4 @@
 .c-copied{font-size:14px;font-weight:600;color:#3d3a55;min-width:6ch}
 .pl .rbtn-ink{border:0;cursor:pointer;background:var(--ink);color:var(--paper)}
 .pl .rbtn-ink:hover{background:var(--indigo)}
-@media (prefers-reduced-motion:reduce){.ln>span,.hero-sub,.hero-cta{animation:none}.bar{transition:none}}
+@media (prefers-reduced-motion:reduce){.ln>span{animation:none}.bar{transition:none}}

@@ -1,9 +1,9 @@
 import {
   ACCOUNT_INFO_URL,
-  AUTH_URL,
   CASINO_INFO_URL,
   CONTACT_EMAIL,
   CONTACT_MAILTO,
+  AGB_URL,
   DATENSCHUTZ_URL,
   GITHUB_URL,
   IMPRESSUM_URL,
@@ -15,6 +15,7 @@ import {
   WISHLIST_INFO_URL,
 } from '../lib/links';
 import { Logo } from './Logo';
+import { AccountLink } from './Profile';
 
 export type ProductPage = 'casino' | 'tournament' | 'wishlist' | 'vault' | 'account';
 
@@ -39,7 +40,7 @@ export function Footer({ current }: { current?: ProductPage }) {
         <ul>
           <li><a className="ul" href={TEAM_URL}>Team</a></li>
           <li><a className="ul" href={CONTACT_MAILTO}>Contact</a></li>
-          <li><a className="ul" href={AUTH_URL}>Sign in</a></li>
+          <li><AccountLink /></li>
         </ul>
       </div>
       <div className="fc3">
@@ -50,7 +51,7 @@ export function Footer({ current }: { current?: ProductPage }) {
           <li><a className="ul" href={GITHUB_URL}>GitHub</a></li>
         </ul>
       </div>
-      <div className="legal"><span>© 2026 Planary, Switzerland</span><span className="legal-links"><a className="ul" href={IMPRESSUM_URL}>Impressum</a><a className="ul" href={DATENSCHUTZ_URL}>Datenschutz</a><span>{CONTACT_EMAIL}</span></span></div>
+      <div className="legal"><span>© 2026 Planary, Switzerland</span><span className="legal-links"><a className="ul" href={IMPRESSUM_URL}>Impressum</a><a className="ul" href={DATENSCHUTZ_URL}>Datenschutz</a><a className="ul" href={AGB_URL}>AGB</a><span>{CONTACT_EMAIL}</span></span></div>
     </footer>
   );
 }

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import ReactDOM from 'react-dom/client';
 import '../styles/fonts.css';
 import '../styles/transitions.css';
+import '../styles/profile.css';
 import '../lib/transitions';
 import '../lib/analytics';
 

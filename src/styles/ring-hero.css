@@ -1,0 +1,140 @@
+/* The ring hero: "Planned properly." inside the Planary ring, the apps orbiting on it.
+   Everything is #f2f2f5 at different opacities on #0b0b0f. RingHero.tsx animates; this file lays out
+   and sets the start state, so frame 0 matches the CSS before the script runs. */
+
+.hero.rh-hero{display:block;grid-template-columns:none;position:relative;height:calc(100svh - 28px);min-height:640px;max-height:1100px;
+  background:#0b0b0f;color:#f2f2f5;padding:28px var(--m) 0;overflow:hidden}
+.rh-hero .nav{position:relative;z-index:6}
+.rh-hero .signin{z-index:6}
+.pl .rh-hero .btn-paper{background:#f2f2f5;color:#0b0b0f}
+.pl .rh-hero .btn-paper:hover{background:#ffffff}
+
+.rh{position:absolute;inset:0}
+.rh-svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:hidden;pointer-events:none}
+.rh-back{z-index:0}
+.rh-front{z-index:2}
+.rh-hits{z-index:4}
+
+/* the ring: four half ellipses; pathLength=1, so the draw is a dash offset from 1 to 0 */
+.rh-ring{fill:none;stroke:#f2f2f5;stroke-dasharray:1 1;stroke-dashoffset:1;stroke-linecap:butt;vector-effect:non-scaling-stroke}
+.rh-back .rh-outer{stroke-width:1}
+.rh-back .rh-inner{stroke-width:.8}
+.rh-front .rh-outer{stroke-width:1.1}
+.rh-front .rh-inner{stroke-width:.8}
+/* the band in front cuts through the letters: a wide stroke in the background colour */
+.rh-occ{stroke:#0b0b0f;stroke-width:16}
+
+.rh-dot{fill:#f2f2f5}
+.rh-outline{fill:none;stroke:#f2f2f5;stroke-width:1;opacity:0}
+.rh-label{fill:#f2f2f5;font:500 11px/1 var(--body);letter-spacing:.04em}
+
+/* links over every dot and label: invisible hit areas, a visible ring on keyboard focus */
+.rh-hit{pointer-events:auto;cursor:pointer;outline:none}
+.rh-hit circle:first-child,.rh-hit rect{fill:transparent}
+.rh-focus{fill:none;stroke:#f2f2f5;stroke-width:1.5;opacity:0}
+.rh-hit:focus-visible .rh-focus{opacity:1}
+
+/* headline and CTAs: centred; the copy box adds no stacking context, so the layers above interleave */
+.rh-copy{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:96px var(--m) 0;pointer-events:none}
+.rh-h{position:relative;z-index:1;font-family:var(--disp);font-weight:400;font-size:clamp(44px,9.4cqw,128px);line-height:1;letter-spacing:-.04em;text-align:center;color:#f2f2f5;margin:0}
+.rh-ln{display:block;overflow:hidden;padding:.04em .06em .16em;margin-bottom:-.12em}
+.rh-ln>span{display:inline-block;transform:translateY(110%);will-change:transform}
+.rh-cta{position:relative;z-index:5;display:flex;align-items:center;gap:12px 28px;flex-wrap:wrap;justify-content:center;margin-top:clamp(52px,5cqw,64px);opacity:0;pointer-events:auto}
+.rh-all{color:#f2f2f5}
+
+/* the next section starts where the flattened ring ends: in dark mode it gets the line as its top border */
+@media (prefers-color-scheme:dark){.pl .rh-hero + .body{box-shadow:inset 0 1px 0 rgba(242,242,245,calc(.8 * var(--rh-edge,1)))}}
+
+@container site (max-width:640px){
+  .hero.rh-hero{height:calc(100svh - 16px);min-height:560px;padding:16px var(--m) 0}
+  .rh-copy{padding-top:72px}
+  .rh-label{font-size:10px}
+  .rh-h{font-size:clamp(40px,13.4cqw,64px)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rh-ring{stroke-dashoffset:0}
+  .rh-ln>span{transform:none}
+  .rh-cta{opacity:1}
+}
+
+/* knockouts in the background colour, so a dot or label stays legible where it crosses a letter */
+.rh-dot{stroke:#0b0b0f;stroke-width:2;paint-order:stroke}
+.rh-label{stroke:#0b0b0f;stroke-width:3px;stroke-linejoin:round;paint-order:stroke}
+/* Sign in sits in the nav row here (the old light panel that held it is gone) */
+.rh-hero .signin{position:static;margin-left:auto}
+/* focus stays monochrome inside the hero: off-white outline on the CTAs, the drawn ring on dots */
+.pl .rh-hero :focus-visible{outline-color:#f2f2f5}
+.pl .rh-hit:focus-visible{outline:none}
+
+/* ── previews: the app cards from the old orbit panel, opening as a circle that grows from the dot ── */
+.rh-pv{position:absolute;inset:0;z-index:6;pointer-events:none}
+.rh-lead{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.rh-lead line{stroke:#f2f2f5;stroke-opacity:.6;stroke-width:1;stroke-dasharray:3 4;opacity:0;transition:opacity 200ms}
+.rh-pv:not([data-open=""]) .rh-lead line{opacity:1;transition-delay:180ms}
+/* previews: each opens as a circle growing from its dot */
+.pv{position:absolute;left:0;top:0;display:block;text-decoration:none;color:inherit;pointer-events:none;font-family:var(--body);clip-path:circle(0px at var(--ox,0px) var(--oy,0px));visibility:hidden;transition:clip-path 560ms var(--ease),visibility 0s linear 560ms}
+.pv.is-open{pointer-events:auto;clip-path:circle(150% at var(--ox,0px) var(--oy,0px));visibility:visible;transition:clip-path 620ms var(--ease),visibility 0s}
+.pv img{display:block;width:100%;height:100%;object-fit:cover}
+.pv .pv-n{margin:0;font:300 22px/1.05 var(--disp);letter-spacing:-.045em;color:var(--ink)}
+.pv .pv-l{margin:4px 0 0;font-size:12px;line-height:1.4;color:var(--t2)}
+.pv .pv-u{margin:8px 0 0;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--ink)}
+
+/* account: a dark lens with the ring at -28deg, front half only */
+.pv-account{width:240px;text-align:center}
+.pv-lens{position:relative;width:208px;height:208px;margin:0 auto 14px;border-radius:50%;background:#0b0b0f;box-shadow:0 0 0 7px #f2f2f5,0 0 0 8px rgba(11,11,15,.3)}
+.pv-lens-art{display:block;width:100%;height:100%;border-radius:50%}
+.la-av{font:400 15px/1 var(--disp);letter-spacing:-.03em;fill:#0b0b0f}
+.la-n{font:600 12px/1 var(--body);fill:#f2f2f5}
+.pv-ring{position:absolute;left:50%;top:50%;width:300px;height:84px;margin:-42px 0 0 -150px;border-radius:50%;border:1.5px solid #0b0b0f;transform:rotate(-28deg);pointer-events:none;clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%)}
+.pv-account .pv-u{justify-content:center}
+
+/* casino: a playing card with corner indices */
+.pv-casino{width:212px}
+.pv-card{position:relative;height:300px;border-radius:16px;background:#f2f2f5;padding:40px 14px 14px;box-shadow:inset 0 0 0 1px #0b0b0f,inset 0 0 0 6px #f2f2f5,inset 0 0 0 7px rgba(11,11,15,.35)}
+.pv-idx{position:absolute;left:14px;top:12px;display:flex;flex-direction:column;align-items:center;font:400 18px/1 var(--disp);letter-spacing:-.04em;color:#0b0b0f}
+.pv-idx svg{width:15px;height:15px;margin-top:3px}
+.pv-idx-b{left:auto;top:auto;right:14px;bottom:12px;transform:rotate(180deg)}
+.pv-card-pic{height:150px;border-radius:10px;overflow:hidden;background:#0b0b0f;margin:0 6px}
+.pv-card .pv-n{margin:14px 6px 0}
+.pv-card .pv-l{margin:4px 6px 0;max-width:150px}
+
+/* tournament: a ticket with notches and a perforation */
+.pv-tournament{width:326px}
+.pv-ticket{position:relative;background:#141418;color:#f2f2f5;border-radius:14px;overflow:hidden;-webkit-mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat}
+.pv-ticket-pic{height:168px;border-bottom:2px dashed #3a3a43}
+.pv-ticket-stub{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:16px 18px 18px}
+.pv-ticket .pv-n{color:#f2f2f5}
+.pv-ticket .pv-l{color:#a3a3ad}
+.pv-ticket-no{margin:0;text-align:right;font:600 10px/1.35 var(--body);letter-spacing:.02em;color:#a3a3ad;font-variant-numeric:tabular-nums}
+
+/* wishlist: a gift tag with cut corners and a punched hole */
+.pv-wishlist{width:300px}
+.pv-tag{position:relative;height:244px;background:#f2f2f5;padding:12px 12px 14px 46px;clip-path:polygon(40px 0,100% 0,100% 100%,40px 100%,0 calc(100% - 40px),0 40px)}
+.pv-tag-edge{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.pv-tag-edge polygon{fill:none;stroke:#0b0b0f;stroke-width:2}
+.pv-tag-edge line{stroke:#0b0b0f;stroke-opacity:.3;stroke-dasharray:2 4}
+.pv-hole{position:absolute;left:14px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:#dedee4;box-shadow:inset 0 0 0 1px #0b0b0f}
+.pv-tag-pic{height:148px;border-radius:8px;overflow:hidden;background:#ececf0}
+.pv-tag-txt{padding:12px 2px 0}
+.is-flip .pv-tag{padding:12px 46px 14px 12px;clip-path:polygon(0 0,calc(100% - 40px) 0,100% 40px,100% calc(100% - 40px),calc(100% - 40px) 100%,0 100%)}
+.is-flip .pv-tag-edge{transform:scaleX(-1)}
+.is-flip .pv-hole{left:auto;right:14px}
+
+/* phone: smaller previews */
+@container site (max-width:640px){
+.pv-account .pv-u{display:none}
+.pv-tournament{width:290px}
+.pv-wishlist{width:270px}
+.pv-account{width:210px}
+.pv-lens{width:180px;height:180px}
+}
+
+/* on the dark hero the dark ticket needs an edge; the lens keeps its off-white rim */
+.pv-ticket{box-shadow:inset 0 0 0 1px rgba(242,242,245,.22)}
+.pv-lens{box-shadow:0 0 0 7px #f2f2f5,0 0 0 8px rgba(242,242,245,.35)}
+.pv-account .pv-n,.pv-account .pv-u{color:#f2f2f5}
+.pv-account .pv-l{color:rgba(242,242,245,.6)}
+/* the account card sits on its dot, often over the headline: a dark backing keeps its text readable */
+.pv-account{background:#0b0b0f;border-radius:24px;padding:14px 0 16px;box-shadow:0 0 0 1px rgba(242,242,245,.12)}
+@media (prefers-reduced-motion:reduce){.pv,.pv.is-open,.rh-lead line{transition:none}}

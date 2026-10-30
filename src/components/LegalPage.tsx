@@ -14,7 +14,7 @@ const LEGAL = {
   toc: 'Inhalt',
   print: 'Seite drucken',
   scope: 'Gilt für planary.ch und alle Planary-Apps',
-  contact: { h: 'Fragen zum Datenschutz?', imprH: 'Fragen zum Impressum?', mailL: 'E-Mail', respL: 'Antwort' },
+  contact: { h: 'Fragen zum Datenschutz?', imprH: 'Fragen zum Impressum?', agbH: 'Fragen zu den AGB?', mailL: 'E-Mail', respL: 'Antwort' },
 };
 
 export interface LegalSectionDef {
@@ -29,7 +29,7 @@ export interface LegalSectionDef {
 }
 
 interface LegalPageProps {
-  page: 'impressum' | 'datenschutz';
+  page: 'impressum' | 'datenschutz' | 'agb';
   title: string;
   /** The date of the last change, e.g. "21. Oktober 2026". */
   updated: string;
@@ -68,7 +68,7 @@ function useCurrentSection(ids: string[]) {
   return cur;
 }
 
-/** One reading layout for /impressum and /datenschutz: head, sticky contents, numbered sections, contact block. */
+/** One reading layout for /impressum, /datenschutz and /agb: head, sticky contents, numbered sections, contact block. */
 export function LegalPage({ page, title, updated, sections }: LegalPageProps) {
   const shown = __LEGAL_DRAFTS__ ? sections : sections.filter((s) => !s.draft);
   const [ids] = useState(() => shown.map((s) => s.id));
@@ -128,7 +128,7 @@ export function LegalPage({ page, title, updated, sections }: LegalPageProps) {
               ))}
 
               <section className="lg-contact" aria-labelledby="lc-h">
-                <h2 id="lc-h">{page === 'impressum' ? c.imprH : c.h}</h2>
+                <h2 id="lc-h">{page === 'impressum' ? c.imprH : page === 'agb' ? c.agbH : c.h}</h2>
                 <address>{LEGAL_ADDRESS.map((line) => <span style={{ display: 'block' }} key={line}>{line}</span>)}</address>
                 <dl>
                   <div><dt>{c.mailL}</dt><dd><a className="ul" href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a></dd></div>

@@ -1,3 +1,4 @@
+import { ProfileButton } from '../components/Profile';
 import { HeroNav } from '../components/HeroNav';
 import { SubpageShell } from '../components/SubpageShell';
 import { AccountCard } from '../components/art/AccountCard';
@@ -32,7 +33,7 @@ export function AccountPage() {
               </div>
             </div>
             <div className="ahead-r">
-              <a className="btn btn-ink signin" href={AUTH_URL}>Sign in</a>
+              <ProfileButton className="signin" signInClass="btn btn-ink" tone="ink" />
               <AccountCard className="a-key" play />
             </div>
           </header>
