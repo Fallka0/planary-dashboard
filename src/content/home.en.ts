@@ -52,6 +52,12 @@ export const HOME = {
       "p": "Save gift ideas when they come to you and share the list with family and friends.",
       "open": "Open Wishlist",
       "more": "More"
+    },
+    "vault": {
+      "name": "Planary Vault",
+      "p": "Keep your important documents encrypted in your browser, so only you can open them.",
+      "open": "Open Vault",
+      "more": "More"
     }
   },
   "account": {

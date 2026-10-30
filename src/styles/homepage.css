@@ -227,7 +227,7 @@ background:var(--ink);padding:14px;font-family:var(--body);font-size:15px;line-h
 .also-h{grid-column:1/span 6;font:300 clamp(24px,2.2cqw,32px)/1.15 var(--disp);letter-spacing:-.04em}
 .also-p{grid-column:7/span 6;justify-self:end;font-size:14px;color:var(--t2)}
 .apps{margin-top:32px;row-gap:48px}
-.app{grid-column:span 6;display:flex;flex-direction:column;gap:24px}
+.app{grid-column:span 4;display:flex;flex-direction:column;gap:24px}
 .app-pic{aspect-ratio:16/10;border-radius:24px;overflow:hidden;background:radial-gradient(90% 80% at 50% 40%,#ffffff 0%,#ececf0 55%,#dedee4 100%);display:grid;place-items:center}
 .app-pic img{width:62%;height:auto;display:block;border-radius:14px;box-shadow:0 24px 40px rgba(11,11,15,.18)}
 .app-pic-ink{background:radial-gradient(90% 80% at 50% 40%,#2a2a31 0%,#141418 60%,#0b0b0f 100%)}
