@@ -63,12 +63,12 @@ export const VAULT_PAGE = {
   features: {
     h2: 'What you get.',
     items: [
-      { t: 'Version history', p: 'Go back to any older version of a file.' },
-      { t: 'Share links', p: 'Password, end date and download limit.' },
-      { t: 'Fast search', p: 'Names, folders and tags, searched on your device.' },
-      { t: 'Recovery key', p: 'Your way back in if you forget the passphrase.' },
-      { t: 'On your phone', p: 'Works in any browser, no app needed.' },
-      { t: 'One account', p: 'Same sign-in as Tournament and Wishlist.' },
+      { id: 'history', icon: 'refresh', t: 'Version history', p: 'Go back to any older version of a file.' },
+      { id: 'links', icon: 'link', t: 'Share links', p: 'Password, end date and download limit.' },
+      { id: 'search', icon: 'search', t: 'Fast search', p: 'Names, folders and tags, searched on your device.' },
+      { id: 'recovery', icon: 'key', t: 'Recovery key', p: 'Your way back in if you forget the passphrase.' },
+      { id: 'phone', icon: 'phone', t: 'On your phone', p: 'Works in any browser, no app needed.' },
+      { id: 'account', icon: 'user', t: 'One account', p: 'Same sign-in as Tournament and Wishlist.' },
     ],
   },
   security: {

@@ -33,6 +33,58 @@ function Files() {
   );
 }
 
+/** A small piece of the app above each feature: drawn in HTML, decorative, so screen readers skip it. */
+function FeatureArt({ id }: { id: string }) {
+  switch (id) {
+    case 'history':
+      return (
+        <ol className="fa-hist">
+          <li className="is-cur"><span>Tax return 2025.pdf</span><em>Today</em></li>
+          <li><span>Version 2</span><em>12 Mar</em></li>
+          <li><span>Version 1</span><em>3 Feb</em></li>
+        </ol>
+      );
+    case 'links':
+      return (
+        <div className="fa-link">
+          <p className="fa-url"><Ic name="lock" small /><span>vault.planary.ch/s/k3Q9…</span></p>
+          <p className="fa-chips"><span>Password</span><span>Ends 14 Nov</span><span>10 downloads</span></p>
+        </div>
+      );
+    case 'search':
+      return (
+        <div className="fa-search">
+          <p className="fa-field"><Ic name="search" small /><span>tax<i /></span></p>
+          <p className="fa-hit"><b>Tax</b> return 2025.pdf<em>Finance</em></p>
+          <p className="fa-hit"><b>Tax</b> office letter.pdf<em>Letters</em></p>
+        </div>
+      );
+    case 'recovery':
+      return (
+        <div className="fa-key">
+          <p className="fa-key-l">Recovery key</p>
+          <p className="fa-key-c"><span>7KQ2</span><span>M9XD</span><span>4PLA</span><span>R8TN</span><span>W2HC</span><span>Q6VE</span></p>
+        </div>
+      );
+    case 'phone':
+      return (
+        <div className="fa-phone">
+          <div className="fa-ph">
+            <span className="fa-ph-n" />
+            {[62, 48, 70, 40].map((w) => <span key={w} className="fa-ph-r"><i style={{ width: `${w}%` }} /></span>)}
+          </div>
+        </div>
+      );
+    default:
+      return (
+        <div className="fa-acct">
+          <span className="fa-av">NB</span>
+          <p className="fa-apps">{['Tournament', 'Wishlist', 'Vault'].map((a) => <span key={a}><Ic name="check" small />{a}</span>)}</p>
+        </div>
+      );
+  }
+}
+
 /** The three plan cards; the pricing page has the same ones with a monthly/yearly switch. */
 export function VaultPlanCards({ period }: { period: 'month' | 'year' }) {
   return (
@@ -116,7 +168,13 @@ export function VaultPage() {
             <section className="sec wrap g" aria-labelledby="get-h">
               <h2 id="get-h" className="d h-m vp-get-h" data-reveal="">{C.features.h2}</h2>
               <ul className="vp-get" data-reveal="">
-                {C.features.items.map((f) => <li key={f.t}><h3>{f.t}</h3><p>{f.p}</p></li>)}
+                {C.features.items.map((f) => (
+                  <li key={f.id}>
+                    <div className="fa" aria-hidden="true"><FeatureArt id={f.id} /></div>
+                    <h3><Ic name={f.icon} small />{f.t}</h3>
+                    <p>{f.p}</p>
+                  </li>
+                ))}
               </ul>
             </section>
 
