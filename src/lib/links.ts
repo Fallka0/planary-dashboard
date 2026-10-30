@@ -10,6 +10,7 @@ export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
 export const TEAM_URL = '/team';
 export const IMPRESSUM_URL = '/impressum';
 export const DATENSCHUTZ_URL = '/datenschutz';
+export const AGB_URL = '/agb';
 /** The address for legal and data protection questions, named in the Impressum and the Datenschutz text. */
 export const LEGAL_EMAIL = 'mykytapantelei@gmail.com';
 /** The person responsible, as named in the Impressum and the Datenschutz text. */

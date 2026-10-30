@@ -6,7 +6,7 @@ export function DatenschutzPage() {
     <LegalPage
       page="datenschutz"
       title="Datenschutz"
-      updated="21. Oktober 2026"
+      updated="29. Oktober 2026"
       sections={[
         {
           id: 'kurz',
@@ -86,44 +86,37 @@ export function DatenschutzPage() {
             </>
           ),
         },
-        // Drafts, not reviewed yet: dev and preview builds only, left out of the production bundle.
-        ...(__LEGAL_DRAFTS__
-          ? [
-            {
-              id: 'tournament',
-              title: 'Planary Tournament',
-              draft: true,
-              body: (
-                <>
-                  <p>Für Planary Tournament speichern wir die Turniere, die Sie anlegen: Name, Spiel, Datum, Ort, Format, Spielplan, Stationen, Resultate sowie das Logo und die Farben, die Sie für die Beamer-Ansicht hochladen. Wer ein Team anmeldet, gibt den Teamnamen und die Namen der Spielerinnen und Spieler an. Die Anmeldung läuft über das Planary-Konto. Wir speichern auch, wer eingecheckt ist, wer auf der Warteliste steht und wer ein Resultat bestätigt hat.</p>
-                  <p>Turnierseite, Bracket und Beamer-Ansicht sind öffentlich: Wer den Link kennt, sieht Teamnamen, Spielernamen, Spielplan und Resultate. Die Beamer-Ansicht merkt sich den letzten Stand im Speicher des Browsers, damit sie bei einem Unterbruch der Verbindung weiterläuft.</p>
-                  <p>Exporte als CSV oder PDF erstellen wir nur, wenn Sie sie herunterladen.</p>
-                </>
-              ),
-            },
-            {
-              id: 'organisationen',
-              title: 'Organisationen und Abrechnung',
-              draft: true,
-              body: (
-                <>
-                  <p>Wer Tournament für einen Verein oder ein Event nutzt, legt im Kundenportal (portal.planary.ch) eine Organisation an. Dafür speichern wir den Namen der Organisation, die Mitglieder mit ihrer Rolle, Einladungen, die Rechnungsadresse, den gebuchten Plan und die Rechnungen.</p>
-                  <p>Zahlungen wickelt Stripe ab (Stripe Payments Europe Ltd., Irland, mit Stripe Inc., USA). Karten- und TWINT-Daten geben Sie direkt bei Stripe ein. Wir sehen nur den Kartentyp, die letzten vier Ziffern und das Ablaufdatum. Rechnungen bewahren wir zehn Jahre auf, weil das Gesetz es verlangt (Art. 958f OR).</p>
-                </>
-              ),
-            },
-            {
-              id: 'support',
-              title: 'Support-Anfragen',
-              draft: true,
-              body: (
-                <>
-                  <p>Anfragen, die Sie im Kundenportal stellen, speichern wir mit Betreff, Text, Anhängen und dem Verlauf der Antworten. Das Planary-Team bekommt sie per E-Mail, unsere Antworten erhalten Sie ebenfalls per E-Mail. Anfragen bewahren wir auf, solange Ihre Organisation besteht.</p>
-                </>
-              ),
-            },
-            ]
-          : []),
+        {
+          id: 'tournament',
+          title: 'Planary Tournament',
+          body: (
+            <>
+              <p>Für Planary Tournament speichern wir die Turniere, die Sie anlegen: Name, Spiel, Datum, Ort, Format, Spielplan, Stationen, Resultate sowie das Logo und die Farben, die Sie für die Beamer-Ansicht hochladen. Wer ein Team anmeldet, gibt den Teamnamen und die Namen der Spielerinnen und Spieler an. Die Anmeldung läuft über das Planary-Konto. Wir speichern auch, wer eingecheckt ist, wer auf der Warteliste steht und wer ein Resultat bestätigt hat.</p>
+              <p>Turnierseite, Bracket und Beamer-Ansicht sind öffentlich: Wer den Link kennt, sieht Teamnamen, Spielernamen, Spielplan und Resultate. Die Beamer-Ansicht merkt sich den letzten Stand im Speicher des Browsers, damit sie bei einem Unterbruch der Verbindung weiterläuft.</p>
+              <p>Exporte als CSV oder PDF erstellen wir nur, wenn Sie sie herunterladen.</p>
+            </>
+          ),
+        },
+        {
+          id: 'organisationen',
+          title: 'Organisationen und Abrechnung',
+          body: (
+            <>
+              <p>Wer Tournament für einen Verein, eine Schule oder ein Event nutzt, legt im Kundenportal (portal.planary.ch) eine Organisation an, spätestens beim ersten Kauf. Dafür speichern wir den Namen der Organisation, die Mitglieder mit ihrer Rolle, Einladungen, die Rechnungsadresse und Rechnungs-E-Mail, den Plan (Gratis oder Plus), gekaufte Turnier-Pässe mit dem Turnier, für das sie gelten, und die Rechnungen.</p>
+              <p>Zahlungen wickelt Stripe ab (Stripe Payments Europe Ltd., Irland, mit Stripe Inc., USA). Kartendaten geben Sie direkt bei Stripe ein, sie kommen nie zu uns. Wir sehen nur den Kartentyp, die letzten vier Ziffern und das Ablaufdatum. Wer Plus auf Rechnung bezahlt, erhält die Rechnung mit QR-Code von Stripe per E-Mail. Stripe bearbeitet Zahlungsdaten auch zur Betrugsbekämpfung und nach eigener Datenschutzerklärung (stripe.com/ch/privacy).</p>
+              <p>Rechnungen und Buchungsbelege bewahren wir zehn Jahre auf, weil das Gesetz es verlangt (Art. 958f OR).</p>
+            </>
+          ),
+        },
+        {
+          id: 'support',
+          title: 'Support-Anfragen',
+          body: (
+            <>
+              <p>Anfragen, die Sie im Kundenportal stellen, speichern wir mit Betreff, Text, Anhängen und dem Verlauf der Antworten. Das Planary-Team bekommt sie per E-Mail, unsere Antworten erhalten Sie ebenfalls per E-Mail. Anfragen bewahren wir auf, solange Ihre Organisation besteht.</p>
+            </>
+          ),
+        },
         {
           id: 'casino',
           title: 'Planary Casino',
@@ -153,7 +146,7 @@ export function DatenschutzPage() {
                 <dt>Vercel Inc., USA</dt><dd>Auslieferung von planary.ch</dd>
                 <dt>Cloudflare Inc., USA</dt><dd>Betrieb der Apps und Datenbanken, Besuchsstatistik</dd>
                 <dt>Resend Inc., USA</dt><dd>Versand von E-Mails</dd>
-                {__LEGAL_DRAFTS__ && <><dt>Stripe Payments Europe Ltd., Irland, mit Stripe Inc., USA <span className="chip chip-ph lg-draft">Entwurf</span></dt><dd>Zahlungen für Tournament-Pläne, Karte und TWINT</dd></>}
+                <dt>Stripe Payments Europe Ltd., Irland, mit Stripe Inc., USA</dt><dd>Zahlungen und Rechnungen für Plus und den Turnier-Pass</dd>
                 <dt>Google, GitHub</dt><dd>nur wenn Sie sich darüber anmelden</dd>
               </dl>
               <p>Dabei können Daten in die USA und andere Länder gelangen, deren Datenschutz nicht dem der Schweiz entspricht. Wir stützen uns dafür auf das Swiss-U.S. Data Privacy Framework, soweit der Anbieter zertifiziert ist, und sonst auf die Standardvertragsklauseln der EU-Kommission, die der EDÖB anerkennt.</p>
