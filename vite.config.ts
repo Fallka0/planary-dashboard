@@ -5,7 +5,7 @@ import type { Connect, Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 
 /** The subpages, each its own HTML entry so it loads only its own stylesheet. */
-const PAGES = ['team', 'casino', 'tournament', 'wishlist', 'account', 'impressum', 'datenschutz', 'agb', 'preise', 'preise/vergleich'];
+const PAGES = ['team', 'casino', 'tournament', 'wishlist', 'vault', 'vault/pricing', 'account', 'impressum', 'datenschutz', 'agb', 'preise', 'preise/vergleich'];
 
 /**
  * Serves /team (no trailing slash) from team/index.html, and unknown paths with

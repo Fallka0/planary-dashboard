@@ -1,0 +1,111 @@
+/* /vault and /vault/pricing (handoff 17, 18, 18b). Built on tour.css; this adds the Vault parts.
+   Vault is a dark product, so its pages are always dark (the values of tour.css's dark block). */
+
+.pl.pl-ink{--frame:#0b0b0f;--bg:#0b0b0f;--card:#1a1a1f;--card2:#232329;--raise:#1c1c22;--ink:#f1f1f4;--t2:#a3a3ad;--rule:#2a2a31;--rule-s:#474750;--pri:#f1f1f4;--pri-h:#ffffff;--on-pri:#0b0b0f;--ok:#8fd8ae;--ok-bg:#15301f;--scr:#141418;--scr-2:#1a1a1f;--scr-3:#202026;--scr-rule:#2a2a31;color-scheme:dark}
+.pl-ink .site{background:var(--bg)}
+.pl-ink .scr{box-shadow:0 0 0 1px var(--rule)}
+.pl-ink .end{box-shadow:0 0 0 1px var(--rule)}
+
+/* reveals (as on the other subpages) */
+.is-pre{opacity:0;transform:translateY(12px)}
+.is-pre.is-in{opacity:1;transform:none;transition:opacity 400ms var(--ease),transform 400ms var(--ease)}
+
+/* hero: no band, the file list on the right */
+.vp-hero{background:transparent}
+.vp-files .scr{padding:22px 22px 18px}
+.vp-files .scr-live{gap:6px}
+.vp-files .scr-live .ic{width:12px;height:12px}
+.vp-rows{display:grid;gap:6px;margin-top:18px}
+.vp-rows li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;height:44px;padding:0 14px;border-radius:11px;background:var(--scr-2);font-size:13px;font-weight:600}
+.vp-type{height:22px;padding:0 7px;border-radius:6px;background:var(--scr-3);display:inline-grid;place-items:center;font:500 9px/1 var(--disp);letter-spacing:-.02em;color:var(--scr-t2)}
+.vp-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vp-size{font-size:12px;font-weight:500;color:var(--scr-t2);font-variant-numeric:tabular-nums}
+.vp-rows .vp-enc{grid-template-columns:minmax(0,1fr) auto;height:auto;padding:12px 14px;row-gap:10px;box-shadow:inset 0 0 0 1px var(--rule-s);background:transparent}
+.vp-bar{grid-column:1/-1;height:3px;border-radius:2px;background:var(--scr-3);overflow:hidden}
+.vp-bar i{display:block;height:100%;width:62%;background:var(--scr-ink);border-radius:2px}
+.vp-files .scr-foot{border-top:0;padding-top:0;margin-top:14px}
+
+/* it goes like this (the Wishlist pattern) */
+.verbs-h{grid-column:1/span 6;margin-bottom:56px}
+.v{border-top:1px solid var(--rule-s);padding-top:24px}
+.v1{grid-column:1/span 5}.v2{grid-column:6/span 4}.v3{grid-column:10/span 3}
+.v h3{font-family:var(--disp);font-weight:300;letter-spacing:-.045em;line-height:1}
+.v1 h3{font-size:clamp(48px,6.4cqw,92px)}
+.v2 h3{font-size:clamp(34px,4cqw,58px)}
+.v3 h3{font-size:clamp(26px,2.6cqw,38px)}
+.v p{margin-top:20px;color:var(--t2);font-size:16px;line-height:1.6;max-width:30ch}
+
+/* what you get: six short items on rules */
+.vp-get-h{grid-column:1/span 8;margin-bottom:48px}
+.vp-get{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 24px}
+.vp-get li{border-top:1px solid var(--rule);padding-top:18px}
+.vp-get h3{font-size:15px;font-weight:600}
+.vp-get p{margin-top:6px;font-size:14px;color:var(--t2);max-width:28ch}
+
+/* what we can't see */
+.vp-see{grid-column:1/-1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.vp-hidden,.vp-seen{border-radius:24px;padding:32px 36px 36px}
+.vp-hidden{background:var(--card)}
+.vp-seen{box-shadow:inset 0 0 0 1px var(--rule)}
+.vp-see h3{font:300 clamp(22px,2.1cqw,30px)/1.15 var(--disp);letter-spacing:-.04em;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.vp-see li{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.vp-see li:last-child{border-bottom:0}
+.vp-seen li{color:var(--t2)}
+
+/* pricing cards: the highlighted plan (Pro) is the page colour with a line */
+.pl-ink .pc{background:var(--card)}
+.pl-ink .pc.vp-hl{background:var(--bg);box-shadow:inset 0 0 0 1px var(--rule-s)}
+.vp-pr-foot{grid-column:1/-1;margin-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px}
+.vp-mail{color:var(--ink);font-weight:600}
+
+/* closing call: page colour, buttons on the right */
+.pl-ink .vp-end{background:transparent;box-shadow:none;padding-left:0;padding-right:0;align-items:center}
+.pl .vp-line{color:var(--ink)}
+
+/* pricing page */
+.vp-pp-head{padding-top:112px;row-gap:0;align-items:end}
+.vp-pp-t{grid-column:1/span 8}
+.vp-pp-t .sub{margin-top:24px}
+.vp-period{grid-column:9/span 4;justify-self:end;display:flex;align-items:center;gap:12px}
+.vp-seg{display:flex;padding:4px;border-radius:999px;background:var(--card)}
+.vp-seg button{height:36px;padding:0 18px;border:0;border-radius:999px;background:transparent;color:var(--t2);font:600 14px/1 var(--body);cursor:pointer}
+.vp-seg button:hover{color:var(--ink)}
+.vp-seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.vp-pp-head .pr{margin-top:48px}
+.vp-pp-head .pr-note{flex-direction:column;gap:4px}
+.vp-cmp-wrap{grid-column:1/-1;overflow-x:auto}
+.vp-cmp{width:100%;min-width:640px;border-collapse:collapse;font-size:14px;text-align:left}
+.vp-cmp thead th{padding:0 16px 24px 0;vertical-align:bottom;font-weight:400}
+.vp-cmp thead b{display:block;font:300 24px/1.1 var(--disp);letter-spacing:-.04em}
+.vp-cmp thead span{display:block;margin-top:6px;font-size:12px;color:var(--t2)}
+.vp-cmp tbody th,.vp-cmp tbody td{padding:14px 16px 14px 0;border-bottom:1px solid var(--rule)}
+.vp-cmp tbody th[scope="row"]{font-weight:600;width:34%}
+.vp-cmp tbody td .ic{color:var(--ink)}
+.vp-cmp-g th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);border-bottom:1px solid var(--ink)!important}
+.vp-dash{color:var(--t2)}
+.vp-more{grid-column:1/-1;margin-top:24px;display:flex;align-items:center;gap:8px}
+.vp-more .alink{min-height:0;color:var(--ink)}
+
+@container site (max-width:1100px){
+.vp-get{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@container site (max-width:900px){
+.verbs-h{grid-column:1/-1}
+.v1{grid-column:1/-1}.v2{grid-column:1/span 6}.v3{grid-column:7/span 6}
+.verbs{row-gap:48px}
+.vp-get{grid-template-columns:repeat(2,minmax(0,1fr))}
+.vp-see{grid-template-columns:minmax(0,1fr)}
+.vp-pp-t,.vp-period{grid-column:1/-1;justify-self:start}
+.vp-period{margin-top:32px}
+.vp-get-h{grid-column:1/-1}
+}
+@container site (max-width:640px){
+.verbs-h{margin-bottom:32px}
+.v1,.v2,.v3{grid-column:1/-1}
+.verbs{row-gap:36px}
+.vp-get{grid-template-columns:minmax(0,1fr);gap:24px}
+.vp-hidden,.vp-seen{padding:24px;border-radius:20px}
+.vp-pp-head{padding-top:72px}
+.vp-files .scr-clock{display:block;font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){.is-pre{opacity:1;transform:none}}

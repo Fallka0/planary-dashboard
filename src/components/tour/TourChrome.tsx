@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
 import { PRICING_PAGE } from '../../content/pricing.de';
 import { TOURNAMENT_PAGE as C } from '../../content/tournament-page.de';
+import { VAULT_PAGE as V } from '../../content/vault-page.en';
 import {
   ACCOUNT_INFO_URL,
   AUTH_URL,
@@ -17,6 +18,8 @@ import {
   TIKTOK_URL,
   TOURNAMENT_INFO_URL,
   TOURNAMENT_NEW_URL,
+  VAULT_INFO_URL,
+  VAULT_LIVE_URL,
   WISHLIST_INFO_URL,
 } from '../../lib/links';
 import { useMenu } from '../../lib/useMenu';
@@ -25,13 +28,15 @@ import { Logo, LogoMark } from '../Logo';
 import { AccountLink, ProfileButton, SheetAccount } from '../Profile';
 
 /**
- * The chrome of the Tournament page (German) and the legal pages (German text in the
- * English site chrome of planary.ch, as today): nav, phone sheet and footer.
+ * The chrome of the product pages, Tournament (German) and Vault (English), and the legal pages
+ * (German text in the English site chrome of planary.ch, as today): nav, phone sheet and footer.
  */
-export type ChromeVariant = 'tournament' | 'pricing' | 'legal';
+export type ChromeVariant = 'tournament' | 'pricing' | 'vault' | 'legal';
+
+type NavLink = { label: string; href: string; cur?: boolean };
 
 /** The German nav links: the Tournament page's anchors, or the pricing pages' site nav. */
-function navLinks(variant: ChromeVariant): { label: string; href: string; cur?: boolean }[] {
+function germanLinks(variant: ChromeVariant): NavLink[] {
   if (variant !== 'pricing') return [...C.nav.links];
   const onPreise = typeof location !== 'undefined' && location.pathname.replace(/\/$/, '') === '/preise';
   return PRICING_PAGE.nav.map((l) => ({
@@ -41,29 +46,41 @@ function navLinks(variant: ChromeVariant): { label: string; href: string; cur?: 
   }));
 }
 
+/** The product nav: app name, links, the main call to action and its language. Null on the legal pages. */
+function productNav(variant: ChromeVariant, current?: string) {
+  if (variant === 'tournament' || variant === 'pricing') {
+    return { app: variant === 'tournament' ? C.nav.app : null, links: germanLinks(variant), cta: C.nav.cta, ctaHref: TOURNAMENT_NEW_URL, menu: C.nav.menu, close: C.nav.close, label: 'Hauptnavigation', lang: 'de' as const };
+  }
+  if (variant === 'vault') {
+    const links: NavLink[] = V.nav.links.map((l) => ({ label: l.label, href: l.href, cur: current === l.href }));
+    return { app: V.nav.app, links, cta: V.nav.cta, ctaHref: VAULT_LIVE_URL, menu: V.nav.menu, close: V.nav.close, label: 'Main', lang: 'en' as const };
+  }
+  return null;
+}
+
 interface NavProps {
   variant: ChromeVariant;
   menuOpen: boolean;
   onOpenMenu: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-export function TourNav({ variant, menuOpen, onOpenMenu }: NavProps) {
-  const tour = variant !== 'legal';
+export function TourNav({ variant, menuOpen, onOpenMenu, current }: NavProps & { current?: string }) {
+  const p = productNav(variant, current);
   return (
-    <nav className="nav" aria-label={tour ? 'Hauptnavigation' : 'Main'} lang={tour ? undefined : 'en'}>
+    <nav className="nav" aria-label={p ? p.label : 'Main'} lang={p?.lang === 'de' ? undefined : 'en'}>
       <a className="wm" href="/">
         <LogoMark />
         <span>Planary</span>
-        {variant === 'tournament' && <span className="wm-app">{C.nav.app}</span>}
+        {p?.app && <span className="wm-app">{p.app}</span>}
       </a>
-      {tour ? (
+      {p ? (
         <>
           <ul className="nav-links">
-            {navLinks(variant).map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={l.cur ? 'page' : undefined}>{l.label}</a></li>)}
+            {p.links.map((l) => <li key={l.href}><a className="ul" href={l.href} aria-current={l.cur ? 'page' : undefined}>{l.label}</a></li>)}
           </ul>
           <div className="nav-r">
-            <ProfileButton signInClass="tl ul" tone="ink" lang="de" />
-            <a className="btn btn-pri btn-s" href={TOURNAMENT_NEW_URL}>{C.nav.cta}</a>
+            <ProfileButton signInClass="tl ul" tone="ink" lang={p.lang} />
+            <a className="btn btn-pri btn-s" href={p.ctaHref}>{p.cta}</a>
           </div>
         </>
       ) : (
@@ -77,7 +94,7 @@ export function TourNav({ variant, menuOpen, onOpenMenu }: NavProps) {
         </>
       )}
       <button className="menu-btn" type="button" aria-expanded={menuOpen} aria-controls="menu-sheet" onClick={onOpenMenu}>
-        {tour ? C.nav.menu : 'Menu'}
+        {p ? p.menu : 'Menu'}
       </button>
     </nav>
   );
@@ -91,7 +108,7 @@ interface SheetProps {
 
 function TourSheet({ variant, open, onClose }: SheetProps) {
   const closeRef = useRef<HTMLButtonElement>(null);
-  const tour = variant !== 'legal';
+  const p = productNav(variant);
   useEffect(() => {
     if (open) closeRef.current?.focus();
   }, [open]);
@@ -102,26 +119,26 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
       hidden={!open}
       role="dialog"
       aria-modal="true"
-      aria-label={tour ? C.nav.menu : 'Menu'}
-      lang={tour ? undefined : 'en'}
+      aria-label={p ? p.menu : 'Menu'}
+      lang={p?.lang === 'de' ? undefined : 'en'}
       onKeyDown={(e) => {
         if (e.key === 'Escape') onClose(true);
       }}
     >
       <div className="sheet-top">
         <Logo href={null} />
-        <button ref={closeRef} className="menu-btn" style={{ display: 'inline-flex' }} type="button" onClick={() => onClose(true)} aria-label={tour ? C.nav.close : 'Close menu'}>
+        <button ref={closeRef} className="menu-btn" style={{ display: 'inline-flex' }} type="button" onClick={() => onClose(true)} aria-label={p ? p.close : 'Close menu'}>
           <Ic name="x" />
         </button>
       </div>
-      {tour ? (
+      {p ? (
         <>
           <ul className="sheet-nav">
-            {navLinks(variant).map((l) => <li key={l.href}><a href={l.href} aria-current={l.cur ? 'page' : undefined} onClick={() => onClose(false)}>{l.label}</a></li>)}
+            {p.links.map((l) => <li key={l.href}><a href={l.href} aria-current={l.cur ? 'page' : undefined} onClick={() => onClose(false)}>{l.label}</a></li>)}
           </ul>
           <div className="sheet-foot">
-            <a className="btn btn-paper" href={TOURNAMENT_NEW_URL}>{C.nav.cta}</a>
-            <SheetAccount signInClass="btn btn-scr" lang="de" />
+            <a className="btn btn-paper" href={p.ctaHref}>{p.cta}</a>
+            <SheetAccount signInClass="btn btn-scr" lang={p.lang} />
           </div>
         </>
       ) : (
@@ -141,19 +158,19 @@ function TourSheet({ variant, open, onClose }: SheetProps) {
 type FootLink = [label: string, href: string, current?: boolean];
 
 const FOOT_DE: { h: string; links: FootLink[] }[] = [
-  { h: 'Produkte', links: [['Tournament', TOURNAMENT_INFO_URL, true], ['Casino', CASINO_INFO_URL], ['Wishlist', WISHLIST_INFO_URL], ['Konto', ACCOUNT_INFO_URL]] },
+  { h: 'Produkte', links: [['Tournament', TOURNAMENT_INFO_URL, true], ['Casino', CASINO_INFO_URL], ['Wishlist', WISHLIST_INFO_URL], ['Vault', VAULT_INFO_URL], ['Konto', ACCOUNT_INFO_URL]] },
   { h: 'Studio', links: [['Team', TEAM_URL], ['Kontakt', CONTACT_MAILTO], ['Anmelden', AUTH_URL]] },
   { h: 'Anderswo', links: [['Instagram', INSTAGRAM_URL], ['TikTok', TIKTOK_URL], ['GitHub', GITHUB_URL]] },
 ];
-const FOOT_EN: { h: string; links: FootLink[] }[] = [
-  { h: 'Products', links: [['Casino', CASINO_INFO_URL], ['Tournament', TOURNAMENT_INFO_URL], ['Wishlist', WISHLIST_INFO_URL], ['Account', ACCOUNT_INFO_URL]] },
+const footEn = (vault: boolean): { h: string; links: FootLink[] }[] => [
+  { h: 'Products', links: [['Casino', CASINO_INFO_URL], ['Tournament', TOURNAMENT_INFO_URL], ['Wishlist', WISHLIST_INFO_URL], ['Vault', VAULT_INFO_URL, vault], ['Account', ACCOUNT_INFO_URL]] },
   { h: 'Studio', links: [['Team', TEAM_URL], ['Contact', CONTACT_MAILTO], ['Sign in', AUTH_URL]] },
   { h: 'Elsewhere', links: [['Instagram', INSTAGRAM_URL], ['TikTok', TIKTOK_URL], ['GitHub', GITHUB_URL]] },
 ];
 
 function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCurrent?: 'impressum' | 'datenschutz' | 'agb' }) {
-  const tour = variant !== 'legal';
-  const cols = !tour ? FOOT_EN : variant === 'pricing' ? FOOT_DE.map((c) => ({ ...c, links: c.links.map(([l, h]): FootLink => [l, h]) })) : FOOT_DE;
+  const tour = variant === 'tournament' || variant === 'pricing';
+  const cols = !tour ? footEn(variant === 'vault') : variant === 'pricing' ? FOOT_DE.map((c) => ({ ...c, links: c.links.map(([l, h]): FootLink => [l, h]) })) : FOOT_DE;
   return (
     <footer className="foot wrap g">
       <div className="foot-wm"><Logo /></div>
@@ -168,7 +185,7 @@ function TourFooter({ variant, legalCurrent }: { variant: ChromeVariant; legalCu
         </div>
       ))}
       <div className="legal">
-        <span>{C.footer.copy}</span>
+        <span>{variant === 'vault' ? V.footer.copy : C.footer.copy}</span>
         <span className="legal-links">
           <a className="ul" href={IMPRESSUM_URL} aria-current={legalCurrent === 'impressum' ? 'page' : undefined}>Impressum</a>
           <a className="ul" href={DATENSCHUTZ_URL} aria-current={legalCurrent === 'datenschutz' ? 'page' : undefined}>Datenschutz</a>
@@ -193,9 +210,9 @@ interface TourFrameProps {
 export function TourFrame({ variant, legalCurrent, bare = false, children }: TourFrameProps) {
   const { menuOpen, openMenu, closeMenu } = useMenu();
   return (
-    <div className="pl" lang="de">
+    <div className={variant === 'vault' ? 'pl pl-ink' : 'pl'} lang={variant === 'vault' ? 'en' : 'de'}>
       <div className="site" inert={menuOpen}>
-        <a className="skip" href="#main">Zum Inhalt springen</a>
+        <a className="skip" href="#main">{variant === 'vault' ? 'Skip to content' : 'Zum Inhalt springen'}</a>
         {children({ menuOpen, onOpenMenu: openMenu })}
         {!bare && <TourFooter variant={variant} legalCurrent={legalCurrent} />}
       </div>
