@@ -1,4 +1,4 @@
-import { AUTH_URL, CASINO_LIVE_URL, TOURNAMENT_LIVE_URL, WISHLIST_LIVE_URL } from '../../lib/links';
+import { AUTH_URL, CASINO_LIVE_URL, TOURNAMENT_LIVE_URL, VAULT_LIVE_URL, WISHLIST_LIVE_URL } from '../../lib/links';
 
 /** One Planary app as a dot on the hero ring. Add an entry here to add a dot. */
 export interface RingApp {
@@ -13,9 +13,10 @@ export interface RingApp {
 
 export const RING_APPS: RingApp[] = [
   { id: 'tournament', name: 'Tournament', url: TOURNAMENT_LIVE_URL, size: 6.5, offset: 52 },
-  { id: 'casino', name: 'Casino', url: CASINO_LIVE_URL, size: 4.75, offset: 142 },
-  { id: 'wishlist', name: 'Wishlist', url: WISHLIST_LIVE_URL, size: 4.75, offset: 232 },
-  { id: 'account', name: 'Account', url: AUTH_URL, size: 4.25, offset: 322 },
+  { id: 'casino', name: 'Casino', url: CASINO_LIVE_URL, size: 4.75, offset: 124 },
+  { id: 'wishlist', name: 'Wishlist', url: WISHLIST_LIVE_URL, size: 4.75, offset: 196 },
+  { id: 'vault', name: 'Vault', url: VAULT_LIVE_URL, size: 4.75, offset: 268 },
+  { id: 'account', name: 'Account', url: AUTH_URL, size: 4.25, offset: 340 },
 ];
 
 /** One full orbit, in seconds. Every app moves at the same angular speed. */

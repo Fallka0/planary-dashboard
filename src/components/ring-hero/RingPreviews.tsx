@@ -42,40 +42,70 @@ function AccountArt() {
         <circle cx="104" cy="80" r="62" strokeDasharray="2 5" />
       </g>
       <g stroke="#3a3a43" fill="none">
-        <path d="M104 106 L58 160" />
-        <path d="M104 106 L104 160" />
-        <path d="M104 106 L150 160" />
+        <path d="M104 106 L47 160" />
+        <path d="M104 106 L85 160" />
+        <path d="M104 106 L123 160" />
+        <path d="M104 106 L161 160" />
       </g>
       <circle cx="104" cy="80" r="26" fill="#f5f5f7" />
       <text x="104" y="85" textAnchor="middle" className="la-av">NB</text>
       <text x="104" y="124" textAnchor="middle" className="la-n">Noa Brunner</text>
       {/* Casino: a chip */}
-      <g>
-        <circle cx="58" cy="166" r="15" fill="#1e1e24" />
-        <circle cx="58" cy="166" r="7" fill="none" stroke="#f5f5f7" strokeWidth="1.6" />
-        <circle cx="58" cy="166" r="10.5" fill="none" stroke="#f5f5f7" strokeWidth="1.2" strokeDasharray="2.2 2.2" />
+      <g transform="translate(-11 0)">
+        <circle cx="58" cy="166" r="14" fill="#1e1e24" />
+        <circle cx="58" cy="166" r="6.5" fill="none" stroke="#f5f5f7" strokeWidth="1.6" />
+        <circle cx="58" cy="166" r="10" fill="none" stroke="#f5f5f7" strokeWidth="1.2" strokeDasharray="2.2 2.2" />
       </g>
       {/* Tournament: a bracket */}
-      <g>
-        <circle cx="104" cy="166" r="15" fill="#1e1e24" />
+      <g transform="translate(-19 0)">
+        <circle cx="104" cy="166" r="14" fill="#1e1e24" />
         <path d="M96 160h5v12h-5M101 166h5M106 162h3v8h-3" fill="none" stroke="#f5f5f7" strokeWidth="1.5" strokeLinejoin="round" />
       </g>
       {/* Wishlist: a gift */}
-      <g>
-        <circle cx="150" cy="166" r="15" fill="#1e1e24" />
+      <g transform="translate(-27 0)">
+        <circle cx="150" cy="166" r="14" fill="#1e1e24" />
         <rect x="143" y="164" width="14" height="9" rx="1.5" fill="none" stroke="#f5f5f7" strokeWidth="1.5" />
         <path d="M142 161h16v3h-16zM150 161v12M150 161c-2-4-6-4-6-1.5s4 1.5 6 1.5c2 0 6 1 6-1.5s-4-2.5-6 1.5" fill="none" stroke="#f5f5f7" strokeWidth="1.3" strokeLinejoin="round" />
       </g>
+      {/* Vault: a padlock */}
+      <g>
+        <circle cx="161" cy="166" r="14" fill="#1e1e24" />
+        <path d="M157 164v-3a4 4 0 0 1 8 0v3" fill="none" stroke="#f5f5f7" strokeWidth="1.5" />
+        <rect x="155" y="164" width="12" height="9" rx="1.5" fill="none" stroke="#f5f5f7" strokeWidth="1.5" />
+      </g>
       {/* signed in to each */}
       <g fill="#f5f5f7">
-        <circle cx="70" cy="153" r="3.2" />
-        <circle cx="116" cy="153" r="3.2" />
-        <circle cx="162" cy="153" r="3.2" />
+        {[58, 96, 134, 172].map((x) => <circle key={x} cx={x} cy="154" r="3.2" />)}
       </g>
       <g fill="none" stroke="#0b0b0f" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M68.6 153.1l1 1 2-2.2" />
-        <path d="M114.6 153.1l1 1 2-2.2" />
-        <path d="M160.6 153.1l1 1 2-2.2" />
+        {[58, 96, 134, 172].map((x) => <path key={x} d={`M${x - 1.4} 154.1l1 1 2-2.2`} />)}
+      </g>
+    </svg>
+  );
+}
+
+/** The Vault preview: the encrypted file list, one file still encrypting. Drawn, not a screenshot. */
+function VaultArt() {
+  const rows: [string, string, number][] = [['PDF', 'Lease agreement', 52], ['PDF', 'Tax return 2025', 60], ['JPG', 'Passport scan', 48]];
+  return (
+    <svg className="pv-folder-art" viewBox="0 0 272 150" aria-hidden="true">
+      <rect width="272" height="150" fill="#0b0b0f" />
+      {rows.map(([type, , w], i) => (
+        <g key={i} transform={`translate(14 ${14 + i * 30})`}>
+          <rect width="244" height="24" rx="6" fill="#1a1a1f" />
+          <rect x="8" y="6" width="22" height="12" rx="3" fill="#26262d" />
+          <text x="19" y="14.6" textAnchor="middle" className="va-t">{type}</text>
+          <rect x="40" y="9" width={w * 1.6} height="6" rx="3" fill="#5a5a64" />
+          <rect x="206" y="9" width="28" height="6" rx="3" fill="#3a3a43" />
+        </g>
+      ))}
+      <g transform="translate(14 104)">
+        <rect width="244" height="32" rx="6" fill="none" stroke="#3a3a43" />
+        <rect x="10" y="9" width="96" height="6" rx="3" fill="#5a5a64" />
+        <rect x="10" y="22" width="224" height="3" rx="1.5" fill="#26262d" />
+        <rect className="va-bar" x="10" y="22" width="140" height="3" rx="1.5" fill="#f2f2f5" />
+        <path d="M222 6.5v-2a4 4 0 0 1 8 0v2" fill="none" stroke="#f2f2f5" strokeWidth="1.5" />
+        <rect x="220" y="6.5" width="12" height="9" rx="2" fill="#f2f2f5" />
       </g>
     </svg>
   );
@@ -91,8 +121,9 @@ function Shell({ id, url, children }: { id: string; url: string; children: React
 }
 
 /**
- * The four previews. Each one has its own shape: a lens for the account, a
- * playing card for Casino, a ticket for Tournament and a gift tag for Wishlist.
+ * The five previews. Each one has its own shape: a lens for the account, a
+ * playing card for Casino, a ticket for Tournament, a gift tag for Wishlist and
+ * a document folder for Vault.
  * They are always rendered (hidden with visibility) so they can be measured and
  * so the dots can point at them with aria-describedby. RingHero places and opens them.
  */
@@ -143,6 +174,20 @@ export function RingPreviews({ urls }: { urls: Record<string, string> }) {
           <div className="pv-tag-txt">
             <p className="pv-n">Wishlist</p>
             <p className="pv-l">Lists you share, gifts you plan</p>
+          </div>
+        </div>
+      </Shell>
+
+      <Shell id="vault" url={urls.vault}>
+        <div className="pv-folder">
+          <span className="pv-folder-tab" aria-hidden="true" />
+          <div className="pv-folder-pic"><VaultArt /></div>
+          <div className="pv-folder-txt">
+            <div>
+              <p className="pv-n">Vault</p>
+              <p className="pv-l">Documents only you can open</p>
+            </div>
+            <p className="pv-folder-seal" aria-hidden="true">End-to-end<br />encrypted</p>
           </div>
         </div>
       </Shell>

@@ -21,3 +21,11 @@
 .is-armed.is-play .bow{animation:gf-bow 460ms cubic-bezier(.34,1.56,.64,1) 1180ms both}
 @keyframes gf-bow{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.is-armed .gdrop,.is-armed .bow{opacity:1;animation:none !important}}
+/* vault safe: two sheets drop into the slot, then the dial turns */
+.is-armed .sdrop{opacity:0}
+.is-armed.is-play .sdrop{animation:pl-drop 700ms both}
+.is-armed.is-play .s1{animation-delay:260ms}
+.vdial{transform-box:fill-box;transform-origin:50% 50%}
+.is-armed.is-play .vdial{animation:vs-dial 900ms cubic-bezier(.65,0,.35,1) 1000ms both}
+@keyframes vs-dial{0%{transform:rotate(0)}55%{transform:rotate(-150deg)}100%{transform:rotate(-90deg)}}
+@media (prefers-reduced-motion:reduce){.is-armed .sdrop{opacity:1;animation:none !important}.is-armed .vdial{animation:none !important}}

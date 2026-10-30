@@ -5,6 +5,7 @@ import { Logo } from '../components/Logo';
 import { TourFrame, TourNav } from '../components/tour/TourChrome';
 import { CONTACT_EMAIL, CONTACT_MAILTO, VAULT_LIVE_URL, VAULT_PLANS_URL, VAULT_PRICING_URL } from '../lib/links';
 import { useReveals } from '../lib/useReveals';
+import { useVerbs } from '../lib/useVerbs';
 
 /** The hero's screen: an encrypted file list, one file still encrypting. Always dark, like the app. */
 function Files() {
@@ -79,7 +80,9 @@ export function VaultFaq({ items, aside }: { items: readonly { q: string; a: rea
 
 export function VaultPage() {
   const mainRef = useRef<HTMLElement>(null);
+  const verbsRef = useRef<HTMLElement>(null);
   useReveals(mainRef);
+  useVerbs(verbsRef);
   return (
     <TourFrame variant="vault">
       {(menu) => (
@@ -101,10 +104,10 @@ export function VaultPage() {
           </header>
 
           <main id="main" tabIndex={-1} ref={mainRef}>
-            <section id="how" className="sec wrap g verbs" aria-labelledby="verbs-h">
+            <section id="how" className="sec wrap g verbs" aria-labelledby="verbs-h" ref={verbsRef}>
               <h2 id="verbs-h" className="d h-m verbs-h" data-reveal="">{C.verbs.h2}</h2>
               {C.verbs.items.map((v, i) => (
-                <div key={v.t} className={`v v${i + 1}`} data-reveal=""><h3>{v.t}</h3><p>{v.p}</p></div>
+                <div key={v.t} className={`v v${i + 1}`} data-reveal=""><h3><span className="v-w">{v.t}</span></h3><p>{v.p}</p></div>
               ))}
             </section>
 

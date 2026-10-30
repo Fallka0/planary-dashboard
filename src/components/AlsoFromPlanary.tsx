@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 import { HOME } from '../content/home.en';
-import { CASINO_INFO_URL, CASINO_LIVE_URL, WISHLIST_INFO_URL, WISHLIST_LIVE_URL } from '../lib/links';
+import { CASINO_INFO_URL, CASINO_LIVE_URL, VAULT_INFO_URL, VAULT_LIVE_URL, WISHLIST_INFO_URL, WISHLIST_LIVE_URL } from '../lib/links';
 import { useAnimOnView } from '../lib/useAnimOnView';
 import { ChipStack } from './art/ChipStack';
 import { GiftStack } from './art/GiftStack';
+import { VaultSafe } from './art/VaultSafe';
 import { Ic } from './Ic';
 
 const P = HOME.products;
@@ -38,7 +39,7 @@ function AppCard({ id, name, text, open, live, more, moreSr, ink = false, art }:
   );
 }
 
-/** Casino and Wishlist as two equal cards; each object builds once when it scrolls into view. */
+/** Casino, Wishlist and Vault as three equal cards; each object builds once when it scrolls into view. */
 export function AlsoFromPlanary() {
   return (
     <>
@@ -48,6 +49,7 @@ export function AlsoFromPlanary() {
       <div className="apps g">
         <AppCard id="ap-casino" name={P.casino.name} text={P.casino.p} open={P.casino.open} live={CASINO_LIVE_URL} more={CASINO_INFO_URL} moreSr="about the casino" ink art={<ChipStack />} />
         <AppCard id="ap-wish" name={P.wishlist.name} text={P.wishlist.p} open={P.wishlist.open} live={WISHLIST_LIVE_URL} more={WISHLIST_INFO_URL} moreSr="about Wishlist" art={<GiftStack />} />
+        <AppCard id="ap-vault" name={P.vault.name} text={P.vault.p} open={P.vault.open} live={VAULT_LIVE_URL} more={VAULT_INFO_URL} moreSr="about Vault" art={<VaultSafe />} />
       </div>
     </>
   );

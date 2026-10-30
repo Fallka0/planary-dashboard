@@ -99,6 +99,16 @@
 .pv-card .pv-n{margin:14px 6px 0}
 .pv-card .pv-l{margin:4px 6px 0;max-width:150px}
 
+/* vault: a document folder with a tab */
+.pv-vault{width:300px;padding-top:18px}
+.pv-folder{position:relative;background:#f2f2f5;border:1.5px solid #0b0b0f;border-radius:0 14px 14px 14px;padding:12px 12px 16px}
+.pv-folder-tab{position:absolute;left:-1.5px;bottom:100%;margin-bottom:-1.5px;width:112px;height:20px;background:#f2f2f5;border:1.5px solid #0b0b0f;border-bottom:0;border-radius:10px 10px 0 0}
+.pv-folder-pic{border-radius:8px;overflow:hidden;background:#0b0b0f}
+.pv-folder-art{display:block;width:100%;height:auto}
+.pv-folder-art .va-t{font:600 6.5px/1 var(--body);fill:#a3a3ad;letter-spacing:.02em}
+.pv-folder-txt{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:14px 4px 0}
+.pv-folder-seal{margin:0;text-align:right;font:600 10px/1.35 var(--body);letter-spacing:.02em;color:#5a5a64}
+
 /* tournament: a ticket with notches and a perforation */
 .pv-tournament{width:326px}
 .pv-ticket{position:relative;background:#141418;color:#f2f2f5;border-radius:14px;overflow:hidden;-webkit-mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat;mask:radial-gradient(circle 11px at 0 168px,#0000 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 11px at 100% 168px,#0000 98%,#000) right/51% 100% no-repeat}
@@ -126,6 +136,7 @@
 .pv-account .pv-u{display:none}
 .pv-tournament{width:290px}
 .pv-wishlist{width:270px}
+.pv-vault{width:270px}
 .pv-account{width:210px}
 .pv-lens{width:180px;height:180px}
 }
