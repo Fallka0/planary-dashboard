@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Transitions: decides before first paint whether this page starts with the intro or the curtain. -->
+    <script>
+    (function () {
+      var h = document.documentElement;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      try {
+        if (sessionStorage.getItem('planary:nav') === '1') {
+          sessionStorage.removeItem('planary:nav');
+          h.classList.add('pt-arrive');                    // came from an internal link: start covered
+        } else if (!reduce && !sessionStorage.getItem('planary:intro')) {
+          sessionStorage.setItem('planary:intro', '1');
+          h.classList.add('pt-first');                     // first page of this visit: play the intro
+        }
+      } catch (e) {}
+    })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Planary Vault · Documents only you can open</title>
+    <meta name="description" content="Encrypted in your browser before upload. Planary can't read them. Free up to 10 GB." />
+    <meta name="theme-color" content="#0b0b0f" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="canonical" href="https://planary.ch/vault" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_CH" />
+    <meta property="og:site_name" content="Planary" />
+    <meta property="og:title" content="Planary Vault · Documents only you can open" />
+    <meta property="og:description" content="Encrypted in your browser before upload. Planary can't read them. Free up to 10 GB." />
+    <meta property="og:url" content="https://planary.ch/vault" />
+    <meta property="og:image" content="https://planary.ch/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="preload" href="/fonts/unbounded-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Transition overlays: in the static HTML so they cover the very first paint. -->
+    <div class="pt-intro" aria-hidden="true">
+      <span class="pt-lock">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <defs>
+            <mask id="ptP" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" stroke="#000" stroke-width="11"/></mask>
+            <mask id="ptB" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><circle cx="50" cy="50" r="28" fill="#000"/></mask>
+          </defs>
+          <g mask="url(#ptP)"><circle class="pt-planet" cx="50" cy="50" r="25" fill="currentColor"/></g>
+          <path class="pt-ring" pathLength="1" d="M94 50A44 12.5 0 0 0 6 50" transform="rotate(-28 50 50)" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" mask="url(#ptB)"/>
+          <path class="pt-ring pt-front" pathLength="1" d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <span class="pt-word">Planary</span>
+      </span>
+    </div>
+    <div class="pt-curtain" aria-hidden="true"><svg viewBox="0 0 100 100" fill="none" aria-hidden="true"><defs><mask id="ptcP" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" stroke="#000" stroke-width="11"/></mask><mask id="ptcB" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"/><circle cx="50" cy="50" r="28" fill="#000"/></mask></defs><circle cx="50" cy="50" r="25" fill="currentColor" mask="url(#ptcP)"/><path d="M94 50A44 12.5 0 0 0 6 50" transform="rotate(-28 50 50)" stroke="currentColor" stroke-width="5" stroke-linecap="round" mask="url(#ptcB)"/><path d="M6 50A44 12.5 0 0 0 94 50" transform="rotate(-28 50 50)" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></div>
+    <script type="module" src="/src/entries/vault.tsx"></script>
+  </body>
+</html>

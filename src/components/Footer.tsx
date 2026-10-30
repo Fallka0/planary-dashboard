@@ -11,11 +11,12 @@ import {
   TEAM_URL,
   TIKTOK_URL,
   TOURNAMENT_INFO_URL,
+  VAULT_INFO_URL,
   WISHLIST_INFO_URL,
 } from '../lib/links';
 import { Logo } from './Logo';
 
-export type ProductPage = 'casino' | 'tournament' | 'wishlist' | 'account';
+export type ProductPage = 'casino' | 'tournament' | 'wishlist' | 'vault' | 'account';
 
 /** `current` marks the product page you're on in the Products list. */
 export function Footer({ current }: { current?: ProductPage }) {
@@ -29,6 +30,7 @@ export function Footer({ current }: { current?: ProductPage }) {
           <li><a className="ul" href={CASINO_INFO_URL} aria-current={cur('casino')}>Casino</a></li>
           <li><a className="ul" href={TOURNAMENT_INFO_URL} aria-current={cur('tournament')}>Tournament</a></li>
           <li><a className="ul" href={WISHLIST_INFO_URL} aria-current={cur('wishlist')}>Wishlist</a></li>
+          <li><a className="ul" href={VAULT_INFO_URL} aria-current={cur('vault')}>Vault</a></li>
           <li><a className="ul" href={ACCOUNT_INFO_URL} aria-current={cur('account')}>Account</a></li>
         </ul>
       </div>

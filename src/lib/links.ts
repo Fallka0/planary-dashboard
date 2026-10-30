@@ -18,11 +18,16 @@ export const CASINO_INFO_URL = '/casino';
 export const TOURNAMENT_INFO_URL = '/tournament';
 export const WISHLIST_INFO_URL = '/wishlist';
 export const ACCOUNT_INFO_URL = '/account';
+export const VAULT_INFO_URL = '/vault';
+export const VAULT_PRICING_URL = '/vault/pricing';
 
 export const TOURNAMENT_LIVE_URL = 'https://tournament.planary.ch';
 /** Creates a tournament; `?plan=gratis|event|verein` preselects a plan. */
 export const TOURNAMENT_NEW_URL = 'https://tournament.planary.ch/neu';
 export const WISHLIST_LIVE_URL = 'https://wishlist.planary.ch';
+export const VAULT_LIVE_URL = 'https://vault.planary.ch';
+/** Plans inside the app; `?period=year` preselects yearly. Signed out, it goes through sign-in first. */
+export const VAULT_PLANS_URL = 'https://vault.planary.ch/plans';
 
 export const INSTAGRAM_URL = 'https://instagram.com/planaryofficial';
 export const TIKTOK_URL = 'https://www.tiktok.com/@planaryofficial';
