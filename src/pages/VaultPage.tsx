@@ -104,11 +104,13 @@ export function VaultPage() {
           </header>
 
           <main id="main" tabIndex={-1} ref={mainRef}>
-            <section id="how" className="sec wrap g verbs" aria-labelledby="verbs-h" ref={verbsRef}>
-              <h2 id="verbs-h" className="d h-m verbs-h" data-reveal="">{C.verbs.h2}</h2>
-              {C.verbs.items.map((v, i) => (
-                <div key={v.t} className={`v v${i + 1}`} data-reveal=""><h3><span className="v-w">{v.t}</span></h3><p>{v.p}</p></div>
-              ))}
+            <section id="how" className="verbs-track" aria-labelledby="verbs-h" ref={verbsRef}>
+              <div className="sec wrap g verbs">
+                <h2 id="verbs-h" className="d h-m verbs-h" data-reveal="">{C.verbs.h2}</h2>
+                {C.verbs.items.map((v, i) => (
+                  <div key={v.t} className={`v v${i + 1}`} data-reveal=""><h3><span className="v-w">{v.t}</span></h3><p>{v.p}</p></div>
+                ))}
+              </div>
             </section>
 
             <section className="sec wrap g" aria-labelledby="get-h">

@@ -35,7 +35,8 @@
 .v3 h3{font-size:clamp(26px,2.6cqw,38px)}
 .v p{margin-top:20px;color:var(--t2);font-size:16px;line-height:1.6;max-width:30ch}
 .v-w{display:inline-block}
-/* scroll-driven (useVerbs): equal columns, every word at the large size, scaled from its baseline */
+/* scroll-driven (useVerbs): the block pins, equal columns, every word at the large size, scaled from its baseline */
+.verbs-js .verbs{position:sticky}
 .verbs-js{--v-big:clamp(40px,5.8cqw,84px);--v-sm:.42}
 .verbs-js .v1{grid-column:1/span 4}.verbs-js .v2{grid-column:5/span 4}.verbs-js .v3{grid-column:9/span 4}
 .verbs-js .v h3{font-size:var(--v-big);height:1em;white-space:nowrap}
